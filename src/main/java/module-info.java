@@ -7,6 +7,7 @@ module com.simulator.hospital {
     opens com.simulator.hospital to javafx.fxml;
     exports com.simulator.hospital.framework;
     exports com.simulator.hospital.model;
-    exports com.simulator.test;
+    exports com.simulator.hospital.controller;
+    exports com.simulator.hospital.view;
     exports com.simulator.eduni.distributions;
 }

@@ -18,6 +18,8 @@ public class Customer {
 	private String customerType;
 	private static int customerCount = 1;		// Counter for generating unique IDs
 	private static long sum = 0;				// Sum of all customer service times
+	private int x;
+	private int y;
 	
 	public Customer(){
 	    id = customerCount++;
@@ -47,7 +49,23 @@ public class Customer {
 	}
 
 	public String getCustomerType(){return customerType;}
-	
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
 	public void reportResults(){
 //		Trace.out(Trace.Level.INFO, "\nCustomer " + id + " type: " + customerType + " ready! ");
 		Trace.out(Trace.Level.INFO, "Customer "   + id + " arrived: " + arrivalTime);

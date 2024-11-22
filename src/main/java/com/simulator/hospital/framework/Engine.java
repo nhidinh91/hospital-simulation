@@ -1,5 +1,12 @@
 package com.simulator.hospital.framework;
 
+import com.simulator.hospital.model.Customer;
+import com.simulator.hospital.model.ServicePoint;
+import com.simulator.hospital.model.ServiceUnit;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Abstract class Engine provides the core structure and logic for running a simulation.
  * It defines the main loop and manages the simulation time, clock, and event list.
@@ -59,9 +66,9 @@ public abstract class Engine {
 		return clock.getClock() < simulationTime;
 	}
 
-	protected abstract void runEvent(Event t);	// Defined in simu.model-package's class who is inheriting the Engine class
+	protected abstract HashMap<Customer, ServiceUnit> runEvent(Event t);	// Defined in simu.model-package's class who is inheriting the Engine class
 
-	protected abstract void tryCEvents();		// Defined in simu.model-package's class who is inheriting the Engine class
+	protected abstract HashMap<Customer, ServicePoint> tryCEvents();		// Defined in simu.model-package's class who is inheriting the Engine class
 
 	protected abstract void initialize(); 		// Defined in simu.model-package's class who is inheriting the Engine class
 
