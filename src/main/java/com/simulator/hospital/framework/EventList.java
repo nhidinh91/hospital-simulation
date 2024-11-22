@@ -19,14 +19,14 @@ public class EventList {
 
 	// Removes and returns the event at the front of the event list (earliest event) and logs the action using the Trace class
 	public Event remove() {
-		Trace.out(Trace.Level.INFO,"Removing from the event list " + eventlist.peek().getType() + " " + eventlist.peek().getTime());
+//		Trace.out(Trace.Level.INFO,"Removing from the event list " + eventlist.peek().getType() + " " + eventlist.peek().getTime());
 		return eventlist.remove();
 	}
 
 	// Adds a new event to the event list and logs the action using the Trace class
 
 	public void add(Event t) {
-		Trace.out(Trace.Level.INFO,"Adding to the event list " + t.getType() + " " + t.getTime());
+//		Trace.out(Trace.Level.INFO,"Adding to the event list " + t.getType() + " " + t.getTime());
 		eventlist.add(t);
 	}
 

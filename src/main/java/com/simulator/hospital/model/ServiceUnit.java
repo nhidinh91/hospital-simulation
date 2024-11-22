@@ -39,7 +39,7 @@ public class ServiceUnit {
 	// Adds a customer to the queue. The first customer in the queue will be serviced
 	public void addQueue(Customer a) {	// The first customer of the queue is always in service
 		queue.add(a);
-		Trace.out(Trace.Level.INFO, "Add customer" + a.getId() + " to queue type " + type );
+//		Trace.out(Trace.Level.INFO, "Add customer" + a.getId() + " to queue type " + type );
 	}
 
 	// Remove customer from serving queue, complete the service
@@ -52,7 +52,7 @@ public class ServiceUnit {
 		Customer servingCustomer = queue.poll();
 		servingQueue.add(servingCustomer);
 		ServicePoint selectedServicePoint = null;
-		Trace.out(Trace.Level.INFO, "Starting a new service for the customer #" + servingCustomer.getId());
+//		Trace.out(Trace.Level.INFO, "Starting a new service for the customer #" + servingCustomer.getId());
 		for (ServicePoint servicePoint : servicePoints) {
 			if (servicePoint.isAvailable()) {
 				servicePoint.setCurrentCustomer(servingCustomer);

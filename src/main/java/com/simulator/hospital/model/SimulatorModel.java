@@ -78,21 +78,25 @@ public class SimulatorModel {
                 serviceUnits[0].addQueue(a);
                 arrivalProcess.generateNextEvent();        // Schedule the next arrival
                 results.put(a, serviceUnits[0]);
+                System.out.printf("Customer %d is added to queue Register.\n", a.getId());
                 break;
 
             case DEP1:
                 // Handle departure from service point 1: move customer to the queue of service point 2
                 a = serviceUnits[0].endService();           // finish service, remove first customer from serving queue
+                currentServicePoint = serviceUnits[0].getSelectedServicePoint(a);
+                currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
+                System.out.printf("Customer %d finished service at SP: %d.\n", a.getId(), currentServicePoint.getId());
                 if (a.getCustomerType().equals("general")) {        // add customer to next suitable service unit according to customer type
                     serviceUnits[1].addQueue(a);
                     results.put(a, serviceUnits[1]);
+                    System.out.printf("Customer %d is added to queue General.\n", a.getId());
                 } else {
                     serviceUnits[2].addQueue(a);
                     results.put(a, serviceUnits[2]);
+                    System.out.printf("Customer %d is added to queue Specialist.\n", a.getId());
                 }
-                currentServicePoint = serviceUnits[0].getSelectedServicePoint(a);
-                currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
-                System.out.printf("Customer %d finished service at SP: %d", a.getId(), currentServicePoint.getId());
+
                 break;
 
             case DEP2:
