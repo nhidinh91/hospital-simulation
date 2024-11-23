@@ -83,6 +83,9 @@ public class ServiceUnit {
 			}
 		}
 		double serviceTime = generator.sample();
+		servingCustomer.addServiceTime(serviceTime);
+		selectedServicePoint.addServiceTime(serviceTime);
+		selectedServicePoint.addCustomer();
 		eventList.add(new Event(eventTypeScheduled, Clock.getInstance().getClock()+serviceTime));
 		return selectedServicePoint;
 	}
@@ -115,5 +118,9 @@ public class ServiceUnit {
 			}
 		}
 		return selectedServicePoint;
+	}
+
+	public ArrayList<ServicePoint> getServicePoints() {
+		return servicePoints;
 	}
 }

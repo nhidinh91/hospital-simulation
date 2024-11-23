@@ -1,6 +1,7 @@
 package com.simulator.hospital.controller;
 
 import com.simulator.hospital.framework.Clock;
+import com.simulator.hospital.framework.Trace;
 import com.simulator.hospital.model.Customer;
 import com.simulator.hospital.model.ServicePoint;
 import com.simulator.hospital.model.ServiceUnit;
@@ -41,6 +42,7 @@ public class SimulatorController implements Runnable {
     }
 
     public void run() {
+        Trace.setTraceLevel(Trace.Level.INFO);
         if (simuModel == null) {
             System.err.println("SimulatorModel is not initialized. Please set up the parameters first.");
             return;

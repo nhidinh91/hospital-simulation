@@ -14,10 +14,11 @@ import java.util.Random;
 public class Customer {
 	private double arrivalTime;
 	private double removalTime;
+	private double serviceTime;
 	private int id;
 	private String customerType;
 	private static int customerCount = 1;		// Counter for generating unique IDs
-	private static long sum = 0;				// Sum of all customer service times
+	private static double sumWaitingTime = 0;				// Sum of all customer service times
 	private int x;
 	private int y;
 	
@@ -44,6 +45,10 @@ public class Customer {
 		this.arrivalTime = arrivalTime;
 	}
 
+	public void addServiceTime(double serviceTime) {
+		this.serviceTime += serviceTime;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -66,14 +71,19 @@ public class Customer {
 		return y;
 	}
 
+	public static double getAvrWaitingTime() {
+		return sumWaitingTime/ customerCount;
+	}
+
 	public void reportResults(){
+		double waitingTime = this.removalTime - this.arrivalTime - this.serviceTime;
+		sumWaitingTime += waitingTime;
 //		Trace.out(Trace.Level.INFO, "\nCustomer " + id + " type: " + customerType + " ready! ");
 		Trace.out(Trace.Level.INFO, "Customer "   + id + " arrived: " + arrivalTime);
 		Trace.out(Trace.Level.INFO,"Customer "    + id + " removed: " + removalTime);
 		Trace.out(Trace.Level.INFO,"Customer "    + id + " stayed: "  + (removalTime - arrivalTime));
+		Trace.out(Trace.Level.INFO, "Customer" + id + " waiting for " + waitingTime);
 
-		sum += (removalTime - arrivalTime);
-		double mean = sum/id;
-		System.out.println("Current mean of the customer service times " + mean);
+		System.out.println("Current mean of the customer service times " + getAvrWaitingTime());
 	}
 }

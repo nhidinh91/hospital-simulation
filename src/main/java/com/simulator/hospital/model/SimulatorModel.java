@@ -158,7 +158,16 @@ public class SimulatorModel {
     // Outputs the results of the simulation
     public void results() {
         System.out.println("Simulation ended at " + Clock.getInstance().getClock());
-        System.out.println("Results ... are currently missing");
+        System.out.println("Average waiting time of customers " + Customer.getAvrWaitingTime());
+        for (ServiceUnit serviceUnit : serviceUnits) {
+            for (ServicePoint servicePoint : serviceUnit.getServicePoints()) {
+                double serviceTime = servicePoint.getTotalServiceTime();
+                int totalCustomer = servicePoint.getTotalCustomer();
+                servicePoint.setUtilization(serviceTime / simulationTime);
+                System.out.printf("Service Point %d:\n", servicePoint.getId());
+                System.out.printf("Total service time: %.1f, mean service time: %.1f, total customer: %d, utilization: %.2f\n", serviceTime, servicePoint.getMeanServiceTime(), totalCustomer, servicePoint.getUtilization());
+            }
+        }
     }
 
     // get clock instance

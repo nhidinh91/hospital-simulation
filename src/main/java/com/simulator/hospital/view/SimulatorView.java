@@ -88,9 +88,9 @@ public class SimulatorView extends Application {
 
     public void displayBEvent(int customerId, int serviceUnitNumber){
         if (serviceUnitNumber != 0) {
-            System.out.printf("Customer %d move to queue of Service Unit %d", customerId, serviceUnitNumber);
+            System.out.printf("Customer %d move to queue of Service Unit %d\n", customerId, serviceUnitNumber);
         } else {
-            System.out.printf("Customer %d completed service, is removed from system", customerId);
+            System.out.printf("Customer %d completed service, is removed from system\n", customerId);
         }
     }
 
@@ -99,7 +99,6 @@ public class SimulatorView extends Application {
     }
 
     public void start(Stage stage) {
-        Trace.setTraceLevel(Trace.Level.INFO);
         stage.setTitle("Hospital Simulator");
         TilePane pane = new TilePane();
         pane.getChildren().addAll(
