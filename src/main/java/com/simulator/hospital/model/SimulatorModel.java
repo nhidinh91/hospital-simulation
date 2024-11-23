@@ -5,6 +5,7 @@ import com.simulator.eduni.distributions.Normal;
 import com.simulator.hospital.framework.*;
 import com.simulator.eduni.distributions.Negexp;
 
+import java.util.AbstractMap;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -27,20 +28,20 @@ public class SimulatorModel {
      * Simulate three service points, customer goes through all three service points to get serviced
      * 		--> SP1 --> SP2 --> SP3 -->
      */
-    public SimulatorModel(int servicePointNum1, int servicePointNum2, int servicePointNum3) {
+    public SimulatorModel(int numberRegister, double avgServiceTime1,  int numberGeneral, double avgServiceTime2, int numberSpecialist, double avgServiceTime3, double avgArrivalTime) {
         clock = Clock.getInstance();
         eventList = new EventList();
         serviceUnits = new ServiceUnit[3];
         Random r = new Random();
         // exponential distribution is used to model customer arrivals times, to get variability between programs runs, give a variable seed
-        ContinuousGenerator arrivalTime = new Negexp(2, 5);
+        ContinuousGenerator arrivalTime = new Negexp(avgArrivalTime, 5);
         // normal distribution used to model service times
         ContinuousGenerator serviceTime = new Normal(10, 6, 2);
 
         // Initialize the service points with the chosen service time distribution
-        serviceUnits[0] = new ServiceUnit(new Normal(5, 6, 2), eventList, EventType.DEP1, servicePointNum1);
-        serviceUnits[1] = new ServiceUnit(new Normal(10, 6, 2), eventList, EventType.DEP2, servicePointNum2);
-        serviceUnits[2] = new ServiceUnit(new Normal(15, 6, 2), eventList, EventType.DEP3, servicePointNum3);
+        serviceUnits[0] = new ServiceUnit(new Normal(avgServiceTime1, 6, 2), eventList, EventType.DEP1, numberRegister);
+        serviceUnits[1] = new ServiceUnit(new Normal(avgServiceTime2, 6, 2), eventList, EventType.DEP2, numberGeneral);
+        serviceUnits[2] = new ServiceUnit(new Normal(avgServiceTime3, 6, 2), eventList, EventType.DEP3, numberSpecialist);
 
         // Initialize the arrival process
         arrivalProcess = new ArrivalProcess(arrivalTime, eventList, EventType.ARR1);
@@ -65,61 +66,71 @@ public class SimulatorModel {
         return clock.getClock() < simulationTime;
     }
 
+    // process event in event list
+    public Event processEvent() {
+        return eventList.remove();
+    }
+
+    // get service unit list
+    public ServiceUnit[] getServiceUnits() {
+        return serviceUnits;
+    }
+
     // Processes B-phase events, such as arrivals and departures
-    public HashMap<Customer, ServiceUnit> runEvent(Event t) {  // B phase events
-        HashMap<Customer, ServiceUnit> results = new HashMap<>();
-        Customer a;
+    public AbstractMap.SimpleEntry<Customer, ServiceUnit> runEvent(Event t) {  // B phase events
+        Customer customer;
         ServicePoint currentServicePoint = null;
+        AbstractMap.SimpleEntry<Customer, ServiceUnit> result = new AbstractMap.SimpleEntry<>(null, null);
 
         switch ((EventType) t.getType()) {
             case ARR1:
                 // Handle a new customer arrival: add to the queue of the first service point
-                a = new Customer();
-                serviceUnits[0].addQueue(a);
+                customer = new Customer();
+                serviceUnits[0].addQueue(customer);
                 arrivalProcess.generateNextEvent();        // Schedule the next arrival
-                results.put(a, serviceUnits[0]);
-                System.out.printf("Customer %d is added to queue Register.\n", a.getId());
+                result = new AbstractMap.SimpleEntry<>(customer, serviceUnits[0]);
+                System.out.printf("Customer %d is added to queue Register.\n", customer.getId());
                 break;
 
             case DEP1:
                 // Handle departure from service point 1: move customer to the queue of service point 2
-                a = serviceUnits[0].endService();           // finish service, remove first customer from serving queue
-                currentServicePoint = serviceUnits[0].getSelectedServicePoint(a);
+                customer = serviceUnits[0].endService();           // finish service, remove first customer from serving queue
+                currentServicePoint = serviceUnits[0].getSelectedServicePoint(customer);
                 currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
-                System.out.printf("Customer %d finished service at SP: %d.\n", a.getId(), currentServicePoint.getId());
-                if (a.getCustomerType().equals("general")) {        // add customer to next suitable service unit according to customer type
-                    serviceUnits[1].addQueue(a);
-                    results.put(a, serviceUnits[1]);
-                    System.out.printf("Customer %d is added to queue General.\n", a.getId());
+                System.out.printf("Customer %d finished service at SP: %d.\n", customer.getId(), currentServicePoint.getId());
+                if (customer.getCustomerType().equals("general")) {        // add customer to next suitable service unit according to customer type
+                    serviceUnits[1].addQueue(customer);
+                    result = new AbstractMap.SimpleEntry<>(customer, serviceUnits[1]);
+                    System.out.printf("Customer %d is added to queue General.\n", customer.getId());
                 } else {
-                    serviceUnits[2].addQueue(a);
-                    results.put(a, serviceUnits[2]);
-                    System.out.printf("Customer %d is added to queue Specialist.\n", a.getId());
+                    serviceUnits[2].addQueue(customer);
+                    result = new AbstractMap.SimpleEntry<>(customer, serviceUnits[2]);
+                    System.out.printf("Customer %d is added to queue Specialist.\n", customer.getId());
                 }
 
                 break;
 
             case DEP2:
                 // Handle departure from service unit 2: complete service and remove customer from the system
-                a = serviceUnits[1].endService();           // finish service, remove first customer from serving queue
-                currentServicePoint = serviceUnits[1].getSelectedServicePoint(a);
+                customer = serviceUnits[1].endService();           // finish service, remove first customer from serving queue
+                currentServicePoint = serviceUnits[1].getSelectedServicePoint(customer);
                 currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
-                a.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
-                a.reportResults();
-                results.put(a, null);       // customer is removed from system, return new position = null
+                customer.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
+                customer.reportResults();
+                result = new AbstractMap.SimpleEntry<>(customer, null);       // customer is removed from system, return new position = null
                 break;
 
             case DEP3:
                 // Handle departure from service unit 3: remove customer from the system
-                a = serviceUnits[2].endService();           // finish service, remove first customer from serving queue
-                currentServicePoint = serviceUnits[2].getSelectedServicePoint(a);
+                customer = serviceUnits[2].endService();           // finish service, remove first customer from serving queue
+                currentServicePoint = serviceUnits[2].getSelectedServicePoint(customer);
                 currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
-                a.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
-                a.reportResults();
-                results.put(a, null);       // customer is removed from system, return new position = null
+                customer.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
+                customer.reportResults();
+                result = new AbstractMap.SimpleEntry<>(customer, null);   // customer is removed from system, return new position = null
                 break;
         }
-        return results;
+        return result;
     }
 
     // Processes all B-events scheduled for the current time

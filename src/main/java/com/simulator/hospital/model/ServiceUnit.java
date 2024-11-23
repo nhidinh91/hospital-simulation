@@ -22,8 +22,10 @@ public class ServiceUnit {
 	private ContinuousGenerator generator;
 	private EventList eventList;
 	private EventType eventTypeScheduled;
-	private ServicePoint selectedServicePoint;
-	private EventType type;
+	private int x;
+	private int y;
+	private int index;
+	private static int count = 1;
 
 	public ServiceUnit(ContinuousGenerator generator, EventList eventList, EventType type, int servicePointNumber){
 		this.eventList = eventList;
@@ -33,7 +35,27 @@ public class ServiceUnit {
 			ServicePoint servicePoint = new ServicePoint();
 			servicePoints.add(servicePoint);
 		}
-		this.type = type;
+		this.index = count++;
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public void setX(int x) {
+		this.x = x;
+	}
+
+	public void setY(int y) {
+		this.y = y;
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 	// Adds a customer to the queue. The first customer in the queue will be serviced
