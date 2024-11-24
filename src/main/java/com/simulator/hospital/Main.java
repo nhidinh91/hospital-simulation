@@ -1,9 +1,9 @@
 package com.simulator.hospital;
 
-import com.simulator.hospital.view.SimulatorView;
+import com.simulator.hospital.view.SimuView;
 
 public class Main {
     public static void main(String[] args) {
-        SimulatorView.launch(SimulatorView.class);
+        SimuView.launch(SimuView.class);
     }
 }

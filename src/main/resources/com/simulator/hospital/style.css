@@ -1,0 +1,17 @@
+.img-background {
+    -fx-background-image: url("simuBackground.jpg");
+    -fx-background-size: 100%
+}
+
+.img-menu-background {
+    -fx-background-image: url("menuBackground.jpg");
+    -fx-background-size: cover;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 10, 0.5, 0, 0);
+}
+
+.start-button {
+    -fx-background-color: #28a745;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.75), 10, 0.5, 0, 0);
+    -fx-padding: 10px 20px;
+}
