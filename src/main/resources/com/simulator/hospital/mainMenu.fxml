@@ -7,81 +7,94 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="img-menu-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.MainMenuViewControl">
-   <children>
-      <Text layoutX="303.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Simulation" textAlignment="CENTER" wrappingWidth="741.8251953125">
-         <font>
-            <Font name="System Bold Italic" size="80.0" />
-         </font>
-      </Text>
-      <Text layoutX="191.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose number of service points:" wrappingWidth="586.8251953125">
-         <font>
-            <Font name="System Bold Italic" size="40.0" />
-         </font>
-      </Text>
-      <Text layoutX="200.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register Desk" wrappingWidth="182.8251953125">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="827.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specialist Examination" wrappingWidth="291.8251953125">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="507.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Examination" wrappingWidth="264.8251953125">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <ChoiceBox fx:id="registerChoice" layoutX="209.0" layoutY="293.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="generalChoice" layoutX="575.0" layoutY="293.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="specialistChoice" layoutX="898.0" layoutY="293.0" prefWidth="150.0" />
-      <Text layoutX="200.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation time (min):" wrappingWidth="333.8251953125">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Text>
-      <Text layoutX="674.0" layoutY="537.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delay (s):" wrappingWidth="190.8251953125">
-         <font>
-            <Font size="35.0" />
-         </font>
-      </Text>
-      <Button fx:id="startButton" layoutX="520.0" layoutY="578.0" mnemonicParsing="false" prefHeight="84.0" prefWidth="239.0" styleClass="start-button" text="START" textFill="#1a1b1a">
-         <font>
-            <Font name="System Bold" size="45.0" />
-         </font>
-      </Button>
-      <TextField fx:id="simulationTimeField" layoutX="520.0" layoutY="505.0" prefHeight="39.0" prefWidth="130.0" />
-      <Text layoutX="191.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set process time (min):" wrappingWidth="398.8251953125">
-         <font>
-            <Font name="System Bold Italic" size="40.0" />
-         </font>
-      </Text>
-      <Text layoutX="658.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register Desk" wrappingWidth="182.8251953125">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="200.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Examination" wrappingWidth="264.8251953125">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <Text layoutX="658.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specialist Examination" wrappingWidth="291.8251953125">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <TextField fx:id="registerTime" layoutX="851.0" layoutY="395.0" prefHeight="25.0" prefWidth="94.0" />
-      <TextField fx:id="generalTime" layoutX="484.0" layoutY="455.0" prefHeight="25.0" prefWidth="94.0" />
-      <TextField fx:id="specialistTime" layoutX="954.0" layoutY="448.0" prefHeight="25.0" prefWidth="94.0" />
-      <ChoiceBox fx:id="delayField" layoutX="843.0" layoutY="504.0" prefHeight="43.0" prefWidth="150.0" />
-      <Text layoutX="200.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival" wrappingWidth="82.8251953125">
-         <font>
-            <Font size="30.0" />
-         </font>
-      </Text>
-      <TextField fx:id="arrivalTime" layoutX="320.0" layoutY="407.0" prefHeight="25.0" prefWidth="94.0" />
-   </children>
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" styleClass="img-menu-background" stylesheets="@style.css"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.simulator.hospital.view.MainMenuViewControl">
+   <Text layoutX="303.0" layoutY="180.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hospital Simulation"
+         textAlignment="CENTER" wrappingWidth="741.8251953125">
+      <font>
+         <Font name="System Bold Italic" size="80.0"/>
+      </font>
+   </Text>
+   <Text layoutX="191.0" layoutY="242.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Choose number of service points:"
+         wrappingWidth="586.8251953125">
+      <font>
+         <Font name="System Bold Italic" size="40.0"/>
+      </font>
+   </Text>
+   <Text layoutX="200.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register Desk"
+         wrappingWidth="182.8251953125">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Text>
+   <Text layoutX="827.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specialist Examination"
+         wrappingWidth="291.8251953125">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Text>
+   <Text layoutX="507.0" layoutY="285.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Examination"
+         wrappingWidth="264.8251953125">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Text>
+   <ChoiceBox fx:id="registerChoice" layoutX="209.0" layoutY="293.0" prefWidth="150.0"/>
+   <ChoiceBox fx:id="generalChoice" layoutX="575.0" layoutY="293.0" prefWidth="150.0"/>
+   <ChoiceBox fx:id="specialistChoice" layoutX="898.0" layoutY="293.0" prefWidth="150.0"/>
+   <Text layoutX="200.0" layoutY="538.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Simulation time (min):"
+         wrappingWidth="333.8251953125">
+      <font>
+         <Font size="35.0"/>
+      </font>
+   </Text>
+   <Text layoutX="674.0" layoutY="537.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Delay (s):"
+         wrappingWidth="190.8251953125">
+      <font>
+         <Font size="35.0"/>
+      </font>
+   </Text>
+   <Button fx:id="startButton" layoutX="520.0" layoutY="578.0" mnemonicParsing="false" prefHeight="84.0"
+           prefWidth="239.0" styleClass="start-button" text="START" textFill="#1a1b1a">
+      <font>
+         <Font name="System Bold" size="45.0"/>
+      </font>
+   </Button>
+   <TextField fx:id="simulationTimeField" layoutX="520.0" layoutY="505.0" prefHeight="39.0" prefWidth="130.0"/>
+   <Text layoutX="191.0" layoutY="371.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Set process time (min):"
+         wrappingWidth="398.8251953125">
+      <font>
+         <Font name="System Bold Italic" size="40.0"/>
+      </font>
+   </Text>
+   <Text layoutX="658.0" layoutY="418.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Register Desk"
+         wrappingWidth="182.8251953125">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Text>
+   <Text layoutX="200.0" layoutY="479.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Examination"
+         wrappingWidth="264.8251953125">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Text>
+   <Text layoutX="658.0" layoutY="472.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specialist Examination"
+         wrappingWidth="291.8251953125">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Text>
+   <TextField fx:id="registerTime" layoutX="851.0" layoutY="395.0" prefHeight="25.0" prefWidth="94.0"/>
+   <TextField fx:id="generalTime" layoutX="484.0" layoutY="455.0" prefHeight="25.0" prefWidth="94.0"/>
+   <TextField fx:id="specialistTime" layoutX="954.0" layoutY="448.0" prefHeight="25.0" prefWidth="94.0"/>
+   <ChoiceBox fx:id="delayField" layoutX="843.0" layoutY="504.0" prefHeight="43.0" prefWidth="150.0"/>
+   <Text layoutX="200.0" layoutY="430.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Arrival"
+         wrappingWidth="82.8251953125">
+      <font>
+         <Font size="30.0"/>
+      </font>
+   </Text>
+   <TextField fx:id="arrivalTime" layoutX="320.0" layoutY="407.0" prefHeight="25.0" prefWidth="94.0"/>
 </AnchorPane>

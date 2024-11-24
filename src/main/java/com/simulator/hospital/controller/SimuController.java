@@ -9,13 +9,12 @@ import com.simulator.hospital.model.SimulatorModel;
 import com.simulator.hospital.view.MainMenuViewControl;
 import com.simulator.hospital.view.SimuViewControl;
 import javafx.application.Platform;
-
 import java.util.AbstractMap;
 
 public class SimuController implements Runnable {
     private SimulatorModel simuModel;
-    private MainMenuViewControl menuView;
-    private SimuViewControl simuView;
+    private final MainMenuViewControl menuView;
+    private final SimuViewControl simuView;
     private long delayTime;
     private final Clock clock;
 

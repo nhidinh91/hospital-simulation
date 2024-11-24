@@ -28,12 +28,47 @@ public class SimuViewControl {
 
     private MainMenuViewControl menuView;
     private SimuController controller;
+    private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
     final boolean[] activated = {false}; // Use an array to wrap the boolean
     final Thread[] simulator = {null};   // Use an array for the simulator thread
 
-    private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
+    @FXML
+    private void initialize() {
+        // Monitor the activation status in a new thread
+        new Thread(() -> {
+            while (!activated[0]) {
+                try {
+                    Thread.sleep(100); // Wait until activated
+                } catch (InterruptedException e) {
+                    System.err.println("Waiting thread interrupted");
+                }
+            }
+            // During simulation, if the user changes the value of delay time
+            while (simulator[0] != null && simulator[0].isAlive()) {
+                long delay = menuView.getDelayTime();
+                controller.setDelayTime(delay);
+                try {
+                    Thread.sleep(100); // Avoid constant polling
+                } catch (InterruptedException e) {
+                    System.err.println("Delay adjustment thread interrupted");
+                }
+            }
+        }).start();
 
-    public void setValues(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView) {
+        //Back button clicked
+        backButton.setOnAction(event -> {
+            try {
+                //set scene back to Main menu
+                Parent root = FXMLLoader.load(getClass().getResource("/com/simulator/hospital/mainMenu.fxml"));
+                Stage stage = (Stage) backButton.getScene().getWindow();
+                stage.setScene(new Scene(root));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView) {
         this.menuView = menuView;
         //setup Simulation background
         setupScene(registerCount, generalCount, specialistCount);
@@ -43,11 +78,11 @@ public class SimuViewControl {
         controller = new SimuController(menuView, this);
         controller.initializeModel();
         simulator[0] = new Thread(controller);
-        simulator[0].start();
+        simulator[0].start(); //start controller thread parallel with UI
         activated[0] = true;
 
         //mock animation
-        //animateCircle(); //can pass time, location, ...
+        animateCircle(); //can pass time, location, ...
     }
 
     private void setupScene(int registerCount, int generalCount, int specialistCount) {
@@ -145,43 +180,5 @@ public class SimuViewControl {
 
     public void displayCEvent(int customerId, int servicePointId) {
         System.out.printf("Customer %d is being served at service point %d\n", customerId, servicePointId);
-    }
-
-    @FXML
-    private void initialize() {
-        // Monitor the activation status in a new thread
-        new Thread(() -> {
-            while (!activated[0]) {
-                try {
-                    Thread.sleep(100); // Wait until activated
-                } catch (InterruptedException e) {
-                    System.err.println("Waiting thread interrupted");
-                }
-            }
-
-            // During simulation, if the user changes the value of delay time
-            while (simulator[0] != null && simulator[0].isAlive()) {
-                long delay = menuView.getDelayTime();
-                controller.setDelayTime(delay);
-                try {
-                    Thread.sleep(100); // Avoid constant polling
-                } catch (InterruptedException e) {
-                    System.err.println("Delay adjustment thread interrupted");
-                }
-            }
-        }).start();
-
-
-        //Back button clicked
-        backButton.setOnAction(event -> {
-            try {
-                //set scene back to Main menu
-                Parent root = FXMLLoader.load(getClass().getResource("/com/simulator/hospital/mainMenu.fxml"));
-                Stage stage = (Stage) backButton.getScene().getWindow();
-                stage.setScene(new Scene(root));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
     }
 }

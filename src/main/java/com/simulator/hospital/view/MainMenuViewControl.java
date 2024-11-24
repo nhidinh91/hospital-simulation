@@ -1,6 +1,5 @@
 package com.simulator.hospital.view;
 
-import com.simulator.hospital.model.SimulatorModel;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,12 +20,38 @@ public class MainMenuViewControl {
     @FXML
     private Button startButton;
 
-    private SimulatorModel simuModel;
+    //INIT METHOD
+    @FXML
+    private void initialize() {
+        setupChoiceBoxes(); //add values and default value for REGISTER,GENERAL,SPECIALIST and DELAY
+        setupNumericValidation(); //add validator for TextField elements
+        startButton.setOnAction(event -> {startButtonAction();}); //start simulation
+    }
 
-    //method to validate input to only accept number
+    //PRIVATE METHODS
+    private void setupChoiceBoxes() {
+        registerChoice.getItems().addAll("1", "2");
+        generalChoice.getItems().addAll("1", "2");
+        specialistChoice.getItems().addAll("1", "2");
+        delayField.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+
+        registerChoice.setValue("1");
+        generalChoice.setValue("1");
+        specialistChoice.setValue("1");
+        delayField.setValue("1");
+    }
+
+    private void setupNumericValidation() {
+        addNumericValidation(simulationTimeField);
+        addNumericValidation(registerTime);
+        addNumericValidation(generalTime);
+        addNumericValidation(specialistTime);
+        addNumericValidation(arrivalTime);
+    }
+
     private void addNumericValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) {
+            if (!newValue.matches("\\d*")) { //validate input to only accept number
                 textField.setText(oldValue);
                 showAlert("Invalid Input", "Please enter only numbers");
             }
@@ -41,6 +66,36 @@ public class MainMenuViewControl {
         alert.showAndWait();
     }
 
+    private void startButtonAction() {
+        try {
+            //check if text fields have values and alert if needed
+            if (simulationTimeField.getText().isEmpty() || generalTime.getText().isEmpty() || registerTime.getText().isEmpty() || specialistTime.getText().isEmpty() || arrivalTime.getText().isEmpty()) {
+                showAlert("Input Required", "Please enter all values");
+                return;
+            }
+
+            //cast String input to int or double
+            int numberRegister = Integer.parseInt(registerChoice.getValue());
+            int numberGeneral = Integer.parseInt(generalChoice.getValue());
+            int numberSpecialist = Integer.parseInt(specialistChoice.getValue());
+
+            //load simulation scene
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/simulator.fxml"));
+            Parent root = loader.load();
+
+            //pass values to SimuViewController
+            SimuViewControl simuController = loader.getController();
+            simuController.initializeSimulation(numberRegister, numberGeneral, numberSpecialist, this);
+
+            //change scene
+            Stage stage = (Stage) startButton.getScene().getWindow(); //get the current stage
+            stage.setScene(new Scene(root)); //change scene to simulation
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //PUBLIC GETTER METHODS
     public int getNumberRegister() {return Integer.parseInt(registerChoice.getValue());}
 
     public int getNumberGeneral() {
@@ -73,57 +128,5 @@ public class MainMenuViewControl {
 
     public long getDelayTime() {
         return Long.parseLong(delayField.getValue())*1000;
-    }
-
-    private void startButtonAction() {
-        try {
-            //check if text fields have values and alert if needed
-            if (simulationTimeField.getText().isEmpty() || generalTime.getText().isEmpty() || registerTime.getText().isEmpty() || specialistTime.getText().isEmpty() || arrivalTime.getText().isEmpty()) {
-                showAlert("Input Required", "Please enter all values");
-                return;
-            }
-
-            //cast String input to int or double
-            int numberRegister = Integer.parseInt(registerChoice.getValue());
-            int numberGeneral = Integer.parseInt(generalChoice.getValue());
-            int numberSpecialist = Integer.parseInt(specialistChoice.getValue());
-
-            //load simulation scene
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/simulator.fxml"));
-            Parent root = loader.load();
-
-            //pass values to SimuController
-            SimuViewControl simuController = loader.getController();
-            simuController.setValues(numberRegister, numberGeneral, numberSpecialist, this);
-
-            //change scene
-            Stage stage = (Stage) startButton.getScene().getWindow(); //get the current stage
-            stage.setScene(new Scene(root)); //change scene to simulation
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void initialize() {
-        //add options 1 or 2 for all choice box and set default value of 1
-        registerChoice.getItems().addAll("1", "2");
-        generalChoice.getItems().addAll("1", "2");
-        specialistChoice.getItems().addAll("1", "2");
-        delayField.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
-        registerChoice.setValue("1");
-        generalChoice.setValue("1");
-        specialistChoice.setValue("1");
-        delayField.setValue("1");
-
-        //add listeners to 2 text fields to ensure only number entered
-        addNumericValidation(simulationTimeField);
-        addNumericValidation(registerTime);
-        addNumericValidation(generalTime);
-        addNumericValidation(specialistTime);
-        addNumericValidation(arrivalTime);
-
-        //click start simulation
-        startButton.setOnAction(event -> {startButtonAction();});
     }
 }
