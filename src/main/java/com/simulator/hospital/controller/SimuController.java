@@ -1,5 +1,6 @@
 package com.simulator.hospital.controller;
 
+import com.simulator.hospital.model.SimulatorModel;
 import javafx.animation.PathTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +10,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.*;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -17,39 +17,16 @@ import java.io.IOException;
 
 public class SimuController {
     @FXML
-    public Label registerQueue;
-    @FXML
-    public Label generalQueue;
-    @FXML
-    public Label specialistQueue;
+    public Label registerQueue, generalQueue, specialistQueue, registerLabel1, registerLabel2, registerLabel3,
+            generalLabel1, generalLabel2, generalLabel3, specialistLabel1, specialistLabel2, specialistLabel3;
     @FXML
     private Button backButton;
     @FXML
-    private Line registerLine;
-    @FXML
-    private Line generalLine;
-    @FXML
-    private Line specialistLine;
-    @FXML
-    private Label registerLabel1;
-    @FXML
-    private Label registerLabel2;
-    @FXML
-    private Label registerLabel3;
-    @FXML
-    private Label generalLabel1;
-    @FXML
-    private Label generalLabel2;
-    @FXML
-    private Label generalLabel3;
-    @FXML
-    private Label specialistLabel1;
-    @FXML
-    private Label specialistLabel2;
-    @FXML
-    private Label specialistLabel3;
+    private Line registerLine, generalLine, specialistLine;
     @FXML
     private AnchorPane rootPane;
+
+    private SimulatorModel simuModel;
 
     private double[] registerCoors;
     private double[] generalCoors;
@@ -60,7 +37,20 @@ public class SimuController {
     private double[] arrivalCoors;
     private double[] exitCoors;
 
-    public void setValues(int registerCount, int generalCount, int specialistCount) {
+    public void setValues(SimulatorModel simuModel, int registerCount, int generalCount, int specialistCount, double avgRegisterTime, double avgGeneralTime, double avgSpecialistTime, double avgArrivalTime, double simulationTime, long delayTime) {
+        //setup Simulation background
+        setupScene(registerCount, generalCount, specialistCount);
+        //calculate and set coordinates
+        setCoordinates(registerCount, generalCount, specialistCount);
+
+        //assign simuModel
+        this.simuModel = simuModel;
+
+        //mock animation
+        //animateCircle(); //can pass time, location, ...
+    }
+
+    private void setupScene(int registerCount, int generalCount, int specialistCount) {
         registerLine.setVisible(registerCount == 2);
         generalLine.setVisible(generalCount == 2);
         specialistLine.setVisible(specialistCount == 2);
@@ -86,12 +76,6 @@ public class SimuController {
         specialistLabel1.setVisible(specialistCount == 1);
         specialistLabel2.setVisible(specialistCount == 2);
         specialistLabel3.setVisible(specialistCount == 2);
-
-        //calculate and set coordinates
-        setCoordinates(registerCount, generalCount, specialistCount);
-
-        //mock animation
-        animateCircle(); //can pass time, location, ...
     }
 
     private void setCoordinates(int registerCount, int generalCount, int specialistCount) {
@@ -120,6 +104,9 @@ public class SimuController {
         specialistQueueCoors = new double[]{specialistQueue.localToScene(specialistQueue.getBoundsInLocal()).getMinX(), specialistQueue.localToScene(specialistQueue.getBoundsInLocal()).getMinY()};
         arrivalCoors = new double[]{0, 400};
         exitCoors = new double[]{1280, 400};
+
+        //set up coordinates for models
+        //....
     }
 
 
