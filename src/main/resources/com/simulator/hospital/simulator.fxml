@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootPane" minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1280.0" styleClass="img-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.controller.SimuController">
+<AnchorPane fx:id="rootPane" minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1280.0" styleClass="img-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.SimuViewControl">
    <children>
       <AnchorPane layoutX="24.0" layoutY="681.0">
          <children>

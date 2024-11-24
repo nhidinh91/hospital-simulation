@@ -11,4 +11,5 @@ module com.simulator.hospital {
     exports com.simulator.hospital.controller;
     exports com.simulator.hospital.view;
     exports com.simulator.eduni.distributions;
+    opens com.simulator.hospital.view to javafx.fxml;
 }

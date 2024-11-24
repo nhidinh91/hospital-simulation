@@ -1,150 +1,93 @@
 package com.simulator.hospital.controller;
 
+import com.simulator.hospital.framework.Clock;
+import com.simulator.hospital.framework.Trace;
+import com.simulator.hospital.model.Customer;
+import com.simulator.hospital.model.ServicePoint;
+import com.simulator.hospital.model.ServiceUnit;
 import com.simulator.hospital.model.SimulatorModel;
-import javafx.animation.PathTransition;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.*;
-import javafx.stage.Stage;
-import javafx.util.Duration;
+import com.simulator.hospital.view.MainMenuViewControl;
+import com.simulator.hospital.view.SimuViewControl;
+import javafx.application.Platform;
 
-import java.io.IOException;
+import java.util.AbstractMap;
 
-public class SimuController {
-    @FXML
-    public Label registerQueue, generalQueue, specialistQueue, registerLabel1, registerLabel2, registerLabel3,
-            generalLabel1, generalLabel2, generalLabel3, specialistLabel1, specialistLabel2, specialistLabel3;
-    @FXML
-    private Button backButton;
-    @FXML
-    private Line registerLine, generalLine, specialistLine;
-    @FXML
-    private AnchorPane rootPane;
-
+public class SimuController implements Runnable {
     private SimulatorModel simuModel;
+    private MainMenuViewControl menuView;
+    private SimuViewControl simuView;
+    private long delayTime;
+    private final Clock clock;
 
-    private double[] registerCoors;
-    private double[] generalCoors;
-    private double[] specialistCoors;
-    private double[] registerQueueCoors;
-    private double[] generalQueueCoors;
-    private double[] specialistQueueCoors;
-    private double[] arrivalCoors;
-    private double[] exitCoors;
-
-    public void setValues(SimulatorModel simuModel, int registerCount, int generalCount, int specialistCount, double avgRegisterTime, double avgGeneralTime, double avgSpecialistTime, double avgArrivalTime, double simulationTime, long delayTime) {
-        //setup Simulation background
-        setupScene(registerCount, generalCount, specialistCount);
-        //calculate and set coordinates
-        setCoordinates(registerCount, generalCount, specialistCount);
-
-        //assign simuModel
-        this.simuModel = simuModel;
-
-        //mock animation
-        //animateCircle(); //can pass time, location, ...
+    public SimuController(MainMenuViewControl menuView, SimuViewControl simuView) {
+        this.menuView = menuView;
+        this.simuView = simuView;
+        this.simuModel = null;
+        this.clock = Clock.getInstance();
     }
 
-    private void setupScene(int registerCount, int generalCount, int specialistCount) {
-        registerLine.setVisible(registerCount == 2);
-        generalLine.setVisible(generalCount == 2);
-        specialistLine.setVisible(specialistCount == 2);
-
-        registerLabel1.setVisible(registerCount == 1);
-        registerLabel2.setVisible(registerCount == 2);
-        registerLabel3.setVisible(registerCount == 2);
-
-        generalLabel1.setVisible(generalCount == 1);
-        generalLabel2.setVisible(generalCount == 2);
-        generalLabel3.setVisible(generalCount == 2);
-
-        if (generalCount == 1) {
-            specialistLabel1.setText("2");
-            specialistLabel2.setText("2");
-            specialistLabel3.setText("3");
-        } else if (generalCount == 2) {
-            specialistLabel1.setText("3");
-            specialistLabel2.setText("3");
-            specialistLabel3.setText("4");
-        }
-
-        specialistLabel1.setVisible(specialistCount == 1);
-        specialistLabel2.setVisible(specialistCount == 2);
-        specialistLabel3.setVisible(specialistCount == 2);
+    public void initializeModel() {
+        int numberRegister = menuView.getNumberRegister();
+        int numberGeneral = menuView.getNumberGeneral();
+        int numberSpecialist = menuView.getNumberSpecialist();
+        double avgRegisterTime = menuView.getRegisterTime();
+        double avgGeneralTime = menuView.getGeneralTime();
+        double avgSpecialistTime = menuView.getSpecialistTime();
+        double avgArrivalTime = menuView.getArrivalTime();
+        double simulationTime = menuView.getSimulationTime();
+        this.simuModel = new SimulatorModel(numberRegister, avgRegisterTime, numberGeneral, avgGeneralTime, numberSpecialist, avgSpecialistTime, avgArrivalTime);
+        this.simuModel.setSimulationTime(simulationTime);
     }
 
-    private void setCoordinates(int registerCount, int generalCount, int specialistCount) {
-        if (registerCount >= 1) {
-            registerCoors = new double[]{registerLabel1.localToScene(registerLabel1.getBoundsInLocal()).getMinX(), registerLabel1.localToScene(registerLabel1.getBoundsInLocal()).getMinY()};
-        }
-        if (registerCount == 2) {
-            registerCoors = new double[]{registerLabel2.localToScene(registerLabel2.getBoundsInLocal()).getMinX(), registerLabel2.localToScene(registerLabel2.getBoundsInLocal()).getMinY(), registerLabel3.localToScene(registerLabel3.getBoundsInLocal()).getMinX(), registerLabel3.localToScene(registerLabel3.getBoundsInLocal()).getMinY()};
-        }
-
-        if (generalCount >= 1) {
-            generalCoors = new double[]{generalLabel1.localToScene(generalLabel1.getBoundsInLocal()).getMinX(), generalLabel1.localToScene(generalLabel1.getBoundsInLocal()).getMinY()};
-        }
-        if (generalCount == 2) {
-            generalCoors = new double[]{generalLabel2.localToScene(generalLabel2.getBoundsInLocal()).getMinX(), generalLabel2.localToScene(generalLabel2.getBoundsInLocal()).getMinY(), generalLabel3.localToScene(generalLabel3.getBoundsInLocal()).getMinX(), generalLabel3.localToScene(generalLabel3.getBoundsInLocal()).getMinY()};
-        }
-
-        if (specialistCount >= 1) {
-            specialistCoors = new double[]{specialistLabel1.localToScene(specialistLabel1.getBoundsInLocal()).getMinX(), specialistLabel1.localToScene(specialistLabel1.getBoundsInLocal()).getMinY()};
-        }
-        if (specialistCount == 2) {
-            specialistCoors = new double[]{specialistLabel2.localToScene(specialistLabel2.getBoundsInLocal()).getMinX(), specialistLabel2.localToScene(specialistLabel2.getBoundsInLocal()).getMinY(), specialistLabel3.localToScene(specialistLabel3.getBoundsInLocal()).getMinX(), specialistLabel3.localToScene(specialistLabel3.getBoundsInLocal()).getMinY()};
-        }
-        registerQueueCoors = new double[]{registerQueue.localToScene(registerQueue.getBoundsInLocal()).getMinX(), registerQueue.localToScene(registerQueue.getBoundsInLocal()).getMinY()};
-        generalQueueCoors = new double[]{generalQueue.localToScene(generalQueue.getBoundsInLocal()).getMinX(), generalQueue.localToScene(generalQueue.getBoundsInLocal()).getMinY()};
-        specialistQueueCoors = new double[]{specialistQueue.localToScene(specialistQueue.getBoundsInLocal()).getMinX(), specialistQueue.localToScene(specialistQueue.getBoundsInLocal()).getMinY()};
-        arrivalCoors = new double[]{0, 400};
-        exitCoors = new double[]{1280, 400};
-
-        //set up coordinates for models
-        //....
+    public void setDelayTime(long delayTime) {
+        this.delayTime = delayTime;
     }
 
+    @Override
+    public void run() {
+        Trace.setTraceLevel(Trace.Level.INFO);
+        if (simuModel == null) {
+            System.err.println("SimulatorModel is not initialized. Please set up the parameters first.");
+            return;
+        }
+        simuModel.initialize();
+        while (simuModel.simulate()) {
+            // set clock
+            clock.setClock(simuModel.currentTime());
+            // display clock
+            Platform.runLater(() -> simuView.displayClock(clock.getClock()));
 
-    private void animateCircle() {
-        Circle movingCircle = new Circle(10); //Create a new circle with radius 10
-        rootPane.getChildren().add(movingCircle); //Add the circle to the root pane
-
-        Path path = new Path();
-        path.getElements().add(new MoveTo(arrivalCoors[0], arrivalCoors[1])); //Start from arrival point
-        path.getElements().add(new LineTo(registerQueueCoors[0], registerQueueCoors[1]));
-        path.getElements().add(new LineTo(registerCoors[0], registerCoors[1]));
-
-        path.getElements().add(new LineTo(generalQueueCoors[0], generalQueueCoors[1]));
-        path.getElements().add(new LineTo(generalCoors[0], generalCoors[1]));
-
-        path.getElements().add(new LineTo(exitCoors[0], exitCoors[1]));
-
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.seconds(5)); //clock
-        pathTransition.setPath(path);
-        pathTransition.setNode(movingCircle);
-        pathTransition.setCycleCount(PathTransition.INDEFINITE);
-        pathTransition.play();
-    }
-
-    @FXML
-    private void initialize() {
-
-        //Back button clicked
-        backButton.setOnAction(event -> {
-            try {
-                //set scene back to Main menu
-                Parent root = FXMLLoader.load(getClass().getResource("/com/simulator/hospital/mainMenu.fxml"));
-                Stage stage = (Stage) backButton.getScene().getWindow();
-                stage.setScene(new Scene(root));
-            } catch (IOException e) {
-                e.printStackTrace();
+            // Processes all B-events scheduled for the current time
+            while (simuModel.currentTime() == clock.getClock()) {
+                // process each B-event and display result
+                AbstractMap.SimpleEntry<Customer, ServiceUnit> result = simuModel.runEvent(simuModel.processEvent());        // Execute and remove the event from the list
+                // get necessary value from result
+                int customerId = result.getKey().getId();
+                int serviceUnitNumber = result.getValue() != null ? result.getValue().getIndex() : 0;
+                // call display method from view
+                Platform.runLater(() -> simuView.displayBEvent(customerId, serviceUnitNumber));
             }
-        });
+
+            // Processes C-phase events, checking if any service points can begin servicing a customer
+            for (ServiceUnit serviceUnit : simuModel.getServiceUnits()) {
+                // check in the service unit if any service point is available and customer is on queue
+                if (!serviceUnit.isReserved() && serviceUnit.isOnQueue()) {
+                    // start servicing a customer if conditions are met
+                    ServicePoint servicePoint = serviceUnit.beginService();
+                    Customer customer = servicePoint.getCurrentCustomer();
+                    // get necessary value from result and display in view
+                    Platform.runLater(() -> simuView.displayCEvent(customer.getId(), servicePoint.getId()));
+//                  System.out.printf("Customer %d is being served at service point %d\n", customer.getId(), servicePoint.getId());
+                }
+            }
+
+            try {
+                Thread.sleep(delayTime);
+            } catch (InterruptedException e) {
+                System.err.println(e);
+            }
+        }
+        simuModel.results();
     }
 }
+

@@ -1,4 +1,4 @@
-package com.simulator.hospital.controller;
+package com.simulator.hospital.view;
 
 import com.simulator.hospital.model.SimulatorModel;
 import javafx.fxml.FXML;
@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainMenuController {
+public class MainMenuViewControl {
     @FXML
     public TextField registerTime, generalTime, specialistTime, arrivalTime, simulationTimeField;
     @FXML
@@ -41,6 +41,40 @@ public class MainMenuController {
         alert.showAndWait();
     }
 
+    public int getNumberRegister() {return Integer.parseInt(registerChoice.getValue());}
+
+    public int getNumberGeneral() {
+        return Integer.parseInt(generalChoice.getValue());
+    }
+
+    public int getNumberSpecialist() {
+        return Integer.parseInt(specialistChoice.getValue());
+    }
+
+    public double getRegisterTime() {
+        return Double.parseDouble(this.registerTime.getText());
+    }
+
+    public double getGeneralTime() {
+        return Double.parseDouble(this.generalTime.getText());
+    }
+
+    public double getSpecialistTime() {
+        return Double.parseDouble(this.specialistTime.getText());
+    }
+
+    public double getArrivalTime() {
+        return Double.parseDouble(this.arrivalTime.getText());
+    }
+
+    public double getSimulationTime() {
+        return Double.parseDouble(simulationTimeField.getText());
+    }
+
+    public long getDelayTime() {
+        return Long.parseLong(delayField.getValue())*1000;
+    }
+
     private void startButtonAction() {
         try {
             //check if text fields have values and alert if needed
@@ -53,24 +87,14 @@ public class MainMenuController {
             int numberRegister = Integer.parseInt(registerChoice.getValue());
             int numberGeneral = Integer.parseInt(generalChoice.getValue());
             int numberSpecialist = Integer.parseInt(specialistChoice.getValue());
-            double avgRegisterTime = Double.parseDouble(registerTime.getText());
-            double avgGeneralTime = Double.parseDouble(generalTime.getText());
-            double avgSpecialistTime = Double.parseDouble(specialistTime.getText());
-            double avgArrivalTime = Double.parseDouble(arrivalTime.getText());
-            double simulationTime = Double.parseDouble(simulationTimeField.getText());
-            long delayTime = Long.parseLong(delayField.getValue());
-
-            //set values for Simulation model
-            this.simuModel = new SimulatorModel(numberRegister, avgRegisterTime, numberGeneral, avgGeneralTime, numberSpecialist, avgSpecialistTime, avgArrivalTime);
-            this.simuModel.setSimulationTime(simulationTime);
 
             //load simulation scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/simulator.fxml"));
             Parent root = loader.load();
 
             //pass values to SimuController
-            SimuController simuController = loader.getController();
-            simuController.setValues(simuModel, numberRegister, numberGeneral, numberSpecialist, avgRegisterTime, avgGeneralTime, avgSpecialistTime, avgArrivalTime, simulationTime, delayTime);
+            SimuViewControl simuController = loader.getController();
+            simuController.setValues(numberRegister, numberGeneral, numberSpecialist, this);
 
             //change scene
             Stage stage = (Stage) startButton.getScene().getWindow(); //get the current stage
