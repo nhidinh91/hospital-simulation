@@ -1,3 +1,7 @@
+.root {
+    -fx-font-family: "Impact";
+}
+
 .img-background {
     -fx-background-image: url("simuBackground.jpg");
     -fx-background-size: 100%
@@ -14,4 +18,15 @@
     -fx-background-radius: 15;
     -fx-effect: dropshadow(gaussian, rgba(128,128,128,0.75), 10, 0.5, 0, 0);
     -fx-padding: 10px 20px;
+    -fx-font-weight: bold;
+}
+
+.title {
+    -fx-font-weight: bold;
+    -fx-font-size: 80;
+}
+
+.h1-text {
+    -fx-font-weight: bold;
+    -fx-font-size: 40;
 }
