@@ -9,6 +9,7 @@ import com.simulator.hospital.model.SimulatorModel;
 import com.simulator.hospital.view.MainMenuViewControl;
 import com.simulator.hospital.view.SimuViewControl;
 import javafx.application.Platform;
+
 import java.util.AbstractMap;
 
 public class SimuController implements Runnable {
@@ -64,8 +65,17 @@ public class SimuController implements Runnable {
                 // get necessary value from result
                 int customerId = result.getKey().getId();
                 int serviceUnitNumber = result.getValue() != null ? result.getValue().getIndex() : 0;
+
+                // get location x,y of next servicep unit;
+//                int serviceUnitPosX = result.getValue() != null ? result.getValue().getX() : 0;
+//                int serviceUnitPosY = result.getValue() != null ? result.getValue().getY() : 0;
+
+
                 // call display method from view
-                Platform.runLater(() -> simuView.displayBEvent(customerId, serviceUnitNumber));
+                Platform.runLater(() -> {
+                    simuView.displayBEvent(customerId, serviceUnitNumber);
+                    simuView.displayBEvent2(customerId, serviceUnitNumber);
+                });
             }
 
             // Processes C-phase events, checking if any service points can begin servicing a customer
@@ -76,7 +86,10 @@ public class SimuController implements Runnable {
                     ServicePoint servicePoint = serviceUnit.beginService();
                     Customer customer = servicePoint.getCurrentCustomer();
                     // get necessary value from result and display in view
-                    Platform.runLater(() -> simuView.displayCEvent(customer.getId(), servicePoint.getId()));
+                    Platform.runLater(() -> {
+                        simuView.displayCEvent(customer.getId(), servicePoint.getId());
+                        simuView.displayCEvent2(customer.getId(), servicePoint.getId());
+                    });
 //                  System.out.printf("Customer %d is being served at service point %d\n", customer.getId(), servicePoint.getId());
                 }
             }
