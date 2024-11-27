@@ -219,7 +219,7 @@ public class SimuViewControl {
 
         int serviceUnitNumber = -1;
         int customerId = customer.getId();
-        System.out.println("customer type " + customer.getCustomerType());
+//        System.out.println("customer type " + customer.getCustomerType());
 
         if (su == null) {
             serviceUnitName = "exit";
@@ -236,12 +236,12 @@ public class SimuViewControl {
         customerView.setCustomerType(customer.getCustomerType());
         System.out.println(customerView);
         // this should be set new position
-        System.out.println("Customer " + customerId + " move to service unit " + serviceUnitName + ", enter queue at pos = (" + newX + "," + newY + ")");
+//        System.out.println("Customer " + customerId + " move to service unit " + serviceUnitName + ", enter queue at pos = (" + newX + "," + newY + ")");
         customerView.setServiceUnitName(serviceUnitName);
         if (serviceUnitNumber != 0) {
             customerView.setInQueue(true);
         }
-        this.animateCircle2(customerView, newX, newY);
+        this.animateCirle(customerView, newX, newY);
 
     }
 
@@ -292,15 +292,15 @@ public class SimuViewControl {
         double newY = sp.getY();
 
         // set to new position
-        System.out.println("Customer " + customerId + " move to service point " + servicePointId + ",  pos = (" + newX + "," + newY + ")");
+//        System.out.println("Customer " + customerId + " move to service point " + servicePointId + ",  pos = (" + newX + "," + newY + ")");
         // animation
         customerView.setInQueue(false);
-        this.animateCircle2(customerView, newX, newY);
+        this.animateCirle(customerView, newX, newY);
     }
 
 
 
-    private void animateCircle2(CustomerView customerView, double newX, double newY) {
+    private void animateCirle(CustomerView customerView, double newX, double newY) {
         Circle movingCircle = customerView.getCircle();
 
         if (movingCircle == null) {
@@ -324,6 +324,9 @@ public class SimuViewControl {
         //mock duration
 //        pathTransition.setDuration(Duration.millis(300));
         //real delay
+        // this delay must be shorter than delay in controller to make sure the the ball complete transition before  calculate in C
+        // delay = one cycle ABC
+        // A B delay/2 C delay/2
         pathTransition.setDuration(Duration.millis(delay / 3));
 
         pathTransition.setPath(path);
