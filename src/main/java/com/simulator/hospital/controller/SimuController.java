@@ -108,6 +108,7 @@ public class SimuController implements Runnable {
                     Platform.runLater(() -> {
 //                        simuView.displayCEvent(customer.getId(), servicePoint.getId());
 //                        simuView.displayCEvent2(customer.getId(), servicePoint.getId());
+                        simuView.displayCEvent3(customer, servicePoint);
                     });
 //                  System.out.printf("Customer %d is being served at service point %d\n", customer.getId(), servicePoint.getId());
                 }

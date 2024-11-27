@@ -72,6 +72,7 @@ public class SimuViewControl {
         controller.initializeModel();
         Thread simulatorThread = new Thread(controller);
 
+        // must move controller adn thread to top in order to register coordinate from view to model
         //setup Simulation background
         setupScene(registerCount, generalCount, specialistCount);
 
@@ -166,12 +167,7 @@ public class SimuViewControl {
                 exitCoors = new double[]{rootPane.getWidth(), rootPane.getHeight() / 2};
 
                 //set queue coor in model
-//                registerUnit.setX((int) registerQueueCoors[0]);
-//                registerUnit.setY((int) registerQueueCoors[1]);
-//                generalUnit.setX((int) generalQueueCoors[0]);
-//                generalUnit.setY((int) generalQueueCoors[1]);
-//                specialistUnit.setX((int) specialistQueueCoors[0]);
-//                specialistUnit.setY((int) specialistQueueCoors[1]);
+                // SUqueue [] = [queueX.queueY]
                 this.registerServiceUnitCoordinate(registerUnit, registerQueueCoors);
                 this.registerServiceUnitCoordinate(generalUnit, generalQueueCoors);
                 this.registerServiceUnitCoordinate(specialistUnit, specialistQueueCoors);
@@ -179,37 +175,18 @@ public class SimuViewControl {
 
                 //set SP coor in model
                 // servicePointCoor = [spX1,spY1,spX2,spY2]
-//                for (int i = 0; i < registerSPs.size(); i++) {
-//                    ServicePoint currentSP = registerSPs.get(i);
-//                    currentSP.setX((int) registerCoors[2 * i]);
-//                    currentSP.setY((int) registerCoors[2 * i + 1]);
-//                }
-//                for (int i = 0; i < generalSPs.size(); i++){
-//                    ServicePoint currenSP = generalSPs.get(i);
-//                    currenSP.setX((int)generalCoors[2*i]);
-//                    currenSP.setY((int)generalCoors[2*i+1]);
-//                }
                 this.registerServicePointsCoordinate(registerSPs, registerCoors);
                 this.registerServicePointsCoordinate(generalSPs, generalCoors);
                 this.registerServicePointsCoordinate(specialistSPs, specialistCoors);
 
             }
-//            System.out.println("SU " + registerUnit.getIndex() + " (" + registerUnit.getX() + "," + registerUnit.getY() + ")");
-//            System.out.println("SU " + generalUnit.getIndex() + " (" + generalUnit.getX() + "," + generalUnit.getY() + ")");
-//            System.out.println("SU " + specialistUnit.getIndex() + " (" + specialistUnit.getX() + "," + specialistUnit.getY() + ")");
-
-
-//        System.out.println(generalUnit);;
-//        System.out.println(registerSPs);
-//        System.out.println(generalSPs);
-//        System.out.println(specialistSPs);
         });
     }
 
     private void registerServiceUnitCoordinate(ServiceUnit serviceUnit, double[] serviceUnitCoor) {
         serviceUnit.setX((int) serviceUnitCoor[0]);
         serviceUnit.setY((int) serviceUnitCoor[1]);
-        System.out.println("SU " + serviceUnit.getIndex() + " (" + serviceUnit.getX() + "," + serviceUnit.getY() + ")");
+//        System.out.println("SU " + serviceUnit.getIndex() + " (" + serviceUnit.getX() + "," + serviceUnit.getY() + ")");
     }
 
     private void registerServicePointsCoordinate(ArrayList<ServicePoint> spList, double[] spCoors) {
@@ -217,33 +194,33 @@ public class SimuViewControl {
             ServicePoint currenSP = spList.get(i);
             currenSP.setX((int) spCoors[2 * i]);
             currenSP.setY((int) spCoors[2 * i + 1]);
-            System.out.println("SP " + currenSP.getId() + " (" + currenSP.getX() + "," + currenSP.getY() + ")");
+//            System.out.println("SP " + currenSP.getId() + " (" + currenSP.getX() + "," + currenSP.getY() + ")");
         }
     }
 
 
-    private void animateCircle() {
-        Circle movingCircle = new Circle(10); //Create a new circle with radius 10
-//        this.middlePane.getChildren().add(movingCircle);
-        this.rootPane.getChildren().add(movingCircle);//Add the circle to the root pane
-
-        Path path = new Path();
-        path.getElements().add(new MoveTo(arrivalCoors[0], arrivalCoors[1])); //Start from arrival point
-        path.getElements().add(new LineTo(registerQueueCoors[0], registerQueueCoors[1]));
-        path.getElements().add(new LineTo(registerCoors[0], registerCoors[1]));
-
-        path.getElements().add(new LineTo(generalQueueCoors[0], generalQueueCoors[1]));
-        path.getElements().add(new LineTo(generalCoors[0], generalCoors[1]));
-
-        path.getElements().add(new LineTo(exitCoors[0], exitCoors[1]));
-
-        PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.seconds(5)); //clock
-        pathTransition.setPath(path);
-        pathTransition.setNode(movingCircle);
-        pathTransition.setCycleCount(PathTransition.INDEFINITE);
-        pathTransition.play();
-    }
+//    private void animateCircle() {
+//        Circle movingCircle = new Circle(10); //Create a new circle with radius 10
+////        this.middlePane.getChildren().add(movingCircle);
+//        this.rootPane.getChildren().add(movingCircle);//Add the circle to the root pane
+//
+//        Path path = new Path();
+//        path.getElements().add(new MoveTo(arrivalCoors[0], arrivalCoors[1])); //Start from arrival point
+//        path.getElements().add(new LineTo(registerQueueCoors[0], registerQueueCoors[1]));
+//        path.getElements().add(new LineTo(registerCoors[0], registerCoors[1]));
+//
+//        path.getElements().add(new LineTo(generalQueueCoors[0], generalQueueCoors[1]));
+//        path.getElements().add(new LineTo(generalCoors[0], generalCoors[1]));
+//
+//        path.getElements().add(new LineTo(exitCoors[0], exitCoors[1]));
+//
+//        PathTransition pathTransition = new PathTransition();
+//        pathTransition.setDuration(Duration.seconds(5)); //clock
+//        pathTransition.setPath(path);
+//        pathTransition.setNode(movingCircle);
+//        pathTransition.setCycleCount(PathTransition.INDEFINITE);
+//        pathTransition.play();
+//    }
 
 //   private void animateCircle2(cus)
 
@@ -312,7 +289,7 @@ public class SimuViewControl {
 
     public void displayBEvent3(Customer customer, ServiceUnit su) {
 //        System.out.println("customer id " + customerId + ",service unit number: " + serviceUnitNumber);
-        String serviceUnitName = "";
+        String serviceUnitName;
         double newX, newY;
 
         int serviceUnitNumber = -1;
@@ -324,21 +301,11 @@ public class SimuViewControl {
             newY = exitCoors[1];
         } else {
             serviceUnitNumber = su.getIndex();
+            serviceUnitName = getSerViceUnitName(serviceUnitNumber);
             newX = su.getX();
             newY = su.getY();
         }
 
-        switch (serviceUnitNumber) {
-            case 1:
-                serviceUnitName = "register";
-                break;
-            case 2:
-                serviceUnitName = "general";
-                break;
-            case 3:
-                serviceUnitName = "specialist";
-                break;
-        }
         CustomerView customerView = getCustomerInfo(customerId);
         System.out.println(customerView);
         // this should be set new position
@@ -347,7 +314,6 @@ public class SimuViewControl {
         if (serviceUnitNumber != 0) {
             customerView.setInQueue(true);
         }
-
         this.animateCircle2(customerView, newX, newY);
 
     }
@@ -375,19 +341,17 @@ public class SimuViewControl {
 
     }
 
-//    public static String getSerViceUnitName(int serviceUnitNumber) {
-//        switch (serviceUnitNumber) {
-//            case 0:
-//                return "exit";
-//            case 1:
-//                return "register";
-//            case 2:
-//                return "general";
-//            case 3:
-//                return "specialist";
-//        }
-//        return null;
-//    }
+    public static String getSerViceUnitName(int serviceUnitNumber) {
+        switch (serviceUnitNumber) {
+            case 1:
+                return "register";
+            case 2:
+                return "general";
+            case 3:
+                return "specialist";
+        }
+        return null;
+    }
 
     public void displayCEvent(int customerId, int servicePointId) {
         System.out.printf("Customer %d is being served at service point %d\n", customerId, servicePointId);
@@ -423,12 +387,22 @@ public class SimuViewControl {
         customerView.setInQueue(false);
         this.animateCircle2(customerView, newX, newY);
 
-//        customerView.setServiceUnitName(serviceUnitName);
+    }
 
-//        customerView.setX(newX);
-//        customerView.setY(newY);
+    public void displayCEvent3(Customer curstomer, ServicePoint sp) {
+        int customerId = curstomer.getId();
+        int servicePointId = sp.getId();
+        CustomerView customerView = getCustomerInfo(customerId);
+        String serviceUnitName = customerView.getServiceUnitName();
 
+        double newX = sp.getX();
+        double newY = sp.getY();
 
+        // set to new position
+        System.out.println("Customer " + customerId + " move to service point " + servicePointId + ",  pos = (" + newX + "," + newY + ")");
+        // animation
+        customerView.setInQueue(false);
+        this.animateCircle2(customerView, newX, newY);
     }
 
     private void animateCircle2(CustomerView customerView, double newX, double newY) {
@@ -460,12 +434,6 @@ public class SimuViewControl {
 //            rootPane.getChildren().remove(movingCircle);
         });
         pathTransition.play();
-    }
-
-    private void drawCircle(double x, double y) {
-        Circle circle = new Circle(x, y, 10);
-        circle.setFill(Color.BLACK);
-        this.rootPane.getChildren().add(circle);
     }
 
 
