@@ -70,30 +70,22 @@ public class SimuViewControl {
 
     public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView) {
 
+        this.customerViewList = new HashMap<>();
         controller = new SimuController(menuView, this);
         speedSlider.setValue(((double)controller.getDelayTime() / 1000));
         controller.initializeModel();
         Thread simulatorThread = new Thread(controller);
 
-        // must move controller adn thread to top in order to register coordinate from view to model
+        // must move controller adn thread to top because setupCoor from view to model need controller
         //setup Simulation background
         setupScene(registerCount, generalCount, specialistCount);
 
         //calculate and set coordinates
         setCoordinates(registerCount, generalCount, specialistCount);
 
-//        controller = new SimuController(menuView, this);
-//        speedSlider.setValue(((double)controller.getDelayTime() / 1000));
-//        controller.initializeModel();
-//        Thread simulatorThread = new Thread(controller);
         simulatorThread.start();//start controller thread parallel with UI
         activated = true;
 
-        this.customerViewList = new HashMap<>();
-
-
-        //mock animation
-//        animateCircle(); //can pass time, location, ...
     }
 
     private void setupScene(int registerCount, int generalCount, int specialistCount) {
@@ -139,8 +131,6 @@ public class SimuViewControl {
 
         rootPane.boundsInParentProperty().addListener((observable, oldBounds, newBounds) -> {
             if (rootPane.isVisible()) {
-
-
                 // Register coordinates
                 if (registerCount >= 1) {
                     registerCoors = new double[]{registerLabel1.localToScene(registerLabel1.getBoundsInLocal()).getMinX(), registerLabel1.localToScene(registerLabel1.getBoundsInLocal()).getMinY()};
@@ -150,7 +140,6 @@ public class SimuViewControl {
                 }
 
                 // General coordinates
-
                 if (generalCount >= 1) {
                     generalCoors = new double[]{generalLabel1.localToScene(generalLabel1.getBoundsInLocal()).getMinX(), generalLabel1.localToScene(generalLabel1.getBoundsInLocal()).getMinY()};
                 }
@@ -173,7 +162,7 @@ public class SimuViewControl {
                 exitCoors = new double[]{rootPane.getWidth(), rootPane.getHeight() / 2};
 
                 //set queue coor in model
-                // SUqueue [] = [queueX.queueY]
+                // SUqueue [] = [queueX,queueY]
                 this.registerServiceUnitCoordinate(registerUnit, registerQueueCoors);
                 this.registerServiceUnitCoordinate(generalUnit, generalQueueCoors);
                 this.registerServiceUnitCoordinate(specialistUnit, specialistQueueCoors);
@@ -327,7 +316,7 @@ public class SimuViewControl {
         // this delay must be shorter than delay in controller to make sure the the ball complete transition before  calculate in C
         // delay = one cycle ABC
         // A B delay/2 C delay/2
-        pathTransition.setDuration(Duration.millis(delay/2));
+        pathTransition.setDuration(Duration.millis(delay* 0.6));
 
         pathTransition.setPath(path);
         pathTransition.setNode(movingCircle);

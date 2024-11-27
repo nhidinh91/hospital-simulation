@@ -113,23 +113,13 @@ public class SimuController implements Runnable {
                     // get necessary value from result and display in view
                     Platform.runLater(() -> {
                         simuView.displayCEvent(customer, servicePoint);
-                        // below is from Tu
-//                        simuView.displayCEvent(customer.getId(), servicePoint.getId()));
 
                     });
                 }
             }
 
-//            try {
-//                System.out.println("Delay time: " + delayTime);
-////                Thread.sleep(delayTime); // Respect the delay time , from Tu
-//                Thread.sleep(delayTime/2);
-//            } catch (InterruptedException e) {
-////                System.err.println(e);
-//                System.err.println("Simulation thread interrupted.");
-//                Thread.currentThread().interrupt(); // Reset the interrupted status
-//                break; // Exit the loop
-//            }
+
+
         }
         // Ensure results are printed after the simulation loop
         Platform.runLater(() -> simuModel.results());

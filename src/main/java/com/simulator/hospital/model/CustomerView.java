@@ -19,8 +19,6 @@ public class CustomerView {
         this.y = y;
         this.serviceUnitName = serviceUnitName;
         this.isInQueue = false;
-
-
     }
 
     public void setCustomerType(String customerType) {
@@ -31,11 +29,6 @@ public class CustomerView {
         return this.customerType;
     }
 
-
-//    public void setColor(Color color) {
-//        this.color = color;
-//        this.circle.setFill(this.color);
-//    }
 
     public Color getColor() {
         return this.color;
@@ -55,7 +48,6 @@ public class CustomerView {
         if (this.customerType.equals("general")) {
             this.color = Color.GREEN;
         } else {
-
             this.color = Color.RED;
         }
     }
