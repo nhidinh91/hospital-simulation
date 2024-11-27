@@ -9,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Slider;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.*;
 import javafx.util.Duration;
 
@@ -30,6 +32,9 @@ public class SimuViewControl {
 
     private BorderPane rootPane;
 
+    @FXML
+    private Slider speedSlider;
+
     private SimuController controller;
     private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
     private boolean activated = false;
@@ -42,8 +47,8 @@ public class SimuViewControl {
         Thread speedMonitorThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) { // Check for thread interruptions
                 if (activated && controller != null) {
-                    //long delay = this.speed; //fetch speed from UI (may need to be converted to delay time)
-                    //controller.setDelayTime(delay);
+                    long delay = (long) speedSlider.getValue() * 1000 ; //fetch speed from UI (may need to be converted to delay time)
+                    controller.setDelayTime(delay);
                     try {
                         Thread.sleep(100); // Polling interval for speed adjustments
                     } catch (InterruptedException e) {
@@ -66,6 +71,7 @@ public class SimuViewControl {
     public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView) {
 
         controller = new SimuController(menuView, this);
+        speedSlider.setValue(((double)controller.getDelayTime() / 1000));
         controller.initializeModel();
         Thread simulatorThread = new Thread(controller);
 
@@ -76,6 +82,10 @@ public class SimuViewControl {
         //calculate and set coordinates
         setCoordinates(registerCount, generalCount, specialistCount);
 
+//        controller = new SimuController(menuView, this);
+//        speedSlider.setValue(((double)controller.getDelayTime() / 1000));
+//        controller.initializeModel();
+//        Thread simulatorThread = new Thread(controller);
         simulatorThread.start();//start controller thread parallel with UI
         activated = true;
 

@@ -157,7 +157,7 @@
                                <Insets bottom="18.0" left="10.0" />
                            </HBox.margin>
                        </Text>
-                       <Slider prefHeight="55.0" prefWidth="375.0" showTickMarks="true">
+                       <Slider fx:id="speedSlider" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="55.0" prefWidth="375.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                            <opaqueInsets>
                                <Insets />
                            </opaqueInsets>

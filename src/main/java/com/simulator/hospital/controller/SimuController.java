@@ -22,6 +22,7 @@ public class SimuController implements Runnable {
         this.menuView = menuView;
         this.simuView = simuView;
         this.clock = Clock.getInstance();
+        this.delayTime = menuView.getDelayTime(); //initialize with initial delay
     }
 
     public void initializeModel() {
@@ -38,12 +39,17 @@ public class SimuController implements Runnable {
         this.simuModel.setSimulationTime(simulationTime);
     }
 
-    public long getDelayTime() {
-        return this.delayTime;
-    }
+//    public long getDelayTime() {
+//        return this.delayTime;
+//    }
 
     public void setDelayTime(long delayTime) {
         this.delayTime = delayTime;
+    }
+
+    //method to get initial delay time and set to Simulator View
+    public long getDelayTime() {
+        return delayTime;
     }
 
     public SimulatorModel getSimuModel(){
@@ -87,9 +93,14 @@ public class SimuController implements Runnable {
 
             // add some delay so there are delay between 2 phase, to move between location
             try {
+                System.out.println("Delay time: " + delayTime);
+
                 Thread.sleep(delayTime/2);
             } catch (InterruptedException e) {
-                System.err.println(e);
+//                System.err.println(e);
+                System.err.println("Simulation thread interrupted.");
+                Thread.currentThread().interrupt(); // Reset the interrupted status
+                break; // Exit the loop
             }
 
             // Processes C-phase events, checking if any service points can begin servicing a customer
@@ -102,15 +113,22 @@ public class SimuController implements Runnable {
                     // get necessary value from result and display in view
                     Platform.runLater(() -> {
                         simuView.displayCEvent(customer, servicePoint);
+                        // below is from Tu
+//                        simuView.displayCEvent(customer.getId(), servicePoint.getId()));
+
                     });
                 }
             }
 
             try {
-
+                System.out.println("Delay time: " + delayTime);
+//                Thread.sleep(delayTime); // Respect the delay time , from Tu
                 Thread.sleep(delayTime/2);
             } catch (InterruptedException e) {
-                System.err.println(e);
+//                System.err.println(e);
+                System.err.println("Simulation thread interrupted.");
+                Thread.currentThread().interrupt(); // Reset the interrupted status
+                break; // Exit the loop
             }
         }
         // Ensure results are printed after the simulation loop
