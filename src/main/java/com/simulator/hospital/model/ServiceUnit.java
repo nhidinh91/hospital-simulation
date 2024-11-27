@@ -35,8 +35,6 @@ public class ServiceUnit {
 			ServicePoint servicePoint = new ServicePoint();
 			servicePoints.add(servicePoint);
 		}
-		// edit by Trung to
-//		ServicePoint.resetCount();
 
 		this.index = count++;
 	}

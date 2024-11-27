@@ -19,9 +19,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class SimuViewControl {
-    //    @FXML
-//    public Label registerQueue, generalQueue, specialistQueue, registerLabel1, registerLabel2, registerLabel3, generalLabel1, generalLabel2, generalLabel3, specialistLabel1, specialistLabel2, specialistLabel3, timeLabel;
-////    private Button backButton;
+
     @FXML
     public Label registerQueue, generalQueue, specialistQueue, registerLabel1, registerLabel2, registerLabel3,
             generalLabel1, generalLabel2, generalLabel3, specialistLabel1, specialistLabel2, specialistLabel3, timeLabel;
@@ -29,8 +27,7 @@ public class SimuViewControl {
     @FXML
     private Line registerLine, generalLine, specialistLine;
     @FXML
-//    private AnchorPane rootPane;
-//    private AnchorPane middlePane;
+
     private BorderPane rootPane;
 
     private SimuController controller;
@@ -83,8 +80,7 @@ public class SimuViewControl {
         activated = true;
 
         this.customerViewList = new HashMap<>();
-//        this.middlePane = new AnchorPane();
-//        this.rootPane.getChildren().add(this.middlePane);
+
 
         //mock animation
 //        animateCircle(); //can pass time, location, ...
@@ -199,96 +195,15 @@ public class SimuViewControl {
     }
 
 
-//    private void animateCircle() {
-//        Circle movingCircle = new Circle(10); //Create a new circle with radius 10
-////        this.middlePane.getChildren().add(movingCircle);
-//        this.rootPane.getChildren().add(movingCircle);//Add the circle to the root pane
-//
-//        Path path = new Path();
-//        path.getElements().add(new MoveTo(arrivalCoors[0], arrivalCoors[1])); //Start from arrival point
-//        path.getElements().add(new LineTo(registerQueueCoors[0], registerQueueCoors[1]));
-//        path.getElements().add(new LineTo(registerCoors[0], registerCoors[1]));
-//
-//        path.getElements().add(new LineTo(generalQueueCoors[0], generalQueueCoors[1]));
-//        path.getElements().add(new LineTo(generalCoors[0], generalCoors[1]));
-//
-//        path.getElements().add(new LineTo(exitCoors[0], exitCoors[1]));
-//
-//        PathTransition pathTransition = new PathTransition();
-//        pathTransition.setDuration(Duration.seconds(5)); //clock
-//        pathTransition.setPath(path);
-//        pathTransition.setNode(movingCircle);
-//        pathTransition.setCycleCount(PathTransition.INDEFINITE);
-//        pathTransition.play();
-//    }
-
-//   private void animateCircle2(cus)
-
     //update scene, run animation method
     @FXML
     public void displayClock(double time) {
-//        System.out.printf("Clock is at: %.2f\n", time);
         String timeStr = String.format(Locale.US, "%.2f", time);
         System.out.printf("Clock is at: %s\n", timeStr);
         this.timeLabel.setText(timeStr + " min");
     }
 
-    public void displayBEvent(int customerId, int serviceUnitNumber) {
-        if (serviceUnitNumber != 0) {
-            System.out.printf("Customer %d move to queue of Service Unit %d\n", customerId, serviceUnitNumber);
-        } else {
-            System.out.printf("Customer %d completed service, is removed from system\n", customerId);
-        }
-    }
-
-    public void displayBEvent2(int customerId, int serviceUnitNumber) {
-//        System.out.println("customer id " + customerId + ",service unit number: " + serviceUnitNumber);
-        String serviceUnitName = "";
-        double newX = -1;
-        double newY = -1;
-        switch (serviceUnitNumber) {
-            case 1:
-                serviceUnitName = "register";
-                newX = registerQueueCoors[0];
-                newY = registerQueueCoors[1];
-                break;
-            case 2:
-                serviceUnitName = "general";
-                newX = generalQueueCoors[0];
-                newY = generalQueueCoors[1];
-                break;
-            case 3:
-                serviceUnitName = "specialist";
-                newX = specialistQueueCoors[0];
-                newY = specialistQueueCoors[1];
-                break;
-            case 0:
-                serviceUnitName = "Exit";
-                newX = exitCoors[0];
-                newY = exitCoors[1];
-//                SnewYstem.out.println(x);
-
-        }
-        CustomerView customerView = getCustomerInfo(customerId);
-        System.out.println(customerView);
-        // this should be set new position
-        System.out.println("Customer " + customerId + " move to service unit " + serviceUnitName + ", enter queue at pos = (" + newX + "," + newY + ")");
-        customerView.setServiceUnitName(serviceUnitName);
-        if (serviceUnitNumber != 0) {
-            customerView.setInQueue(true);
-        }
-
-        // this should be animation
-        this.animateCircle2(customerView, newX, newY);
-
-//        customerView.setX(newX);
-//        customerView.setY(newY);
-
-
-    }
-
-    public void displayBEvent3(Customer customer, ServiceUnit su) {
-//        System.out.println("customer id " + customerId + ",service unit number: " + serviceUnitNumber);
+    public void displayBEvent(Customer customer, ServiceUnit su) {
         String serviceUnitName;
         double newX, newY;
 
@@ -355,47 +270,9 @@ public class SimuViewControl {
         return null;
     }
 
-//    public Color customerColor(String customerType){
-//
-//    }
 
-    public void displayCEvent(int customerId, int servicePointId) {
-        System.out.printf("Customer %d is being served at service point %d\n", customerId, servicePointId);
-    }
 
-    public void displayCEvent2(int customerId, int servicePointId) {
-        CustomerView customerView = getCustomerInfo(customerId);
-        String serviceUnitName = customerView.getServiceUnitName();
-//        System.out.println(customerView);
-        System.out.println("customer " + customerId + ", service point " + servicePointId);
-
-        double newX = -1;
-        double newY = -1;
-
-        int idx = servicePointId == 1 ? 0 : 2;
-        switch (serviceUnitName) {
-            case "register":
-                newX = registerCoors[idx];
-                newY = registerCoors[idx + 1];
-                break;
-            case "general":
-                newX = generalCoors[idx];
-                newY = generalCoors[idx + 1];
-                break;
-            case "specialist":
-                newX = specialistCoors[idx];
-                newY = specialistCoors[idx + 1];
-                break;
-        }
-        // set to new position
-        System.out.println("Customer " + customerId + " move to service point " + servicePointId + ",  pos = (" + newX + "," + newY + ")");
-        // animation
-        customerView.setInQueue(false);
-        this.animateCircle2(customerView, newX, newY);
-
-    }
-
-    public void displayCEvent3(Customer curstomer, ServicePoint sp) {
+    public void displayCEvent(Customer curstomer, ServicePoint sp) {
         int customerId = curstomer.getId();
         int servicePointId = sp.getId();
         CustomerView customerView = getCustomerInfo(customerId);
@@ -445,7 +322,7 @@ public class SimuViewControl {
         pathTransition.setOnFinished(event -> {
             customerView.setX(newX);
             customerView.setY(newY);
-//            rootPane.getChildren().remove(movingCircle);
+
         });
         pathTransition.play();
     }

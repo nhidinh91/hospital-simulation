@@ -74,19 +74,14 @@ public class SimuController implements Runnable {
                 int customerId = result.getKey().getId();
                 int serviceUnitNumber = result.getValue() != null ? result.getValue().getIndex() : 0;
 
-                // get location x,y of next servicep unit;
-//                int serviceUnitPosX = result.getValue() != null ? result.getValue().getX() : 0;
-//                int serviceUnitPosY = result.getValue() != null ? result.getValue().getY() : 0;
-
                 Customer customer = result.getKey();
                 ServiceUnit serviceUnit = result.getValue(); // might return null
 
 
                 // call display method from view
                 Platform.runLater(() -> {
-//                    simuView.displayBEvent(customerId, serviceUnitNumber);
-//                    simuView.displayBEvent2(customerId, serviceUnitNumber);
-                    simuView.displayBEvent3(customer, serviceUnit);
+
+                    simuView.displayBEvent(customer, serviceUnit);
                 });
             }
 
@@ -106,8 +101,7 @@ public class SimuController implements Runnable {
                     Customer customer = servicePoint.getCurrentCustomer();
                     // get necessary value from result and display in view
                     Platform.runLater(() -> {
-
-                        simuView.displayCEvent3(customer, servicePoint);
+                        simuView.displayCEvent(customer, servicePoint);
                     });
                 }
             }
