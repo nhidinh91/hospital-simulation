@@ -236,7 +236,7 @@ public class SimuViewControl {
         customerView.setCustomerType(customer.getCustomerType());
         System.out.println(customerView);
         // this should be set new position
-//        System.out.println("Customer " + customerId + " move to service unit " + serviceUnitName + ", enter queue at pos = (" + newX + "," + newY + ")");
+        System.out.println("Customer " + customerId + " move to service unit " + serviceUnitName + ", enter queue at pos = (" + newX + "," + newY + ")");
         customerView.setServiceUnitName(serviceUnitName);
         if (serviceUnitNumber != 0) {
             customerView.setInQueue(true);
@@ -292,7 +292,7 @@ public class SimuViewControl {
         double newY = sp.getY();
 
         // set to new position
-//        System.out.println("Customer " + customerId + " move to service point " + servicePointId + ",  pos = (" + newX + "," + newY + ")");
+        System.out.println("Customer " + customerId + " move to service point " + servicePointId + ",  pos = (" + newX + "," + newY + ")");
         // animation
         customerView.setInQueue(false);
         this.animateCirle(customerView, newX, newY);
@@ -327,7 +327,7 @@ public class SimuViewControl {
         // this delay must be shorter than delay in controller to make sure the the ball complete transition before  calculate in C
         // delay = one cycle ABC
         // A B delay/2 C delay/2
-        pathTransition.setDuration(Duration.millis(delay / 3));
+        pathTransition.setDuration(Duration.millis(delay/2));
 
         pathTransition.setPath(path);
         pathTransition.setNode(movingCircle);

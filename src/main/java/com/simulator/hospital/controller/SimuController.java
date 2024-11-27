@@ -95,7 +95,7 @@ public class SimuController implements Runnable {
             try {
                 System.out.println("Delay time: " + delayTime);
 
-                Thread.sleep(delayTime/2);
+                Thread.sleep(delayTime);
             } catch (InterruptedException e) {
 //                System.err.println(e);
                 System.err.println("Simulation thread interrupted.");
@@ -120,16 +120,16 @@ public class SimuController implements Runnable {
                 }
             }
 
-            try {
-                System.out.println("Delay time: " + delayTime);
-//                Thread.sleep(delayTime); // Respect the delay time , from Tu
-                Thread.sleep(delayTime/2);
-            } catch (InterruptedException e) {
-//                System.err.println(e);
-                System.err.println("Simulation thread interrupted.");
-                Thread.currentThread().interrupt(); // Reset the interrupted status
-                break; // Exit the loop
-            }
+//            try {
+//                System.out.println("Delay time: " + delayTime);
+////                Thread.sleep(delayTime); // Respect the delay time , from Tu
+//                Thread.sleep(delayTime/2);
+//            } catch (InterruptedException e) {
+////                System.err.println(e);
+//                System.err.println("Simulation thread interrupted.");
+//                Thread.currentThread().interrupt(); // Reset the interrupted status
+//                break; // Exit the loop
+//            }
         }
         // Ensure results are printed after the simulation loop
         Platform.runLater(() -> simuModel.results());
