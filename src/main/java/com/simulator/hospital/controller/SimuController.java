@@ -7,8 +7,19 @@ import com.simulator.hospital.model.ServicePoint;
 import com.simulator.hospital.model.ServiceUnit;
 import com.simulator.hospital.model.SimulatorModel;
 import com.simulator.hospital.view.MainMenuViewControl;
+import com.simulator.hospital.view.ResultView;
 import com.simulator.hospital.view.SimuViewControl;
 import javafx.application.Platform;
+import javafx.fxml.FXML;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
 import java.util.AbstractMap;
 
 public class SimuController implements Runnable {
@@ -99,4 +110,3 @@ public class SimuController implements Runnable {
         Platform.runLater(() -> simuModel.results());
     }
 }
-

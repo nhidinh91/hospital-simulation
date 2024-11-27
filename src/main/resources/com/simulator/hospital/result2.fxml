@@ -12,48 +12,48 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<fx:root maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1060.0" type="VBox" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.ResultViewControl">
-   <children>
-      <HBox prefHeight="300.0" prefWidth="600.0">
-         <children>
-            <AnchorPane prefHeight="300.0" prefWidth="511.0">
-               <children>
-                  <Label alignment="CENTER" layoutX="205.0" layoutY="24.0" text="Initial setup">
-                     <font>
-                        <Font name="Arial Hebrew Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <TableView layoutX="44.0" layoutY="50.0" prefHeight="235.0" prefWidth="439.0">
-                    <columns>
-                      <TableColumn prefWidth="140.0" text="Service" />
-                      <TableColumn prefWidth="148.0" text="Service point numbers" />
-                        <TableColumn prefWidth="150.0" text="Service Time (min)" />
-                    </columns>
-                  </TableView>
-               </children>
-            </AnchorPane>
-            <PieChart id="totalCustomers" prefHeight="300.0" prefWidth="548.0" />
-         </children>
-      </HBox>
-      <HBox prefHeight="300.0" prefWidth="600.0">
-         <children>
-            <StackedBarChart id="utilization">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </StackedBarChart>
-            <StackedBarChart id="meanTime">
-              <xAxis>
-                <CategoryAxis side="BOTTOM" />
-              </xAxis>
-              <yAxis>
-                <NumberAxis side="LEFT" />
-              </yAxis>
-            </StackedBarChart>
-         </children>
-      </HBox>
-   </children>
-</fx:root>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1060.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.controller.ResultController">
+    <children>
+        <HBox prefHeight="300.0" prefWidth="600.0">
+            <children>
+                <AnchorPane prefHeight="300.0" prefWidth="511.0">
+                    <children>
+                        <Label alignment="CENTER" layoutX="205.0" layoutY="24.0" text="Initial setup">
+                            <font>
+                                <Font name="Arial Hebrew Bold" size="18.0" />
+                            </font>
+                        </Label>
+                        <TableView fx:id="tableView" layoutX="44.0" layoutY="50.0" prefHeight="235.0" prefWidth="439.0">
+                            <columns>
+                                <TableColumn fx:id="serviceColumn" prefWidth="140.0" text="Service" />
+                                <TableColumn fx:id="servicePointNumbersColumn" prefWidth="148.0" text="Service point numbers" />
+                                <TableColumn fx:id="serviceTimeColumn" prefWidth="150.0" text="Service Time (min)" />
+                            </columns>
+                        </TableView>
+                    </children>
+                </AnchorPane>
+                <PieChart fx:id="totalCustomers" prefHeight="300.0" prefWidth="548.0" />
+            </children>
+        </HBox>
+        <HBox prefHeight="300.0" prefWidth="600.0">
+            <children>
+                <StackedBarChart fx:id="utilization">
+                    <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </StackedBarChart>
+                <StackedBarChart fx:id="meanTime">
+                    <xAxis>
+                        <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                        <NumberAxis side="LEFT" />
+                    </yAxis>
+                </StackedBarChart>
+            </children>
+        </HBox>
+    </children>
+</VBox>
