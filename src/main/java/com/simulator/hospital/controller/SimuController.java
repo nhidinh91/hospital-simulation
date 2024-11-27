@@ -43,6 +43,11 @@ public class SimuController implements Runnable {
         this.delayTime = delayTime;
     }
 
+    //method to get initial delay time and set to Simulator View
+    public long getDelayTime() {
+        return delayTime;
+    }
+
     @Override
     public void run() {
         Trace.setTraceLevel(Trace.Level.INFO);
@@ -82,7 +87,7 @@ public class SimuController implements Runnable {
 //                  System.out.printf("Customer %d is being served at service point %d\n", customer.getId(), servicePoint.getId());
                     }
                 }
-
+                System.out.println("Delay time: " + delayTime);
                 Thread.sleep(delayTime); // Respect the delay time
             } catch (InterruptedException e) {
                 System.err.println("Simulation thread interrupted.");

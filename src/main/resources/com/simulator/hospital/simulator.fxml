@@ -14,231 +14,213 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="rootPane" minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1280.0"
-            styleClass="img-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.SimuViewControl">
+<AnchorPane fx:id="rootPane" minHeight="0.0" minWidth="0.0" prefHeight="800.0" prefWidth="1280.0" styleClass="img-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.SimuViewControl">
    <AnchorPane layoutX="24.0" layoutY="681.0">
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eef1f2" height="73.0" stroke="TRANSPARENT"
-                 strokeType="INSIDE" width="507.0"/>
-      <Slider layoutX="98.0" layoutY="3.0" prefHeight="83.0" prefWidth="375.0" showTickMarks="true">
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eef1f2" height="73.0" stroke="TRANSPARENT" strokeType="INSIDE" width="507.0" />
+      <Slider id="speedSlider" layoutX="98.0" layoutY="3.0" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="83.0" prefWidth="375.0" showTickLabels="true" showTickMarks="true">
          <opaqueInsets>
-            <Insets/>
+            <Insets />
          </opaqueInsets>
       </Slider>
-      <Text layoutX="22.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Speed">
+      <Text layoutX="20.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hi">
          <font>
-            <Font name="System Bold Italic" size="24.0"/>
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Text>
    </AnchorPane>
    <StackPane layoutX="1231.0" layoutY="309.0">
-      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#16ba3f" height="144.0" stroke="TRANSPARENT"
-                 strokeType="INSIDE" width="47.0">
+      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#16ba3f" height="144.0" stroke="TRANSPARENT" strokeType="INSIDE" width="47.0">
          <effect>
             <InnerShadow>
                <color>
-                  <Color red="0.5727420449256897" green="0.8947368264198303" blue="0.01656920090317726"/>
+                  <Color red="0.5727420449256897" green="0.8947368264198303" blue="0.01656920090317726" />
                </color>
             </InnerShadow>
          </effect>
       </Rectangle>
-      <Text fill="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0" text="EXIT" textAlignment="CENTER"
-            wrappingWidth="19.0">
+      <Text fill="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0" text="EXIT" textAlignment="CENTER" wrappingWidth="19.0">
          <font>
-            <Font name="System Bold" size="24.0"/>
+            <Font name="System Bold" size="24.0" />
          </font>
       </Text>
    </StackPane>
    <AnchorPane layoutX="174.0" layoutY="381.0">
       <Circle fill="#204365" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
          <effect>
-            <Glow level="0.7"/>
+            <Glow level="0.7" />
          </effect>
       </Circle>
       <Text fill="#f2eeee" layoutX="-29.0" layoutY="-16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUEUE">
          <font>
-            <Font name="System Bold" size="18.0"/>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <Label fx:id="registerQueue" layoutX="-16.0" text="10" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="30.0"/>
+            <Font size="30.0" />
          </font>
       </Label>
    </AnchorPane>
    <AnchorPane layoutX="341.0" layoutY="260.0">
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ebeb46" height="227.0" layoutX="1.5" layoutY="16.568359375"
-                 stroke="TRANSPARENT" strokeType="INSIDE" width="131.0">
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#ebeb46" height="227.0" layoutX="1.5" layoutY="16.568359375" stroke="TRANSPARENT" strokeType="INSIDE" width="131.0">
          <effect>
             <InnerShadow>
                <color>
-                  <Color red="0.7368420958518982" green="0.7368420958518982" blue="0.167153999209404"/>
+                  <Color red="0.7368420958518982" green="0.7368420958518982" blue="0.167153999209404" />
                </color>
             </InnerShadow>
          </effect>
       </Rectangle>
       <Text layoutX="21.5" strokeType="OUTSIDE" strokeWidth="0.0" text="REGISTER DESK">
          <font>
-            <Font name="System Bold Italic" size="13.0"/>
+            <Font name="System Bold Italic" size="13.0" />
          </font>
       </Text>
-      <Line fx:id="registerLine" endX="78.0" endY="-11.5" layoutX="54.0" layoutY="134.0" startX="-53.0"
-            startY="-11.5" stroke="#0d0d0d" strokeWidth="3.0" visible="false"/>
+      <Line fx:id="registerLine" endX="78.0" endY="-11.5" layoutX="54.0" layoutY="134.0" startX="-53.0" startY="-11.5" stroke="#0d0d0d" strokeWidth="3.0" visible="false" />
       <Label fx:id="registerLabel1" layoutX="60.0" layoutY="102.0" text="1" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
       <Label fx:id="registerLabel2" layoutX="58.0" layoutY="52.0" text="1" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
       <Label fx:id="registerLabel3" layoutX="60.0" layoutY="152.0" text="2" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
    </AnchorPane>
    <StackPane layoutY="310.0">
-      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#eb7b26" height="144.0" stroke="TRANSPARENT"
-                 strokeType="INSIDE" width="47.0">
+      <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#eb7b26" height="144.0" stroke="TRANSPARENT" strokeType="INSIDE" width="47.0">
          <effect>
             <InnerShadow>
                <color>
-                  <Color red="0.8799999952316284" green="0.7018438577651978" blue="0.01759999990463257"/>
+                  <Color red="0.8799999952316284" green="0.7018438577651978" blue="0.01759999990463257" />
                </color>
             </InnerShadow>
          </effect>
       </Rectangle>
-      <Text fill="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0" text="ARRIVAL" textAlignment="CENTER"
-            wrappingWidth="7.0">
+      <Text fill="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0" text="ARRIVAL" textAlignment="CENTER" wrappingWidth="7.0">
          <font>
-            <Font name="System Bold" size="15.0"/>
+            <Font name="System Bold" size="15.0" />
          </font>
       </Text>
    </StackPane>
    <AnchorPane layoutX="916.0" layoutY="77.0">
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#56a9b2" height="305.0" layoutX="2.5" stroke="TRANSPARENT"
-                 strokeType="INSIDE" width="179.0">
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#56a9b2" height="305.0" layoutX="2.5" stroke="TRANSPARENT" strokeType="INSIDE" width="179.0">
          <effect>
             <InnerShadow>
                <color>
-                  <Color red="0.722283124923706" green="0.8600359559059143" blue="0.9342105388641357"/>
+                  <Color red="0.722283124923706" green="0.8600359559059143" blue="0.9342105388641357" />
                </color>
             </InnerShadow>
          </effect>
       </Rectangle>
       <Label fx:id="generalLabel1" layoutX="82.5" layoutY="119.0" text="1" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
       <Text fill="WHITE" layoutX="64.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="GENERAL">
          <font>
-            <Font name="System Bold Italic" size="13.0"/>
+            <Font name="System Bold Italic" size="13.0" />
          </font>
       </Text>
-      <Line fx:id="generalLine" endX="259.0" endY="48.0" layoutX="-79.0" layoutY="104.0" startX="80.0" startY="48.0"
-            stroke="#f5f5f5" strokeWidth="5.0" visible="false"/>
+      <Line fx:id="generalLine" endX="259.0" endY="48.0" layoutX="-79.0" layoutY="104.0" startX="80.0" startY="48.0" stroke="#f5f5f5" strokeWidth="5.0" visible="false" />
       <Label fx:id="generalLabel2" layoutX="83.5" layoutY="36.0" text="1" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
       <Label fx:id="generalLabel3" layoutX="80.5" layoutY="208.0" text="2" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
    </AnchorPane>
    <AnchorPane layoutX="915.5" layoutY="409.0">
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#b05656" height="305.0" layoutX="2.5" stroke="TRANSPARENT"
-                 strokeType="INSIDE" width="179.0">
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#b05656" height="305.0" layoutX="2.5" stroke="TRANSPARENT" strokeType="INSIDE" width="179.0">
          <effect>
             <InnerShadow>
                <color>
-                  <Color red="0.8815789222717285" green="0.5550682544708252" blue="0.5550682544708252"/>
+                  <Color red="0.8815789222717285" green="0.5550682544708252" blue="0.5550682544708252" />
                </color>
             </InnerShadow>
          </effect>
       </Rectangle>
       <Label fx:id="specialistLabel1" layoutX="77.5" layoutY="127.0" text="2" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
-      <Text fill="WHITE" layoutX="58.5" layoutY="19.431640625" strokeType="OUTSIDE" strokeWidth="0.0"
-            text="SPECIALIST">
+      <Text fill="WHITE" layoutX="58.5" layoutY="19.431640625" strokeType="OUTSIDE" strokeWidth="0.0" text="SPECIALIST">
          <font>
-            <Font name="System Bold Italic" size="13.0"/>
+            <Font name="System Bold Italic" size="13.0" />
          </font>
       </Text>
-      <Line fx:id="specialistLine" endX="201.0" endY="50.0" layoutX="-23.0" layoutY="102.0" startX="28.0"
-            startY="50.0" stroke="#f5f5f5" strokeWidth="5.0" visible="false"/>
+      <Line fx:id="specialistLine" endX="201.0" endY="50.0" layoutX="-23.0" layoutY="102.0" startX="28.0" startY="50.0" stroke="#f5f5f5" strokeWidth="5.0" visible="false" />
       <Label fx:id="specialistLabel2" layoutX="80.5" layoutY="54.0" text="3" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
       <Label fx:id="specialistLabel3" layoutX="79.5" layoutY="197.0" text="4" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="40.0"/>
+            <Font size="40.0" />
          </font>
       </Label>
    </AnchorPane>
    <AnchorPane layoutX="758.0" layoutY="247.0">
       <Circle fill="#204365" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
          <effect>
-            <Glow level="0.7"/>
+            <Glow level="0.7" />
          </effect>
       </Circle>
       <Text fill="#f2eeee" layoutX="-29.0" layoutY="-16.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUEUE">
          <font>
-            <Font name="System Bold" size="18.0"/>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <Label fx:id="generalQueue" layoutX="-9.0" layoutY="-4.0" text="3" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="30.0"/>
+            <Font size="30.0" />
          </font>
       </Label>
    </AnchorPane>
    <AnchorPane layoutX="758.0" layoutY="536.0">
       <Circle fill="#204365" layoutY="22.0" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
          <effect>
-            <Glow level="0.7"/>
+            <Glow level="0.7" />
          </effect>
       </Circle>
       <Text fill="#f2eeee" layoutX="-29.0" layoutY="2.0" strokeType="OUTSIDE" strokeWidth="0.0" text="QUEUE">
          <font>
-            <Font name="System Bold" size="18.0"/>
+            <Font name="System Bold" size="18.0" />
          </font>
       </Text>
       <Label fx:id="specialistQueue" layoutX="-9.0" layoutY="14.0" text="8" textFill="#f8f6f6" visible="false">
          <font>
-            <Font size="30.0"/>
+            <Font size="30.0" />
          </font>
       </Label>
    </AnchorPane>
    <AnchorPane layoutX="24.0" layoutY="14.0">
-      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eef1f2" height="73.0" stroke="TRANSPARENT"
-                 strokeType="INSIDE" width="195.0"/>
+      <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eef1f2" height="73.0" stroke="TRANSPARENT" strokeType="INSIDE" width="195.0" />
       <Text layoutX="22.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time">
          <font>
-            <Font name="System Bold Italic" size="24.0"/>
+            <Font name="System Bold Italic" size="24.0" />
          </font>
       </Text>
       <Label layoutX="89.0" layoutY="18.0" text=" 3 mins">
          <font>
-            <Font size="30.0"/>
+            <Font size="30.0" />
          </font>
       </Label>
    </AnchorPane>
-   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="327.0" layoutX="90.0" layoutY="220.0"
-              stroke="BLACK" strokeType="INSIDE" width="452.0"/>
-   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="327.0" layoutX="683.0" layoutY="66.0"
-              stroke="BLACK" strokeType="INSIDE" width="452.0"/>
-   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="327.0" layoutX="683.0" layoutY="398.0"
-              stroke="BLACK" strokeType="INSIDE" width="452.0"/>
+   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="327.0" layoutX="90.0" layoutY="220.0" stroke="BLACK" strokeType="INSIDE" width="452.0" />
+   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="327.0" layoutX="683.0" layoutY="66.0" stroke="BLACK" strokeType="INSIDE" width="452.0" />
+   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#1f93ff00" height="327.0" layoutX="683.0" layoutY="398.0" stroke="BLACK" strokeType="INSIDE" width="452.0" />
 </AnchorPane>

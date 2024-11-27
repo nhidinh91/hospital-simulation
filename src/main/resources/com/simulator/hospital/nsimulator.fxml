@@ -16,7 +16,6 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-
 <BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="1060.0" styleClass="img-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.SimuViewControl">
    <left>
        <StackPane BorderPane.alignment="CENTER">
@@ -57,34 +56,32 @@
    <center>
        <HBox prefHeight="650.0" prefWidth="863.0" BorderPane.alignment="CENTER">
            <padding>
-               <Insets left="50.0" right="100.0"/>
+               <Insets left="50.0" right="100.0" />
            </padding>
            <BorderPane.margin>
-               <Insets bottom="20.0" top="20.0"/>
+               <Insets bottom="20.0" top="20.0" />
            </BorderPane.margin>
            <StackPane>
                <StackPane alignment="TOP_LEFT" prefHeight="79.0" prefWidth="591.0">
-                   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eeeeee" height="73.0" stroke="TRANSPARENT"
-                              strokeType="INSIDE" width="210.0"/>
+                   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eeeeee" height="73.0" stroke="TRANSPARENT" strokeType="INSIDE" width="210.0" />
                    <HBox prefHeight="39.0" prefWidth="179.0" spacing="10.0">
                        <StackPane.margin>
-                           <Insets bottom="20.0" left="10.0" right="5.0" top="20.0"/>
+                           <Insets bottom="20.0" left="10.0" right="5.0" top="20.0" />
                        </StackPane.margin>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Time"
-                             wrappingWidth="62.6953125">
+                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Time" wrappingWidth="62.6953125">
                            <font>
-                               <Font name="System Bold Italic" size="24.0"/>
+                               <Font name="System Bold Italic" size="24.0" />
                            </font>
                            <HBox.margin>
-                               <Insets top="3.0"/>
+                               <Insets top="3.0" />
                            </HBox.margin>
                        </Text>
                        <Label prefHeight="39.0" prefWidth="104.0" styleClass="h2-text" text=" 3 mins">
                            <font>
-                               <Font size="30.0"/>
+                               <Font size="30.0" />
                            </font>
                            <HBox.margin>
-                               <Insets/>
+                               <Insets />
                            </HBox.margin>
                        </Label>
                    </HBox>
@@ -93,66 +90,56 @@
                    <StackPane>
                        <Circle fill="#091057" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
                            <effect>
-                               <Glow level="0.7"/>
+                               <Glow level="0.7" />
                            </effect>
                        </Circle>
                        <VBox alignment="CENTER" prefHeight="178.0" prefWidth="100.0">
                            <StackPane.margin>
-                               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0"/>
+                               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                            </StackPane.margin>
-                           <Text fill="#f2eeee" strokeType="OUTSIDE" strokeWidth="0.0"
-                                 styleClass="h2-text" text="QUEUE">
+                           <Text fill="#f2eeee" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="QUEUE">
                                <font>
-                                   <Font name="System Bold" size="18.0"/>
+                                   <Font name="System Bold" size="18.0" />
                                </font>
                            </Text>
-                           <Label fx:id="registerQueue" prefHeight="37.0" prefWidth="40.0"
-                                  styleClass="h1-text" text="10" textAlignment="CENTER"
-                                  textFill="#f8f6f6" visible="false">
+                           <Label fx:id="registerQueue" prefHeight="37.0" prefWidth="40.0" styleClass="h1-text" text="10" textAlignment="CENTER" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="30.0"/>
+                                   <Font size="30.0" />
                                </font>
                            </Label>
                        </VBox>
                    </StackPane>
                    <VBox alignment="CENTER">
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h3-text"
-                             text="REGISTER DESK">
+                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h3-text" text="REGISTER DESK">
                            <font>
-                               <Font name="System Bold Italic" size="13.0"/>
+                               <Font name="System Bold Italic" size="13.0" />
                            </font>
                        </Text>
                        <StackPane>
-                           <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#9694ff" height="227.0"
-                                      stroke="TRANSPARENT" strokeType="INSIDE" width="131.0">
+                           <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#9694ff" height="227.0" stroke="TRANSPARENT" strokeType="INSIDE" width="131.0">
                                <effect>
                                    <InnerShadow>
                                        <color>
-                                           <Color red="0.7368420958518982" green="0.7368420958518982"
-                                                  blue="0.167153999209404"/>
+                                           <Color red="0.7368420958518982" green="0.7368420958518982" blue="0.167153999209404" />
                                        </color>
                                    </InnerShadow>
                                </effect>
                            </Rectangle>
-                           <Line fx:id="registerLine" endX="78.0" endY="-11.5" startX="-53.0"
-                                 startY="-11.5" stroke="#0d0d0d" strokeWidth="3.0" visible="false"/>
+                           <Line fx:id="registerLine" endX="78.0" endY="-11.5" startX="-53.0" startY="-11.5" stroke="#0d0d0d" strokeWidth="3.0" visible="false" />
                            <VBox alignment="CENTER">
-                               <Label fx:id="registerLabel2" styleClass="h1-text" text="1"
-                                      visible="false">
+                               <Label fx:id="registerLabel2" styleClass="h1-text" text="1" visible="false">
                                    <font>
-                                       <Font size="40.0"/>
+                                       <Font size="40.0" />
                                    </font>
                                </Label>
-                               <Label fx:id="registerLabel1" styleClass="h1-text" text="1"
-                                      visible="false">
+                               <Label fx:id="registerLabel1" styleClass="h1-text" text="1" visible="false">
                                    <font>
-                                       <Font size="40.0"/>
+                                       <Font size="40.0" />
                                    </font>
                                </Label>
-                               <Label fx:id="registerLabel3" styleClass="h1-text" text="2"
-                                      visible="false">
+                               <Label fx:id="registerLabel3" styleClass="h1-text" text="2" visible="false">
                                    <font>
-                                       <Font size="40.0"/>
+                                       <Font size="40.0" />
                                    </font>
                                </Label>
                            </VBox>
@@ -160,23 +147,22 @@
                    </VBox>
                </HBox>
                <StackPane alignment="BOTTOM_LEFT">
-                   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eeeeee" height="73.0" stroke="TRANSPARENT"
-                              strokeType="INSIDE" width="507.0"/>
+                   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eeeeee" height="73.0" stroke="TRANSPARENT" strokeType="INSIDE" width="507.0" />
                    <HBox alignment="BOTTOM_LEFT" spacing="20.0">
                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Speed">
                            <font>
-                               <Font name="System Bold Italic" size="24.0"/>
+                               <Font name="System Bold Italic" size="24.0" />
                            </font>
                            <HBox.margin>
-                               <Insets bottom="18.0" left="10.0"/>
+                               <Insets bottom="18.0" left="10.0" />
                            </HBox.margin>
                        </Text>
-                       <Slider prefHeight="55.0" prefWidth="375.0" showTickMarks="true">
+                       <Slider fx:id="speedSlider" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" prefHeight="55.0" prefWidth="375.0" showTickLabels="true" showTickMarks="true" snapToTicks="true">
                            <opaqueInsets>
-                               <Insets/>
+                               <Insets />
                            </opaqueInsets>
                            <HBox.margin>
-                               <Insets bottom="5.0"/>
+                               <Insets bottom="5.0" />
                            </HBox.margin>
                        </Slider>
                    </HBox>
@@ -187,65 +173,55 @@
                    <StackPane>
                        <Circle fill="#091057" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
                            <effect>
-                               <Glow level="0.7"/>
+                               <Glow level="0.7" />
                            </effect>
                        </Circle>
                        <VBox alignment="CENTER">
                            <StackPane.margin>
-                               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0"/>
+                               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                            </StackPane.margin>
-                           <Text fill="#f2eeee" strokeType="OUTSIDE" strokeWidth="0.0"
-                                 styleClass="h2-text" text="QUEUE">
+                           <Text fill="#f2eeee" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="QUEUE">
                                <font>
-                                   <Font name="System Bold" size="18.0"/>
+                                   <Font name="System Bold" size="18.0" />
                                </font>
                            </Text>
-                           <Label fx:id="generalQueue" prefHeight="37.0" prefWidth="40.0"
-                                  styleClass="h1-text" text="10" textAlignment="CENTER"
-                                  textFill="#f8f6f6" visible="false">
+                           <Label fx:id="generalQueue" prefHeight="37.0" prefWidth="40.0" styleClass="h1-text" text="10" textAlignment="CENTER" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="30.0"/>
+                                   <Font size="30.0" />
                                </font>
                            </Label>
                        </VBox>
                    </StackPane>
                    <StackPane>
-                       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#59d5e0" height="305.0"
-                                  stroke="TRANSPARENT" strokeType="INSIDE" width="179.0">
+                       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#59d5e0" height="305.0" stroke="TRANSPARENT" strokeType="INSIDE" width="179.0">
                            <effect>
                                <InnerShadow>
                                    <color>
-                                       <Color red="0.722283124923706" green="0.8600359559059143"
-                                              blue="0.9342105388641357"/>
+                                       <Color red="0.722283124923706" green="0.8600359559059143" blue="0.9342105388641357" />
                                    </color>
                                </InnerShadow>
                            </effect>
                        </Rectangle>
-                       <Line fx:id="generalLine" endX="259.0" endY="48.0" startX="80.0" startY="48.0"
-                             stroke="#f5f5f5" strokeWidth="5.0" visible="false"/>
+                       <Line fx:id="generalLine" endX="259.0" endY="48.0" startX="80.0" startY="48.0" stroke="#f5f5f5" strokeWidth="5.0" visible="false" />
                        <VBox alignment="CENTER" prefHeight="237.0" prefWidth="184.0" spacing="20.0">
-                           <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                 styleClass="h3-text" text="GENERAL">
+                           <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h3-text" text="GENERAL">
                                <font>
-                                   <Font name="System Bold Italic" size="13.0"/>
+                                   <Font name="System Bold Italic" size="13.0" />
                                </font>
                            </Text>
-                           <Label fx:id="generalLabel2" styleClass="h1-text" text="1" textFill="#f8f6f6"
-                                  visible="false">
+                           <Label fx:id="generalLabel2" styleClass="h1-text" text="1" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="40.0"/>
+                                   <Font size="40.0" />
                                </font>
                            </Label>
-                           <Label fx:id="generalLabel1" styleClass="h1-text" text="1" textFill="#f8f6f6"
-                                  visible="false">
+                           <Label fx:id="generalLabel1" styleClass="h1-text" text="1" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="40.0"/>
+                                   <Font size="40.0" />
                                </font>
                            </Label>
-                           <Label fx:id="generalLabel3" styleClass="h1-text" text="2" textFill="#f8f6f6"
-                                  visible="false">
+                           <Label fx:id="generalLabel3" styleClass="h1-text" text="2" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="40.0"/>
+                                   <Font size="40.0" />
                                </font>
                            </Label>
                        </VBox>
@@ -255,67 +231,58 @@
                    <StackPane>
                        <Circle fill="#091057" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
                            <effect>
-                               <Glow level="0.7"/>
+                               <Glow level="0.7" />
                            </effect>
                        </Circle>
                        <VBox alignment="CENTER">
                            <StackPane.margin>
-                               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0"/>
+                               <Insets bottom="5.0" left="5.0" right="5.0" top="10.0" />
                            </StackPane.margin>
-                           <Text fill="#f2eeee" strokeType="OUTSIDE" strokeWidth="0.0"
-                                 styleClass="h2-text" text="QUEUE">
+                           <Text fill="#f2eeee" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="QUEUE">
                                <font>
-                                   <Font name="System Bold" size="18.0"/>
+                                   <Font name="System Bold" size="18.0" />
                                </font>
                            </Text>
-                           <Label fx:id="specialistQueue" prefHeight="37.0" prefWidth="40.0"
-                                  styleClass="h1-text" text="10" textFill="#f8f6f6" visible="false">
+                           <Label fx:id="specialistQueue" prefHeight="37.0" prefWidth="40.0" styleClass="h1-text" text="10" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="30.0"/>
+                                   <Font size="30.0" />
                                </font>
                            </Label>
                        </VBox>
                    </StackPane>
                    <StackPane>
-                       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#219b9d" height="305.0"
-                                  stroke="TRANSPARENT" strokeType="INSIDE" width="179.0">
+                       <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#219b9d" height="305.0" stroke="TRANSPARENT" strokeType="INSIDE" width="179.0">
                            <effect>
                                <InnerShadow>
                                    <color>
-                                       <Color red="0.8815789222717285" green="0.5550682544708252"
-                                              blue="0.5550682544708252"/>
+                                       <Color red="0.8815789222717285" green="0.5550682544708252" blue="0.5550682544708252" />
                                    </color>
                                </InnerShadow>
                            </effect>
                        </Rectangle>
                        <VBox alignment="CENTER" prefHeight="305.0" prefWidth="110.0" spacing="20.0">
-                           <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0"
-                                 styleClass="h3-text" text="SPECIALIST">
+                           <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h3-text" text="SPECIALIST">
                                <font>
-                                   <Font name="System Bold Italic" size="13.0"/>
+                                   <Font name="System Bold Italic" size="13.0" />
                                </font>
                            </Text>
-                           <Label fx:id="specialistLabel2" styleClass="h1-text" text="3"
-                                  textFill="#f8f6f6" visible="false">
+                           <Label fx:id="specialistLabel2" styleClass="h1-text" text="3" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="40.0"/>
+                                   <Font size="40.0" />
                                </font>
                            </Label>
-                           <Label fx:id="specialistLabel1" styleClass="h1-text" text="2"
-                                  textFill="#f8f6f6" visible="false">
+                           <Label fx:id="specialistLabel1" styleClass="h1-text" text="2" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="40.0"/>
+                                   <Font size="40.0" />
                                </font>
                            </Label>
-                           <Label fx:id="specialistLabel3" prefHeight="67.0" prefWidth="20.0"
-                                  styleClass="h1-text" text="4" textFill="#f8f6f6" visible="false">
+                           <Label fx:id="specialistLabel3" prefHeight="67.0" prefWidth="20.0" styleClass="h1-text" text="4" textFill="#f8f6f6" visible="false">
                                <font>
-                                   <Font size="40.0"/>
+                                   <Font size="40.0" />
                                </font>
                            </Label>
                        </VBox>
-                       <Line fx:id="specialistLine" endX="201.0" endY="50.0" startX="28.0" startY="50.0"
-                             stroke="#f5f5f5" strokeWidth="5.0" visible="false"/>
+                       <Line fx:id="specialistLine" endX="201.0" endY="50.0" startX="28.0" startY="50.0" stroke="#f5f5f5" strokeWidth="5.0" visible="false" />
                    </StackPane>
                </HBox>
            </VBox>
