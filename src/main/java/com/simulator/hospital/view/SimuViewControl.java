@@ -294,6 +294,7 @@ public class SimuViewControl {
 
         int serviceUnitNumber = -1;
         int customerId = customer.getId();
+        System.out.println("customer type " + customer.getCustomerType());
 
         if (su == null) {
             serviceUnitName = "exit";
@@ -307,6 +308,7 @@ public class SimuViewControl {
         }
 
         CustomerView customerView = getCustomerInfo(customerId);
+        customerView.setCustomerType(customer.getCustomerType());
         System.out.println(customerView);
         // this should be set new position
         System.out.println("Customer " + customerId + " move to service unit " + serviceUnitName + ", enter queue at pos = (" + newX + "," + newY + ")");
@@ -352,6 +354,10 @@ public class SimuViewControl {
         }
         return null;
     }
+
+//    public Color customerColor(String customerType){
+//
+//    }
 
     public void displayCEvent(int customerId, int servicePointId) {
         System.out.printf("Customer %d is being served at service point %d\n", customerId, servicePointId);
@@ -405,12 +411,15 @@ public class SimuViewControl {
         this.animateCircle2(customerView, newX, newY);
     }
 
+
+
     private void animateCircle2(CustomerView customerView, double newX, double newY) {
         Circle movingCircle = customerView.getCircle();
 
         if (movingCircle == null) {
 
             movingCircle = new Circle(10); //Create a new circle with radius 10
+//            moving.set
             rootPane.getChildren().add(movingCircle); //Add the circle to the root pane
             customerView.setCircle(movingCircle);
         }
@@ -424,7 +433,12 @@ public class SimuViewControl {
         path.getElements().add(new LineTo(newX, newY));
 
         PathTransition pathTransition = new PathTransition();
-        pathTransition.setDuration(Duration.millis(300));
+
+        //mock duration
+//        pathTransition.setDuration(Duration.millis(300));
+        //real delay
+        pathTransition.setDuration(Duration.millis(delay / 3));
+
         pathTransition.setPath(path);
         pathTransition.setNode(movingCircle);
         // remove the old circle after the animation is finished

@@ -1,5 +1,6 @@
 package com.simulator.hospital.model;
 
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class CustomerView {
@@ -9,6 +10,8 @@ public class CustomerView {
     String serviceUnitName;
     private boolean isInQueue;
     private Circle circle;
+    private Color color;
+    private String customerType;
 
     public CustomerView(int id, double x, double y, String serviceUnitName) {
         this.id = id;
@@ -17,14 +20,44 @@ public class CustomerView {
         this.serviceUnitName = serviceUnitName;
         this.isInQueue = false;
 
+
     }
 
-    public Circle getCircle(){
+    public void setCustomerType(String customerType) {
+        this.customerType = customerType;
+    }
+
+    public String getCustomerType() {
+        return this.customerType;
+    }
+
+
+//    public void setColor(Color color) {
+//        this.color = color;
+//        this.circle.setFill(this.color);
+//    }
+
+    public Color getColor() {
+        return this.color;
+    }
+
+    public Circle getCircle() {
         return this.circle;
     }
 
     public void setCircle(Circle circle) {
         this.circle = circle;
+        this.setColor(this.customerType);
+        this.circle.setFill(this.color);
+    }
+
+    private void setColor(String customerType) {
+        if (this.customerType.equals("general")) {
+            this.color = Color.GREEN;
+        } else {
+
+            this.color = Color.RED;
+        }
     }
 
     public void setServiceUnitName(String serviceUnitName) {

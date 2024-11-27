@@ -106,17 +106,14 @@ public class SimuController implements Runnable {
                     Customer customer = servicePoint.getCurrentCustomer();
                     // get necessary value from result and display in view
                     Platform.runLater(() -> {
-//                        simuView.displayCEvent(customer.getId(), servicePoint.getId());
-//                        simuView.displayCEvent2(customer.getId(), servicePoint.getId());
+
                         simuView.displayCEvent3(customer, servicePoint);
                     });
-//                  System.out.printf("Customer %d is being served at service point %d\n", customer.getId(), servicePoint.getId());
                 }
             }
 
             try {
-                // change this so the total delay time is the same
-//                Thread.sleep(delayTime);
+
                 Thread.sleep(delayTime/2);
             } catch (InterruptedException e) {
                 System.err.println(e);
