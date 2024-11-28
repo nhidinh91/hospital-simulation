@@ -76,7 +76,7 @@
                                <Insets top="3.0" />
                            </HBox.margin>
                        </Text>
-                       <Label prefHeight="39.0" prefWidth="104.0" styleClass="h2-text" text=" 3 mins">
+                       <Label fx:id="timeLabel" prefHeight="39.0" prefWidth="104.0" styleClass="h2-text" text=" 3 mins">
                            <font>
                                <Font size="30.0" />
                            </font>
