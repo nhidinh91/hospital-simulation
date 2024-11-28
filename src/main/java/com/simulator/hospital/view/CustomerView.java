@@ -1,4 +1,4 @@
-package com.simulator.hospital.model;
+package com.simulator.hospital.view;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
