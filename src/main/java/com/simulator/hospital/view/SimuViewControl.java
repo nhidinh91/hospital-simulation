@@ -4,12 +4,19 @@ import com.simulator.hospital.controller.SimuController;
 import com.simulator.hospital.model.*;
 import javafx.animation.PathTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx. scene. Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Slider;
 import javafx.scene.shape.*;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
@@ -20,6 +27,8 @@ public class SimuViewControl {
     @FXML
     public Label registerQueue, generalQueue, specialistQueue, registerLabel1, registerLabel2, registerLabel3,
             generalLabel1, generalLabel2, generalLabel3, specialistLabel1, specialistLabel2, specialistLabel3, timeLabel;
+    @FXML
+    public Button backButton;
 
     @FXML
     private Line registerLine, generalLine, specialistLine;
@@ -33,13 +42,14 @@ public class SimuViewControl {
     private SimuController controller;
     private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
     private boolean activated = false;
-    private Thread simulator = null;
     private HashMap<Integer, CustomerView> customerViewList;
+    private Thread simulatorThread;
+    private Thread speedMonitorThread;
 
     @FXML
     private void initialize() {
         //start speed monitor thread
-        Thread speedMonitorThread = new Thread(() -> {
+        speedMonitorThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) { // Check for thread interruptions
                 if (activated && controller != null) {
                     long delay = (long) speedSlider.getValue() * 1000 ; //fetch speed from UI (may need to be converted to delay time)
@@ -69,7 +79,7 @@ public class SimuViewControl {
         controller = new SimuController(menuView, this);
         speedSlider.setValue(((double)controller.getDelayTime() / 1000));
         controller.initializeModel();
-        Thread simulatorThread = new Thread(controller);
+        simulatorThread = new Thread(controller);
 
         // must move controller adn thread to top because setupCoor from view to model need controller
         //setup Simulation background
@@ -324,5 +334,28 @@ public class SimuViewControl {
         pathTransition.play();
     }
 
+    @FXML
+    public void backButtonAction(MouseEvent mouseEvent) { //backButton now only go back to mainMenu, not yet reset simulator
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/MainMenu.fxml"));
+            Parent mainMenuRoot = loader.load();
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            Scene scene = new Scene(mainMenuRoot);
+            stage.setScene(scene);
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setStage(Stage stage) {
+        stage.setOnCloseRequest(event -> {
+            if (simulatorThread != null && simulatorThread.isAlive()) {
+                simulatorThread.interrupt();
+            }
+            if (speedMonitorThread != null && speedMonitorThread.isAlive()) {
+                speedMonitorThread.interrupt();
+            }
+        });
+    }
 }

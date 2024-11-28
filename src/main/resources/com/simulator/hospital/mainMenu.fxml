@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" prefHeight="600.0" prefWidth="1060.0" spacing="10.0" styleClass="img-menu-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.MainMenuViewControl">
+<VBox alignment="CENTER" prefHeight="700.0" prefWidth="1200.0" spacing="10.0" styleClass="img-menu-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.MainMenuViewControl">
    <padding>
       <Insets bottom="50.0" left="100.0" right="100.0" top="50.0" />
    </padding>
@@ -19,68 +19,64 @@
       <VBox.margin>
          <Insets top="20.0" />
       </VBox.margin></Text>
-   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Choose number of service points:" wrappingWidth="586.8251953125">
-   </Text>
-   <HBox alignment="CENTER" spacing="60.0">
-      <VBox alignment="CENTER">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Register Desk" wrappingWidth="182.8251953125">
-         </Text>
-         <ChoiceBox fx:id="registerChoice" prefWidth="150.0" />
-      </VBox>
-      <VBox alignment="CENTER">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="General Examination" wrappingWidth="264.8251953125">
-         </Text>
-         <ChoiceBox fx:id="generalChoice" prefWidth="150.0" />
-      </VBox>
-      <VBox alignment="CENTER">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Specialist Examination" wrappingWidth="291.8251953125">
-         </Text>
-         <ChoiceBox fx:id="specialistChoice" prefWidth="150.0" />
-      </VBox>
-   </HBox>
-   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Set process time (min):" wrappingWidth="398.8251953125">
-   </Text>
-   <GridPane alignment="CENTER" hgap="50.0" prefHeight="119.0" prefWidth="871.0" vgap="20.0">
+   <GridPane hgap="50.0" vgap="5.0">
       <columnConstraints>
-         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
       </columnConstraints>
       <rowConstraints>
-         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
       </rowConstraints>
-      <HBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Register Desk" wrappingWidth="182.8251953125">
-         </Text>
-         <TextField fx:id="registerTime" prefHeight="25.0" prefWidth="94.0" />
-      </HBox>
-      <HBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="1">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="General Examination" wrappingWidth="264.8251953125">
-         </Text>
-         <TextField fx:id="generalTime" prefHeight="25.0" prefWidth="94.0" />
-      </HBox>
-      <HBox alignment="CENTER" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Specialist Examination" wrappingWidth="291.8251953125">
-         </Text>
-         <TextField fx:id="specialistTime" prefHeight="25.0" prefWidth="94.0" />
-      </HBox>
-      <HBox alignment="CENTER" spacing="10.0">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Arrival" wrappingWidth="91.8251953125">
-         </Text>
-         <TextField fx:id="arrivalTime" prefHeight="25.0" prefWidth="94.0" />
-      </HBox>
       <VBox.margin>
-         <Insets bottom="20.0" />
+         <Insets bottom="20.0" left="25.0" top="20.0" />
       </VBox.margin>
-   </GridPane>
-   <HBox alignment="CENTER" spacing="50.0">
-      <HBox alignment="CENTER" spacing="10.0">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Simulation time (min):" wrappingWidth="393.8251953125">
-         </Text>
-         <TextField fx:id="simulationTimeField" prefHeight="39.0" prefWidth="130.0" />
+      <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Number of ServicePoint" />
+      <Text layoutX="10.0" layoutY="29.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Interval (min)" GridPane.columnIndex="1" />
+      <HBox alignment="CENTER_LEFT" GridPane.rowIndex="2">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="General Exam" wrappingWidth="206.8251953125" />
+         <ChoiceBox fx:id="generalChoice" prefHeight="25.0" prefWidth="115.0" />
       </HBox>
-      <HBox alignment="CENTER" spacing="10.0">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Delay (s):" wrappingWidth="162.8251953125">
+      <HBox alignment="CENTER_LEFT" GridPane.rowIndex="1">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Register Desk " wrappingWidth="205.8251953125" />
+         <ChoiceBox fx:id="registerChoice" prefHeight="25.0" prefWidth="115.0" />
+      </HBox>
+      <HBox alignment="CENTER_LEFT" GridPane.rowIndex="3">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Specialist Exam" wrappingWidth="206.8251953125" />
+         <ChoiceBox fx:id="specialistChoice" prefHeight="25.0" prefWidth="115.0" />
+      </HBox>
+      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="4">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Specialist Exam" wrappingWidth="200.8251953125">
+         </Text>
+         <TextField fx:id="specialistTime" prefHeight="25.0" prefWidth="100.0" promptText="Enter time" />
+      </HBox>
+      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="General Exam" wrappingWidth="200.8251953125">
+         </Text>
+         <TextField fx:id="generalTime" prefHeight="25.0" prefWidth="100.0" promptText="Enter time" />
+      </HBox>
+      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Arrival " wrappingWidth="200.8251953125">
+         </Text>
+         <TextField fx:id="arrivalTime" maxWidth="100.0" prefHeight="25.0" prefWidth="266.0" promptText="Enter time" />
+      </HBox>
+      <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="2">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="Register Desk " wrappingWidth="199.8251953125">
+         </Text>
+         <TextField fx:id="registerTime" prefHeight="25.0" prefWidth="100.0" promptText="Enter time" />
+      </HBox>
+   </GridPane>
+   <HBox alignment="CENTER" spacing="20.0">
+      <HBox alignment="CENTER">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Simulation time (min):" wrappingWidth="382.8251953125">
+         </Text>
+         <TextField fx:id="simulationTimeField" prefHeight="39.0" prefWidth="130.0" promptText="Enter time" />
+      </HBox>
+      <HBox alignment="CENTER">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Delay (s):" wrappingWidth="157.8251953125">
          </Text>
          <ChoiceBox fx:id="delayField" prefHeight="43.0" prefWidth="150.0" />
       </HBox>

@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class CustomerView {
-    private int id;
+    private final int id;
     private double x;
     private double y;
     String serviceUnitName;

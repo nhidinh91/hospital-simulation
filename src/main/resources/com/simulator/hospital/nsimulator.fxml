@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.effect.Glow?>
@@ -16,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane fx:id="rootPane" prefHeight="600.0" prefWidth="1060.0" styleClass="img-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.SimuViewControl">
+<BorderPane fx:id="rootPane" prefHeight="700.0" prefWidth="1200.0" styleClass="img-background" stylesheets="@style.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.view.SimuViewControl">
    <left>
        <StackPane BorderPane.alignment="CENTER">
            <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#ff7f3e" height="144.0" stroke="TRANSPARENT" strokeType="INSIDE" width="47.0">
@@ -36,8 +37,8 @@
        </StackPane>
    </left>
    <right>
-       <StackPane BorderPane.alignment="CENTER">
-           <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#16ba3f" height="144.0" stroke="TRANSPARENT" strokeType="INSIDE" width="47.0">
+       <StackPane BorderPane.alignment="CENTER_LEFT">
+           <Rectangle arcHeight="10.0" arcWidth="10.0" fill="#16ba3f" height="144.0" stroke="TRANSPARENT" strokeType="INSIDE" width="47.0" StackPane.alignment="CENTER_RIGHT">
                <effect>
                    <InnerShadow>
                        <color>
@@ -46,11 +47,21 @@
                    </InnerShadow>
                </effect>
            </Rectangle>
-           <Text fill="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="EXIT" textAlignment="CENTER" wrappingWidth="19.0">
+           <Text fill="#f5f5f5" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h2-text" text="EXIT" textAlignment="CENTER" wrappingWidth="19.0" StackPane.alignment="CENTER_RIGHT">
                <font>
                    <Font name="System Bold" size="24.0" />
                </font>
+            <StackPane.margin>
+               <Insets right="10.0" />
+            </StackPane.margin>
            </Text>
+           <HBox alignment="BOTTOM_LEFT">
+               <padding>
+                   <Insets bottom="20.0" right="20.0"/>
+               </padding>
+               <Button fx:id="backButton" alignment="TOP_LEFT" mnemonicParsing="false"
+                       onMouseClicked="#backButtonAction" prefHeight="0.0" prefWidth="51.0" text="BACK"/>
+           </HBox>
        </StackPane>
    </right>
    <center>
@@ -63,6 +74,7 @@
            </BorderPane.margin>
            <StackPane>
                <StackPane alignment="TOP_LEFT" prefHeight="79.0" prefWidth="591.0">
+                   <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eeeeee" height="73.0" stroke="TRANSPARENT" strokeType="INSIDE" width="218.0" />
                    <Rectangle arcHeight="20.0" arcWidth="20.0" fill="#eeeeee" height="73.0" stroke="TRANSPARENT" strokeType="INSIDE" width="210.0" />
                    <HBox prefHeight="39.0" prefWidth="179.0" spacing="10.0">
                        <StackPane.margin>
@@ -76,7 +88,7 @@
                                <Insets top="3.0" />
                            </HBox.margin>
                        </Text>
-                       <Label fx:id="timeLabel" prefHeight="39.0" prefWidth="104.0" styleClass="h2-text" text=" 3 mins">
+                       <Label fx:id="timeLabel" prefHeight="39.0" prefWidth="127.0" styleClass="h2-text" text=" 3 mins">
                            <font>
                                <Font size="30.0" />
                            </font>
@@ -86,7 +98,7 @@
                        </Label>
                    </HBox>
                </StackPane>
-               <HBox spacing="100.0">
+               <HBox alignment="CENTER" spacing="100.0">
                    <StackPane>
                        <Circle fill="#091057" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
                            <effect>
@@ -227,7 +239,7 @@
                        </VBox>
                    </StackPane>
                </HBox>
-               <HBox spacing="100.0">
+               <HBox alignment="CENTER" spacing="100.0">
                    <StackPane>
                        <Circle fill="#091057" radius="55.0" stroke="TRANSPARENT" strokeType="INSIDE">
                            <effect>

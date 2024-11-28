@@ -34,7 +34,6 @@ public class SimuController implements Runnable {
         double avgSpecialistTime = menuView.getSpecialistTime();
         double avgArrivalTime = menuView.getArrivalTime();
         double simulationTime = menuView.getSimulationTime();
-        this.delayTime = menuView.getDelayTime();
         this.simuModel = new SimulatorModel(numberRegister, avgRegisterTime, numberGeneral, avgGeneralTime, numberSpecialist, avgSpecialistTime, avgArrivalTime);
         this.simuModel.setSimulationTime(simulationTime);
     }
