@@ -5,9 +5,7 @@ import com.simulator.eduni.distributions.Normal;
 import com.simulator.hospital.framework.*;
 import com.simulator.eduni.distributions.Negexp;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Random;
+import java.util.*;
 
 /**
  * MyEngine class extends the abstract Engine class to implement a custom simulation.
@@ -20,6 +18,9 @@ public class SimulatorModel {
     protected EventList eventList;
     private final ArrivalProcess arrivalProcess;
     private final ServiceUnit[] serviceUnits;
+    private double avgWaitingTime = 0;
+    private List<Integer> customerCount = new ArrayList<>();
+    private List<Double> utilization = new ArrayList<>();
 
     /*
      * This is the place where you implement your own simulator
@@ -159,15 +160,30 @@ public class SimulatorModel {
     public void results() {
         System.out.println("Simulation ended at " + Clock.getInstance().getClock());
         System.out.println("Average waiting time of customers " + Customer.getAvrWaitingTime());
+        avgWaitingTime = Customer.getAvrWaitingTime();
         for (ServiceUnit serviceUnit : serviceUnits) {
             for (ServicePoint servicePoint : serviceUnit.getServicePoints()) {
                 double serviceTime = servicePoint.getTotalServiceTime();
                 int totalCustomer = servicePoint.getTotalCustomer();
-                servicePoint.setUtilization(serviceTime / simulationTime);
+                servicePoint.setUtilization((Math.round(serviceTime / simulationTime * 10.0)) / 10.0);
                 System.out.printf("Service Point %d:\n", servicePoint.getId());
                 System.out.printf("Total service time: %.1f, mean service time: %.1f, total customer: %d, utilization: %.2f\n", serviceTime, servicePoint.getMeanServiceTime(), totalCustomer, servicePoint.getUtilization());
+                customerCount.add(totalCustomer);
+                utilization.add(servicePoint.getUtilization());
             }
         }
+    }
+
+    public double getAvgWaitingTime() {
+        return avgWaitingTime;
+    }
+
+    public List<Integer> getCustomerCount() {
+        return customerCount;
+    }
+
+    public List<Double> getUtilization() {
+        return utilization;
     }
 
     // get clock instance

@@ -8,6 +8,7 @@ import com.simulator.hospital.model.ServiceUnit;
 import com.simulator.hospital.model.SimulatorModel;
 import com.simulator.hospital.view.MainMenuViewControl;
 import com.simulator.hospital.view.ResultView;
+import com.simulator.hospital.view.ResultViewControl;
 import com.simulator.hospital.view.SimuViewControl;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -21,28 +22,38 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SimuController implements Runnable {
     private SimulatorModel simuModel;
     private final MainMenuViewControl menuView;
     private final SimuViewControl simuView;
+    private final ResultViewControl resultView;
     private long delayTime;
     private final Clock clock;
+    private int numberRegister;
+    private int numberGeneral ;
+    private int numberSpecialist ;
+    private double avgRegisterTime;
+    private double avgGeneralTime ;
+    private double avgSpecialistTime;
 
     public SimuController(MainMenuViewControl menuView, SimuViewControl simuView) {
         this.menuView = menuView;
         this.simuView = simuView;
         this.clock = Clock.getInstance();
         this.delayTime = menuView.getDelayTime(); //initialize with initial delay
+        this.resultView = new ResultViewControl();
     }
 
     public void initializeModel() {
-        int numberRegister = menuView.getNumberRegister();
-        int numberGeneral = menuView.getNumberGeneral();
-        int numberSpecialist = menuView.getNumberSpecialist();
-        double avgRegisterTime = menuView.getRegisterTime();
-        double avgGeneralTime = menuView.getGeneralTime();
-        double avgSpecialistTime = menuView.getSpecialistTime();
+        numberRegister = menuView.getNumberRegister();
+        numberGeneral = menuView.getNumberGeneral();
+        numberSpecialist = menuView.getNumberSpecialist();
+        avgRegisterTime = menuView.getRegisterTime();
+        avgGeneralTime = menuView.getGeneralTime();
+        avgSpecialistTime = menuView.getSpecialistTime();
         double avgArrivalTime = menuView.getArrivalTime();
         double simulationTime = menuView.getSimulationTime();
         this.simuModel = new SimulatorModel(numberRegister, avgRegisterTime, numberGeneral, avgGeneralTime, numberSpecialist, avgSpecialistTime, avgArrivalTime);
@@ -98,7 +109,6 @@ public class SimuController implements Runnable {
 //                  System.out.printf("Customer %d is being served at service point %d\n", customer.getId(), servicePoint.getId());
                     }
                 }
-                System.out.println("Delay time: " + delayTime);
                 Thread.sleep(delayTime); // Respect the delay time
             } catch (InterruptedException e) {
                 System.err.println("Simulation thread interrupted.");
@@ -107,6 +117,17 @@ public class SimuController implements Runnable {
             }
         }
         // Ensure results are printed after the simulation loop
-        Platform.runLater(() -> simuModel.results());
+        Platform.runLater(() -> {
+                simuModel.results();
+
+                double avgWaitingTime = simuModel.getAvgWaitingTime();
+                List<Integer> customerCount = simuModel.getCustomerCount();
+                List<Double> utilization = simuModel.getUtilization();
+
+                resultView.setTable(numberRegister, numberGeneral, numberSpecialist, avgRegisterTime, avgGeneralTime, avgSpecialistTime);
+                resultView.display(avgWaitingTime, customerCount, utilization);
+
+        });
+
     }
 }
