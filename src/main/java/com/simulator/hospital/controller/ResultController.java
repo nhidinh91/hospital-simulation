@@ -27,10 +27,16 @@ public class ResultController {
     private PieChart totalCustomers;
 
     @FXML
-    private StackedBarChart<String, Number> utilization;
+    private BarChart<String, Number> utilization;
 
     @FXML
-    private StackedBarChart<String, Number> meanTime;
+    private CategoryAxis utilizationXAxis;
+
+    @FXML
+    private BarChart<String, Number> meanTime;
+
+    @FXML
+    private CategoryAxis meanTimeXAxis;
 
     @FXML
     private Label initialSetupLabel;
@@ -82,31 +88,23 @@ public class ResultController {
 
         utilization.getData().addAll(registerDeskUtilization, generalExamUtilization, specialistExamUtilization);
 
-        // Mean Service Time Data
-        CategoryAxis xAxisMeanTime = new CategoryAxis();
-        NumberAxis yAxisMeanTime = new NumberAxis(0, 2.5, 0.5); // Mean service time range 0 to 2.5, step 0.5
-        yAxisMeanTime.setLabel("Time (min)");
+        // Set X-Axis categories for Mean Service Time
+        meanTimeXAxis.getCategories().addAll(
+                "Register Desk SP1", "Register Desk SP2",
+                "General Examination SP1", "General Examination SP2",
+                "Specialist Examination SP1", "Specialist Examination SP2"
+        );
 
-        meanTime.setTitle("Mean Service Time (min)");
-        meanTime.getXAxis().setLabel("Service Units");
-        meanTime.getYAxis().setLabel("Time (min)");
-
-        XYChart.Series<String, Number> registerDeskMeanTime = new XYChart.Series<>();
-        registerDeskMeanTime.setName("RegisterDesk");
-        registerDeskMeanTime.getData().add(new XYChart.Data<>("Service Point 1", 0.4));
-        registerDeskMeanTime.getData().add(new XYChart.Data<>("Service Point 2", 1.2));
-
-        XYChart.Series<String, Number> generalExamMeanTime = new XYChart.Series<>();
-        generalExamMeanTime.setName("General Examination");
-        generalExamMeanTime.getData().add(new XYChart.Data<>("Service Point 1", 2.1));
-        generalExamMeanTime.getData().add(new XYChart.Data<>("Service Point 2", 0.4));
-
-        XYChart.Series<String, Number> specialistExamMeanTime = new XYChart.Series<>();
-        specialistExamMeanTime.setName("Specialist Examination");
-        specialistExamMeanTime.getData().add(new XYChart.Data<>("Service Point 1", 0.2));
-        specialistExamMeanTime.getData().add(new XYChart.Data<>("Service Point 2",0.0)); // Replace NaN with 0
-
-        meanTime.getData().addAll(registerDeskMeanTime, generalExamMeanTime, specialistExamMeanTime);
+        // Populate Mean Service Time Bar Chart
+        XYChart.Series<String, Number> meanTimeSeries = new XYChart.Series<>();
+        meanTimeSeries.setName("Mean Service Time");
+        meanTimeSeries.getData().add(new XYChart.Data<>("Register Desk SP1", 0.4));
+        meanTimeSeries.getData().add(new XYChart.Data<>("Register Desk SP2", 1.2));
+        meanTimeSeries.getData().add(new XYChart.Data<>("General Examination SP1", 2.1));
+        meanTimeSeries.getData().add(new XYChart.Data<>("General Examination SP2", 0.4));
+        meanTimeSeries.getData().add(new XYChart.Data<>("Specialist Examination SP1", 0.2));
+        meanTimeSeries.getData().add(new XYChart.Data<>("Specialist Examination SP2", 0.0));
+        meanTime.getData().add(meanTimeSeries);
 
     }
 

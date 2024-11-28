@@ -12,6 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.chart.BarChart?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.simulator.hospital.controller.ResultController">
     <children>
         <HBox prefHeight="300.0" prefWidth="600.0">
@@ -37,22 +38,23 @@
         </HBox>
         <HBox prefHeight="300.0" prefWidth="600.0">
             <children>
-                <StackedBarChart fx:id="utilization" title="Utilization efficiency">
+                <BarChart fx:id="utilization" title="Utilization Efficiency">
                     <xAxis>
-                        <CategoryAxis label="Service units" side="BOTTOM" />
+                        <CategoryAxis label="Service Units" />
                     </xAxis>
                     <yAxis>
-                        <NumberAxis label="(%)" side="LEFT" />
+                        <NumberAxis label="Utilization (%)" lowerBound="0" upperBound="1.0" tickUnit="0.1" />
                     </yAxis>
-                </StackedBarChart>
-                <StackedBarChart fx:id="meanTime" title="Mean service time">
+                </BarChart>
+
+                <BarChart fx:id="meanTime" title="Mean Service Time">
                     <xAxis>
-                        <CategoryAxis label="Service units" side="BOTTOM" />
+                        <CategoryAxis fx:id="meanTimeXAxis" />
                     </xAxis>
                     <yAxis>
-                        <NumberAxis label="Time (min)" side="LEFT" />
+                        <NumberAxis label="Time (min)" lowerBound="0" upperBound="2.5" tickUnit="0.5" />
                     </yAxis>
-                </StackedBarChart>
+                </BarChart>
             </children>
         </HBox>
     </children>
