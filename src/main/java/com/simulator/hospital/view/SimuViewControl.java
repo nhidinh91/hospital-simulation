@@ -2,6 +2,7 @@ package com.simulator.hospital.view;
 
 import com.simulator.hospital.controller.SimuController;
 import com.simulator.hospital.model.*;
+
 import javafx.animation.PathTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,27 +25,42 @@ import java.util.Map;
 
 public class SimuViewControl {
 
+    // FXML Components
     @FXML
     public Label registerQueue, generalQueue, specialistQueue, registerLabel1, registerLabel2, registerLabel3,
             generalLabel1, generalLabel2, generalLabel3, specialistLabel1, specialistLabel2, specialistLabel3, timeLabel;
     @FXML
     public Button backButton;
-
     @FXML
     private Line registerLine, generalLine, specialistLine;
     @FXML
-
     private BorderPane rootPane;
-
     @FXML
     private Slider speedSlider;
 
     private SimuController controller;
-    private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
     private boolean activated = false;
     private HashMap<Integer, CustomerView> customerViewList;
+    private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
     private Thread simulatorThread;
     private Thread speedMonitorThread;
+
+    /* ========================
+          FXML Event Handlers
+          ======================== */
+    @FXML
+    public void backButtonAction(MouseEvent mouseEvent) { //backButton now only go back to mainMenu, not yet reset simulator
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/MainMenu.fxml"));
+            Parent mainMenuRoot = loader.load();
+            Stage stage = (Stage) backButton.getScene().getWindow();
+            Scene scene = new Scene(mainMenuRoot);
+            stage.setScene(scene);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     private void initialize() {
@@ -73,6 +89,10 @@ public class SimuViewControl {
         speedMonitorThread.start();
     }
 
+    /* ========================
+           Initialization Methods
+           ======================== */
+
     public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView) {
 
         this.customerViewList = new HashMap<>();
@@ -94,31 +114,10 @@ public class SimuViewControl {
     }
 
     private void setupScene(int registerCount, int generalCount, int specialistCount) {
-        registerLine.setVisible(registerCount == 2);
-        generalLine.setVisible(generalCount == 2);
-        specialistLine.setVisible(specialistCount == 2);
-
-        registerLabel1.setVisible(registerCount == 1);
-        registerLabel2.setVisible(registerCount == 2);
-        registerLabel3.setVisible(registerCount == 2);
-
-        generalLabel1.setVisible(generalCount == 1);
-        generalLabel2.setVisible(generalCount == 2);
-        generalLabel3.setVisible(generalCount == 2);
-
-        if (generalCount == 1) {
-            specialistLabel1.setText("2");
-            specialistLabel2.setText("2");
-            specialistLabel3.setText("3");
-        } else if (generalCount == 2) {
-            specialistLabel1.setText("3");
-            specialistLabel2.setText("3");
-            specialistLabel3.setText("4");
-        }
-
-        specialistLabel1.setVisible(specialistCount == 1);
-        specialistLabel2.setVisible(specialistCount == 2);
-        specialistLabel3.setVisible(specialistCount == 2);
+        setServiceUnitVisibility(registerLine, registerLabel1, registerLabel2, registerLabel3, registerCount);
+        setServiceUnitVisibility(generalLine, generalLabel1, generalLabel2, generalLabel3, generalCount);
+        setServiceUnitVisibility(specialistLine, specialistLabel1, specialistLabel2, specialistLabel3, specialistCount);
+        updateSpecialistLabelsBasedOnGeneralCount(generalCount);
     }
 
     private void setCoordinates(int registerCount, int generalCount, int specialistCount) {
@@ -183,6 +182,27 @@ public class SimuViewControl {
         });
     }
 
+    /* ========================
+       Utility Methods
+       ======================== */
+
+    private void setServiceUnitVisibility(Line line, Label label1, Label label2, Label label3, int count) {
+        line.setVisible(count == 2);
+        label1.setVisible(count >= 1);
+        label2.setVisible(count == 2);
+        label3.setVisible(count == 2);
+    }
+
+    private void updateSpecialistLabelsBasedOnGeneralCount(int generalCount) {
+        String label1Text = (generalCount == 1) ? "2" : "3";
+        String label2Text = "2";
+        String label3Text = (generalCount == 1) ? "3" : "4";
+
+        specialistLabel1.setText(label1Text);
+        specialistLabel2.setText(label2Text);
+        specialistLabel3.setText(label3Text);
+    }
+
     private void registerServiceUnitCoordinate(ServiceUnit serviceUnit, double[] serviceUnitCoor) {
         serviceUnit.setX((int) serviceUnitCoor[0]);
         serviceUnit.setY((int) serviceUnitCoor[1]);
@@ -198,8 +218,21 @@ public class SimuViewControl {
         }
     }
 
+    public void setStage(Stage stage) {
+        stage.setOnCloseRequest(event -> {
+            if (simulatorThread != null && simulatorThread.isAlive()) {
+                simulatorThread.interrupt();
+            }
+            if (speedMonitorThread != null && speedMonitorThread.isAlive()) {
+                speedMonitorThread.interrupt();
+            }
+        });
+    }
 
-    //update scene, run animation method
+    /* ========================
+       Display and Animation
+       ======================== */
+
     @FXML
     public void displayClock(double time) {
         String timeStr = String.format(Locale.US, "%.2f", time);
@@ -274,8 +307,6 @@ public class SimuViewControl {
         return null;
     }
 
-
-
     public void displayCEvent(Customer curstomer, ServicePoint sp) {
         int customerId = curstomer.getId();
         int servicePointId = sp.getId();
@@ -291,8 +322,6 @@ public class SimuViewControl {
         customerView.setInQueue(false);
         this.animateCirle(customerView, newX, newY);
     }
-
-
 
     private void animateCirle(CustomerView customerView, double newX, double newY) {
         Circle movingCircle = customerView.getCircle();
@@ -332,30 +361,5 @@ public class SimuViewControl {
 
         });
         pathTransition.play();
-    }
-
-    @FXML
-    public void backButtonAction(MouseEvent mouseEvent) { //backButton now only go back to mainMenu, not yet reset simulator
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/MainMenu.fxml"));
-            Parent mainMenuRoot = loader.load();
-            Stage stage = (Stage) backButton.getScene().getWindow();
-            Scene scene = new Scene(mainMenuRoot);
-            stage.setScene(scene);
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setStage(Stage stage) {
-        stage.setOnCloseRequest(event -> {
-            if (simulatorThread != null && simulatorThread.isAlive()) {
-                simulatorThread.interrupt();
-            }
-            if (speedMonitorThread != null && speedMonitorThread.isAlive()) {
-                speedMonitorThread.interrupt();
-            }
-        });
     }
 }
