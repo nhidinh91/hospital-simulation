@@ -238,7 +238,7 @@ public class SimuViewControl {
         }
     }
 
-    public void setStage(Stage stage) {
+    public void setCloseEventListener(Stage stage) {
         stage.setOnCloseRequest(event -> {
             if (simulatorThread != null && simulatorThread.isAlive()) {
                 simulatorThread.interrupt();

@@ -123,4 +123,7 @@ public class ServiceUnit {
 	public ArrayList<ServicePoint> getServicePoints() {
 		return servicePoints;
 	}
+
+	//method to reset serviceUnit count when new SimulatorModel constructed
+	public static void resetCount() { count = 1;}
 }

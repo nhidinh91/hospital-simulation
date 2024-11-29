@@ -86,4 +86,7 @@ public class Customer {
 
 		System.out.println("Current mean of the customer service times " + getAvrWaitingTime());
 	}
+
+	//method to reset customer count when new SimulatorModel constructed
+	public static void resetCount() { customerCount = 1; }
 }

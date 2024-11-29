@@ -77,4 +77,6 @@ public class ServicePoint {
     public void setY(int y) {
         this.y = y;
     }
+
+    public static void resetCount() { count = 1; }
 }
