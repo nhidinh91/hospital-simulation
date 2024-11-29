@@ -137,19 +137,24 @@ public class SimuController implements Runnable {
 
 
         }
-        // Ensure results are printed after the simulation loop
-        Platform.runLater(() -> {
+        // Ensure results are printed only if the simulation time is completed
+        if (isSimulationTimeCompleted()) {
+            Platform.runLater(() -> {
                 simuModel.results();
-                //Get the results from the model
+                // Get the results from the model
                 double avgWaitingTime = simuModel.getAvgWaitingTime();
                 List<Integer> customerCount = simuModel.getCustomerCount();
                 List<Double> utilization = simuModel.getUtilization();
 
-                //Display the results to ResultViewControl
+                // Display the results to ResultViewControl
                 resultView.setTable(numberRegister, numberGeneral, numberSpecialist, avgRegisterTime, avgGeneralTime, avgSpecialistTime);
                 resultView.display(avgWaitingTime, customerCount, utilization, simuView.getStage());
-        });
+            });
+        }
+    }
 
+    public boolean isSimulationTimeCompleted() {
+        return clock.getClock() >= menuView.getSimulationTime();
     }
 }
 
