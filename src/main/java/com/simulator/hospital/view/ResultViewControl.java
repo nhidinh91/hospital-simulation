@@ -1,7 +1,5 @@
 package com.simulator.hospital.view;
 
-import com.simulator.hospital.controller.SimuController;
-import com.simulator.hospital.view.ResultView;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,14 +33,6 @@ public class ResultViewControl {
     @FXML
     private BarChart<String, Number> utilizationChart;
     @FXML
-    private CategoryAxis utilizationXAxis;
-    @FXML
-    private BarChart<String, Number> meanTime;
-    @FXML
-    private CategoryAxis meanTimeXAxis;
-    @FXML
-    private Label initialSetupLabel;
-    @FXML
     private Label totalCustomerCount;
     @FXML
     private Label avgWaitingTime;
@@ -60,32 +50,11 @@ public class ResultViewControl {
         serviceColumn.setCellValueFactory(new PropertyValueFactory<>("service"));
         servicePointNumbersColumn.setCellValueFactory(new PropertyValueFactory<>("servicePointNumbers"));
         serviceTimeColumn.setCellValueFactory(new PropertyValueFactory<>("serviceTime"));
-
-        // Utilization Efficiency Mock Data
-//        utilizationChart.setTitle("Utilization Efficiency (%)");
-//        utilizationChart.getXAxis().setLabel("Service Units");
-//        utilizationChart.getYAxis().setLabel("Utilization");
-
-//        XYChart.Series<String, Number> registerDeskUtilization = new XYChart.Series<>();
-//        registerDeskUtilization.setName("RegisterDesk");
-//        registerDeskUtilization.getData().add(new XYChart.Data<>("Service Point 1", 0.26));
-//        registerDeskUtilization.getData().add(new XYChart.Data<>("Service Point 2", 0.61));
-//
-//        XYChart.Series<String, Number> generalExamUtilization = new XYChart.Series<>();
-//        generalExamUtilization.setName("General Examination");
-//        generalExamUtilization.getData().add(new XYChart.Data<>("Service Point 1", 0.67));
-//        generalExamUtilization.getData().add(new XYChart.Data<>("Service Point 2", 0.02));
-//
-//
-//        XYChart.Series<String, Number> specialistExamUtilization = new XYChart.Series<>();
-//        specialistExamUtilization.setName("Specialist Examination");
-//        specialistExamUtilization.getData().add(new XYChart.Data<>("Service Point 1", 0.46));
-//        specialistExamUtilization.getData().add(new XYChart.Data<>("Service Point 2", 0.0));
-//
-//        utilizationChart.getData().addAll(registerDeskUtilization, generalExamUtilization, specialistExamUtilization);
-
+        //Set up BarChart for Utilization Efficiency
+        utilizationChart.setTitle("Utilization Efficiency (%)");
+        utilizationChart.getXAxis().setLabel("Service Units");
+        utilizationChart.getYAxis().setLabel("Utilization");
     }
-
 
     // Inner class for table data
     public static class ServiceData {
@@ -112,94 +81,47 @@ public class ResultViewControl {
         }
     }
 
+    //Draw result data to PieChart and BarChart when they are ready
     public void setResults(double avgWaitTime, List<Integer> customerCount, List<Double> utilization) {
         avgWaitingTime.setText(String.format("%.2f", avgWaitTime));
         totalCustomerCount.setText(String.valueOf(customerCount.stream().mapToInt(Integer::intValue).sum()));
-        for (Double util : utilization) {
-            System.out.println("utilization: " + util);
-        }
 
-        if (registers == 1) {
-            piechartData.put("RegisterDesk - SP1", (double) customerCount.get(0));
-            customerCount.remove(0);
-            registerUtilization.add(utilization.get(0));
-            utilization.remove(0);
-        } else if (registers == 2) {
-            piechartData.put("RegisterDesk - SP1", (double) customerCount.get(0));
-            customerCount.remove(0);
-            piechartData.put("RegisterDesk - SP2", (double) customerCount.get(0));
-            customerCount.remove(0);
-            registerUtilization.add(utilization.get(0));
-            utilization.remove(0);
-            registerUtilization.add(utilization.get(0));
-            utilization.remove(0);
-        }
-
-        if (generals == 1) {
-            piechartData.put("GeneralExamination - SP1", (double) customerCount.get(0));
-            customerCount.remove(0);
-            generalUtilization.add(utilization.get(0));
-            utilization.remove(0);
-        } else if (generals == 2) {
-            piechartData.put("GeneralExamination - SP1", (double) customerCount.get(0));
-            customerCount.remove(0);
-            piechartData.put("GeneralExamination - SP2", (double) customerCount.get(0));
-            customerCount.remove(0);
-            generalUtilization.add(utilization.get(0));
-            utilization.remove(0);
-            generalUtilization.add(utilization.get(0));
-            utilization.remove(0);
-        }
-
-        if (specialists == 1) {
-            piechartData.put("SpecialistExamination - SP1", (double) customerCount.get(0));
-            customerCount.remove(0);
-            specialistUtilization.add(utilization.get(0));
-            utilization.remove(0);
-        } else if (specialists == 2) {
-            piechartData.put("SpecialistExamination - SP1", (double) customerCount.get(0));
-            customerCount.remove(0);
-            piechartData.put("SpecialistExamination - SP2", (double) customerCount.get(0));
-            customerCount.remove(0);
-            specialistUtilization.add(utilization.get(0));
-            utilization.remove(0);
-            specialistUtilization.add(utilization.get(0));
-            utilization.remove(0);
-        }
+        processStations("RegisterDesk", registers, customerCount, utilization, registerUtilization);
+        processStations("GeneralExamination", generals, customerCount, utilization, generalUtilization);
+        processStations("SpecialistExamination", specialists, customerCount, utilization, specialistUtilization);
 
         Platform.runLater(() -> {
             if (totalCustomers != null) {
-                for (String key : piechartData.keySet()) {
-                    totalCustomers.getData().add(new PieChart.Data(key, piechartData.get(key)));
-                }
+                piechartData.forEach((key, value) -> totalCustomers.getData().add(new PieChart.Data(key, value)));
             }
-
-            if (utilizationChart!= null) {
-                utilizationChart.setTitle("Utilization Efficiency (%)");
-                utilizationChart.getXAxis().setLabel("Service Units");
-                utilizationChart.getYAxis().setLabel("Utilization");
-                XYChart.Series<String, Number> registerDeskUtilization = new XYChart.Series<>();
-                registerDeskUtilization.setName("RegisterDesk");
-                for (int i = 0; i < registerUtilization.size(); i++) {
-                    registerDeskUtilization.getData().add(new XYChart.Data<>("Service Point " + i++, registerUtilization.get(i)));
-                }
-                XYChart.Series<String, Number> generalExamUtilization = new XYChart.Series<>();
-                generalExamUtilization.setName("General Examination");
-                for (int i = 0; i < generalUtilization.size(); i++) {
-                    registerDeskUtilization.getData().add(new XYChart.Data<>("Service Point " + i++, generalUtilization.get(i)));
-                }
-
-                XYChart.Series<String, Number> specialistExamUtilization = new XYChart.Series<>();
-                specialistExamUtilization.setName("Specialist Examination");
-                for (int i = 0; i < specialistUtilization.size(); i++) {
-                    registerDeskUtilization.getData().add(new XYChart.Data<>("Service Point " + i++, specialistUtilization.get(i)));
-                }
-
-                utilizationChart.getData().addAll(registerDeskUtilization, generalExamUtilization, specialistExamUtilization);
+            if (utilizationChart != null) {
+                utilizationChart.getData().addAll(
+                        createUtilizationSeries("RegisterDesk", registerUtilization),
+                        createUtilizationSeries("General Examination", generalUtilization),
+                        createUtilizationSeries("Specialist Examination", specialistUtilization)
+                );
             }
         });
     }
+    //Process data from controller to set up PieChart and BarChart
+    private void processStations(String stationName, int stationCount, List<Integer> customerCount, List<Double> utilization, List<Double> utilizationList) {
+        for (int i = 1; i <= stationCount; i++) {
+            piechartData.put(stationName + " - SP" + i, (double) customerCount.remove(0));
+            utilizationList.add(utilization.remove(0));
+        }
+    }
+    //Draw data to Utilization Efficiency BarChart
+    private XYChart.Series<String, Number> createUtilizationSeries(String name, List<Double> utilizationList) {
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName(name);
+        for (int i = 0; i < utilizationList.size(); i++) {
+            series.getData().add(new XYChart.Data<>("Service Point " + (i + 1), utilizationList.get(i)));
+        }
+        return series;
+    }
 
+
+    //Write data to table when they are loaded
     public void setTable(int registers, int generals, int specialists, double avgRegister, double avgGeneral, double avgSpecialist) {
         this.registers = registers;
         this.generals = generals;

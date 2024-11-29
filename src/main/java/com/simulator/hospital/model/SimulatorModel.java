@@ -160,7 +160,7 @@ public class SimulatorModel {
     public void results() {
         System.out.println("Simulation ended at " + Clock.getInstance().getClock());
         System.out.println("Average waiting time of customers " + Customer.getAvrWaitingTime());
-        avgWaitingTime = Customer.getAvrWaitingTime();
+        avgWaitingTime = Math.round(Customer.getAvrWaitingTime() *10.0) / 10.0;
         for (ServiceUnit serviceUnit : serviceUnits) {
             for (ServicePoint servicePoint : serviceUnit.getServicePoints()) {
                 double serviceTime = servicePoint.getTotalServiceTime();

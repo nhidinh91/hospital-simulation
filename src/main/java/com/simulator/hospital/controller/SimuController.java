@@ -7,22 +7,11 @@ import com.simulator.hospital.model.ServicePoint;
 import com.simulator.hospital.model.ServiceUnit;
 import com.simulator.hospital.model.SimulatorModel;
 import com.simulator.hospital.view.MainMenuViewControl;
-import com.simulator.hospital.view.ResultView;
+
 import com.simulator.hospital.view.ResultViewControl;
 import com.simulator.hospital.view.SimuViewControl;
 import javafx.application.Platform;
-import javafx.fxml.FXML;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.PieChart;
-import javafx.scene.chart.StackedBarChart;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-
 import java.util.AbstractMap;
-import java.util.ArrayList;
 import java.util.List;
 
 public class SimuController implements Runnable {
@@ -120,10 +109,11 @@ public class SimuController implements Runnable {
         Platform.runLater(() -> {
                 simuModel.results();
 
+                //Get the results from the model
                 double avgWaitingTime = simuModel.getAvgWaitingTime();
                 List<Integer> customerCount = simuModel.getCustomerCount();
                 List<Double> utilization = simuModel.getUtilization();
-
+                //Display the results to ResultViewControl
                 resultView.setTable(numberRegister, numberGeneral, numberSpecialist, avgRegisterTime, avgGeneralTime, avgSpecialistTime);
                 resultView.display(avgWaitingTime, customerCount, utilization);
 

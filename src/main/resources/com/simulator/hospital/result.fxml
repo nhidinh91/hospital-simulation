@@ -72,7 +72,7 @@
                               <Font name="System Bold" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="avgWaitingTime" layoutX="284.0" layoutY="38.0" text="0">
+                        <Label fx:id="avgWaitingTime" layoutX="269.0" layoutY="38.0" text="0">
                            <font>
                               <Font name="System Bold" size="18.0" />
                            </font>
