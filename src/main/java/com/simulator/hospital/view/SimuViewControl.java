@@ -190,14 +190,14 @@ public class SimuViewControl {
 
     private void setServiceUnitVisibility(Line line, Label label1, Label label2, Label label3, int count) {
         line.setVisible(count == 2);
-        label1.setVisible(count >= 1);
+        label1.setVisible(count == 1);
         label2.setVisible(count == 2);
         label3.setVisible(count == 2);
     }
 
     private void updateSpecialistLabelsBasedOnGeneralCount(int generalCount) {
         String label1Text = (generalCount == 1) ? "2" : "3";
-        String label2Text = "2";
+        String label2Text = (generalCount == 1) ? "2" : "3";
         String label3Text = (generalCount == 1) ? "3" : "4";
 
         specialistLabel1.setText(label1Text);
