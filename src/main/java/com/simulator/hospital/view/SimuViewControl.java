@@ -49,14 +49,34 @@ public class SimuViewControl {
           FXML Event Handlers
           ======================== */
     @FXML
-    public void backButtonAction(MouseEvent mouseEvent) { //backButton now only go back to mainMenu, not yet reset simulator
+    public void backButtonAction(MouseEvent mouseEvent) {
         try {
+            //stop all threads
+            if (simulatorThread != null && simulatorThread.isAlive()) {
+                simulatorThread.interrupt();
+            }
+            if (speedMonitorThread != null && speedMonitorThread.isAlive()) {
+                speedMonitorThread.interrupt();
+            }
+
+            //reset values
+            activated = false;
+            controller = null;
+            registerCoors = null;
+            generalCoors = null;
+            specialistCoors = null;
+            registerQueueCoors = null;
+            generalQueueCoors = null;
+            specialistQueueCoors = null;
+            arrivalCoors = null;
+            exitCoors = null;
+
+            //load main menu
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/MainMenu.fxml"));
             Parent mainMenuRoot = loader.load();
             Stage stage = (Stage) backButton.getScene().getWindow();
             Scene scene = new Scene(mainMenuRoot);
             stage.setScene(scene);
-
         } catch (IOException e) {
             e.printStackTrace();
         }
