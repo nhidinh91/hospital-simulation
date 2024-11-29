@@ -44,6 +44,7 @@ public class SimuViewControl {
     private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
     private Thread simulatorThread;
     private Thread speedMonitorThread;
+    private Stage stage;
 
     /* ========================
           FXML Event Handlers
@@ -74,7 +75,7 @@ public class SimuViewControl {
             //load main menu
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/MainMenu.fxml"));
             Parent mainMenuRoot = loader.load();
-            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage = (Stage) backButton.getScene().getWindow();
             Scene scene = new Scene(mainMenuRoot);
             stage.setScene(scene);
         } catch (IOException e) {
@@ -113,10 +114,9 @@ public class SimuViewControl {
            Initialization Methods
            ======================== */
 
-    public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView) {
-
+    public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView, ResultViewControl resultView) {
         this.customerViewList = new HashMap<>();
-        controller = new SimuController(menuView, this);
+        controller = new SimuController(menuView, this, resultView);
         speedSlider.setValue(((double)controller.getDelayTime() / 1000));
         controller.initializeModel();
         simulatorThread = new Thread(controller);
@@ -239,6 +239,7 @@ public class SimuViewControl {
     }
 
     public void setCloseEventListener(Stage stage) {
+        this.stage = stage;
         stage.setOnCloseRequest(event -> {
             if (simulatorThread != null && simulatorThread.isAlive()) {
                 simulatorThread.interrupt();
@@ -316,7 +317,8 @@ public class SimuViewControl {
     }
 
     public static String getSerViceUnitName(int serviceUnitNumber) {
-        switch (serviceUnitNumber) {case 1:
+        switch (serviceUnitNumber) {
+            case 1:
                 return "register";
             case 2:
                 return "general";
@@ -381,5 +383,9 @@ public class SimuViewControl {
             customerView.setY(newY);
         });
         pathTransition.play();
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
