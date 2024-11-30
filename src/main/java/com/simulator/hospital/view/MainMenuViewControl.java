@@ -75,9 +75,15 @@ public class MainMenuViewControl {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/nsimulator.fxml"));
             Parent root = loader.load();
 
+            //load result scene
+            FXMLLoader resultLoader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/result.fxml"));
+            Parent resultRoot = resultLoader.load();
+            ResultViewControl resultView = resultLoader.getController();
+            resultView.setRoot(resultRoot);
+
             //pass values to SimuViewControl
             SimuViewControl simuViewControl = loader.getController();
-            simuViewControl.initializeSimulation(getNumberRegister(), getNumberGeneral(), getNumberSpecialist(), this);
+            simuViewControl.initializeSimulation(getNumberRegister(), getNumberGeneral(), getNumberSpecialist(), this, resultView);
 
             //change scene
             Stage stage = (Stage) startButton.getScene().getWindow(); //get the current stage

@@ -13,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.control.Slider;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -35,6 +36,7 @@ public class SimuViewControl {
     private Line registerLine, generalLine, specialistLine;
     @FXML
     private BorderPane rootPane;
+
     @FXML
     private Slider speedSlider;
 
@@ -44,6 +46,7 @@ public class SimuViewControl {
     private double[] registerCoors, generalCoors, specialistCoors, registerQueueCoors, generalQueueCoors, specialistQueueCoors, arrivalCoors, exitCoors;
     private Thread simulatorThread;
     private Thread speedMonitorThread;
+    private Stage stage;
 
     /* ========================
           FXML Event Handlers
@@ -53,7 +56,7 @@ public class SimuViewControl {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/MainMenu.fxml"));
             Parent mainMenuRoot = loader.load();
-            Stage stage = (Stage) backButton.getScene().getWindow();
+            stage = (Stage) backButton.getScene().getWindow();
             Scene scene = new Scene(mainMenuRoot);
             stage.setScene(scene);
 
@@ -93,10 +96,9 @@ public class SimuViewControl {
            Initialization Methods
            ======================== */
 
-    public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView) {
-
+    public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView, ResultViewControl resultView) {
         this.customerViewList = new HashMap<>();
-        controller = new SimuController(menuView, this);
+        controller = new SimuController(menuView, this, resultView);
         speedSlider.setValue(((double)controller.getDelayTime() / 1000));
         controller.initializeModel();
         simulatorThread = new Thread(controller);
@@ -188,14 +190,14 @@ public class SimuViewControl {
 
     private void setServiceUnitVisibility(Line line, Label label1, Label label2, Label label3, int count) {
         line.setVisible(count == 2);
-        label1.setVisible(count >= 1);
+        label1.setVisible(count == 1);
         label2.setVisible(count == 2);
         label3.setVisible(count == 2);
     }
 
     private void updateSpecialistLabelsBasedOnGeneralCount(int generalCount) {
         String label1Text = (generalCount == 1) ? "2" : "3";
-        String label2Text = "2";
+        String label2Text = (generalCount == 1) ? "2" : "3";
         String label3Text = (generalCount == 1) ? "3" : "4";
 
         specialistLabel1.setText(label1Text);
@@ -219,6 +221,7 @@ public class SimuViewControl {
     }
 
     public void setStage(Stage stage) {
+        this.stage = stage;
         stage.setOnCloseRequest(event -> {
             if (simulatorThread != null && simulatorThread.isAlive()) {
                 simulatorThread.interrupt();
@@ -361,5 +364,13 @@ public class SimuViewControl {
 
         });
         pathTransition.play();
+    }
+
+    public Button getBackButton() {
+        return backButton;
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }
