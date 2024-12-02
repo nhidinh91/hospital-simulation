@@ -16,7 +16,7 @@ public class TimeSettingsDao {
     }
 
     // method to fetch all time settings (simulation time and delay time)
-    public List<Intervals> getAllTimeSettings() {
+    public List<TimeSettings> getAllTimeSettings() {
         EntityManager em = MariaDbJpaConnection.getInstance();
         return em.createQuery("select t from TimeSettings t").getResultList();
     }
