@@ -82,7 +82,10 @@ public class ServiceUnit {
 				break;
 			}
 		}
-		double serviceTime = generator.sample();
+		double serviceTime = -1;
+		// create service time using proper normal distribution
+		do {serviceTime = generator.sample();}
+		while (serviceTime <= 0);
 		servingCustomer.addServiceTime(serviceTime);
 		selectedServicePoint.addServiceTime(serviceTime);
 		selectedServicePoint.addCustomer();
