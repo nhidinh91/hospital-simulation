@@ -17,7 +17,7 @@ public class Intervals {
         // Default constructor
     }
 
-    public Intervals(String type, String category, int time) {
+    public Intervals(String type, String category, double time) {
         this.type = type;
         this.category = category;
         this.time = time;
