@@ -22,6 +22,10 @@ public class ServicePointTypes {
 
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getTypeName() {
         return this.typeName;
     }
