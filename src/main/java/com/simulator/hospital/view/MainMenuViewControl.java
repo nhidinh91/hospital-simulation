@@ -1,5 +1,6 @@
 package com.simulator.hospital.view;
 
+import com.simulator.hospital.controller.SettingsController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainMenuViewControl {
     @FXML
@@ -17,11 +20,14 @@ public class MainMenuViewControl {
     @FXML
     private Button startButton;
 
+    private final SettingsController settingsController = new SettingsController();
+
     //INIT METHOD
     @FXML
     private void initialize() {
         setupChoiceBoxes(); //add values and default value for REGISTER,GENERAL,SPECIALIST and DELAY
         setupNumericValidation(); //add validator for TextField elements
+        loadSavedSettings();
         startButton.setOnAction(event -> {startButtonAction();}); //start simulation
     }
 
@@ -48,9 +54,17 @@ public class MainMenuViewControl {
 
     private void addNumericValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) { //validate input to only accept number
-                textField.setText(oldValue);
-                showAlert("Invalid Input", "Please enter only numbers");
+            // Allow empty input or valid numbers with decimals
+            if (newValue.isEmpty() || newValue.matches("\\d+(\\.\\d+)?")) {
+                return;
+            }
+
+            // Revert to the previous valid value
+            textField.setText(oldValue);
+
+            // Show alert only if the user enters invalid characters
+            if (!newValue.isEmpty()) {
+                showAlert("Invalid Input", "Please enter only numbers.");
             }
         });
     }
@@ -63,6 +77,36 @@ public class MainMenuViewControl {
         alert.showAndWait();
     }
 
+    //fetch data from database if available
+    private void loadSavedSettings() {
+        Map<String, Object> settings = settingsController.loadSettings();
+        if (settings.containsKey("DelayTime")) delayField.setValue(String.valueOf(settings.get("DelayTime")));
+        if (settings.containsKey("ArrivalTime")) arrivalTime.setText(String.valueOf(settings.get("ArrivalTime")));
+        if (settings.containsKey("RegisterTime")) registerTime.setText(String.valueOf(settings.get("RegisterTime")));
+        if (settings.containsKey("GeneralTime")) generalTime.setText(String.valueOf(settings.get("GeneralTime")));
+        if (settings.containsKey("SpecialistTime")) specialistTime.setText(String.valueOf(settings.get("SpecialistTime")));
+        if (settings.containsKey("SimulationTime")) simulationTimeField.setText(String.valueOf(settings.get("SimulationTime")));
+        if (settings.containsKey("Register")) registerChoice.setValue(String.valueOf(settings.get("Register")));
+        if (settings.containsKey("General")) generalChoice.setValue(String.valueOf(settings.get("General")));
+        if (settings.containsKey("Specialist")) specialistChoice.setValue(String.valueOf(settings.get("Specialist")));
+    }
+
+    //save current settings to database
+    private void saveCurrentSettings() {
+        Map<String, Object> settings = new HashMap<>();
+        settings.put("delayTime", Long.parseLong(delayField.getValue()));
+        settings.put("ArrivalTime", Double.parseDouble(arrivalTime.getText()));
+        settings.put("RegisterTime", Double.parseDouble(registerTime.getText()));
+        settings.put("GeneralTime", Double.parseDouble(generalTime.getText()));
+        settings.put("SpecialistTime", Double.parseDouble(specialistTime.getText()));
+        settings.put("simulationTime", Double.parseDouble(simulationTimeField.getText()));
+        settings.put("Register", Integer.parseInt(registerChoice.getValue()));
+        settings.put("General", Integer.parseInt(generalChoice.getValue()));
+        settings.put("Specialist", Integer.parseInt(specialistChoice.getValue()));
+
+        settingsController.saveSettings(settings);
+    }
+
     private void startButtonAction() {
         try {
             //check if text fields have values and alert if needed
@@ -70,6 +114,8 @@ public class MainMenuViewControl {
                 showAlert("Input Required", "Please enter all values");
                 return;
             }
+
+            saveCurrentSettings();
 
             //load simulation scene
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/nsimulator.fxml"));
