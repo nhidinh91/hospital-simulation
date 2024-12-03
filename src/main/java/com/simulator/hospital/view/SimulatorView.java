@@ -13,6 +13,9 @@ import javafx.scene.layout.TilePane;
 import javafx.stage.Stage;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 public class SimulatorView extends Application {
@@ -101,6 +104,46 @@ public class SimulatorView extends Application {
     public void start(Stage stage) {
         stage.setTitle("Hospital Simulator");
         TilePane pane = new TilePane();
+
+        // get interval values from database
+        HashMap<Integer, Double> intervals = controller.getIntervals();
+        for (Map.Entry<Integer, Double> entry : intervals.entrySet()) {
+            switch (entry.getKey()){
+                case 1:
+                    arrivalTime.setText(entry.getValue().toString());
+                    break;
+                case 2:
+                    registerTime.setText(entry.getValue().toString());
+                    break;
+                case 3:
+                    generalTime.setText(entry.getValue().toString());
+                    break;
+                case 4:
+                    specialistTime.setText(entry.getValue().toString());
+            }
+        }
+
+        // get number of points from database
+        HashMap<Integer, Integer> numberPoints = controller.getNumberOfPoints();
+        for (Map.Entry<Integer, Integer> entry : numberPoints.entrySet()) {
+            switch (entry.getKey()) {
+                case 1:
+                    numberRegister.setValue(entry.getValue());
+                    break;
+                case 2:
+                    numberGeneral.setValue(entry.getValue());
+                    break;
+                case 3:
+                    numberSpecialist.setValue(entry.getValue());
+            }
+        }
+
+        // get the simulation time from database
+        simulationTime.setText(Double.toString(controller.getSimulationTimeDb()));
+
+        // get the delay time from the database
+        delayTime.setText(Long.toString(controller.getDelayTimeDb()));
+
         pane.getChildren().addAll(
                 numberRegister, numberGeneral, numberSpecialist,
                 registerTime, generalTime, specialistTime,
