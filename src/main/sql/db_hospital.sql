@@ -30,6 +30,16 @@ CREATE TABLE Simulation_time (
 CREATE TABLE Delay_time (
     id INT AUTO_INCREMENT PRIMARY KEY,
     time BIGINT NOT NULL CHECK (time >= 0 )
-)
+);
 
+-- Drop the user account appuser, if it exists
+DROP USER IF EXISTS 'appuser'@'localhost';
 
+-- Create the user account appuser
+CREATE USER 'appuser'@'localhost' IDENTIFIED BY 'app_password';
+
+-- Grant privileges to appuser
+GRANT SELECT, INSERT, UPDATE, DELETE, DROP, ALTER, CREATE ON hospital_simulation.* TO 'appuser'@'localhost';
+
+-- Flush privileges
+FLUSH PRIVILEGES;
