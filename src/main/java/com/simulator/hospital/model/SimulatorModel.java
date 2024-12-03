@@ -21,7 +21,6 @@ public class SimulatorModel {
     private double avgWaitingTime = 0;
     private List<Integer> customerCount = new ArrayList<>();
     private List<Double> utilization = new ArrayList<>();
-
     /*
      * This is the place where you implement your own simulator
      *

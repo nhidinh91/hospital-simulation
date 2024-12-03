@@ -17,6 +17,10 @@ public class MainMenuViewControl {
     @FXML
     private Button startButton;
 
+    ResultViewControl resultView;
+    SimuViewControl simuViewControl;
+
+
     //INIT METHOD
     @FXML
     private void initialize() {
@@ -78,11 +82,11 @@ public class MainMenuViewControl {
             //load result scene
             FXMLLoader resultLoader = new FXMLLoader(getClass().getResource("/com/simulator/hospital/result.fxml"));
             Parent resultRoot = resultLoader.load();
-            ResultViewControl resultView = resultLoader.getController();
+            resultView = resultLoader.getController();
             resultView.setRoot(resultRoot);
 
             //pass values to SimuViewControl
-            SimuViewControl simuViewControl = loader.getController();
+            simuViewControl = loader.getController();
             simuViewControl.initializeSimulation(getNumberRegister(), getNumberGeneral(), getNumberSpecialist(), this, resultView);
 
             //change scene
