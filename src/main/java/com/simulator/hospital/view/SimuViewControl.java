@@ -229,7 +229,7 @@ public class SimuViewControl {
     private void registerServiceUnitCoordinate(ServiceUnit serviceUnit, double[] serviceUnitCoor) {
         serviceUnit.setX((int) serviceUnitCoor[0]);
         serviceUnit.setY((int) serviceUnitCoor[1]);
-//        System.out.println("SU " + serviceUnit.getIndex() + " (" + serviceUnit.getX() + "," + serviceUnit.getY() + ")");
+
     }
 
     private void registerServicePointsCoordinate(ArrayList<ServicePoint> spList, double[] spCoors) {
@@ -237,7 +237,7 @@ public class SimuViewControl {
             ServicePoint currenSP = spList.get(i);
             currenSP.setX((int) spCoors[2 * i]);
             currenSP.setY((int) spCoors[2 * i + 1]);
-//            System.out.println("SP " + currenSP.getId() + " (" + currenSP.getX() + "," + currenSP.getY() + ")");
+
         }
     }
 
@@ -260,7 +260,7 @@ public class SimuViewControl {
     @FXML
     public void displayClock(double time) {
         String timeStr = String.format(Locale.US, "%.2f", time);
-        System.out.printf("Clock is at: %s\n", timeStr);
+
         this.timeLabel.setText(timeStr + " min");
     }
 
@@ -270,7 +270,6 @@ public class SimuViewControl {
 
         int serviceUnitNumber = -1;
         int customerId = customer.getId();
-//        System.out.println("customer type " + customer.getCustomerType());
 
         if (su == null) {
             serviceUnitName = "exit";
@@ -285,9 +284,7 @@ public class SimuViewControl {
 
         CustomerView customerView = getCustomerInfo(customerId);
         customerView.setCustomerType(customer.getCustomerType());
-        System.out.println(customerView);
-        // this should be set new position
-        System.out.println("Customer " + customerId + " move to service unit " + serviceUnitName + ", enter queue at pos = (" + newX + "," + newY + ")");
+
         customerView.setServiceUnitName(serviceUnitName);
         if (serviceUnitNumber != 0) {
             customerView.setInQueue(true);
@@ -342,8 +339,7 @@ public class SimuViewControl {
         double newX = sp.getX();
         double newY = sp.getY();
 
-        // set to new position
-        System.out.println("Customer " + customerId + " move to service point " + servicePointId + ",  pos = (" + newX + "," + newY + ")");
+
         // animation
         customerView.setInQueue(false);
         this.animateCirle(customerView, newX, newY);
