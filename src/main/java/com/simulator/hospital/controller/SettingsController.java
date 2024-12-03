@@ -1,13 +1,7 @@
 package com.simulator.hospital.controller;
 
-import com.simulator.hospital.model.dao.DelayTimeDao;
-import com.simulator.hospital.model.dao.IntervalsDao;
-import com.simulator.hospital.model.dao.ServicePointTypesDao;
-import com.simulator.hospital.model.dao.SimulationTimeDao;
-import com.simulator.hospital.model.entity.DelayTime;
-import com.simulator.hospital.model.entity.Intervals;
-import com.simulator.hospital.model.entity.ServicePointTypes;
-import com.simulator.hospital.model.entity.SimulationTime;
+import com.simulator.hospital.model.dao.*;
+import com.simulator.hospital.model.entity.*;
 
 import java.util.HashMap;
 import java.util.List;

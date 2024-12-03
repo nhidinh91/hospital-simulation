@@ -54,15 +54,14 @@ public class MainMenuViewControl {
 
     private void addNumericValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
-            // Allow empty input or valid numbers with decimals
+            //allow empty input or valid numbers with decimals
             if (newValue.isEmpty() || newValue.matches("\\d+(\\.\\d+)?")) {
                 return;
             }
-
-            // Revert to the previous valid value
+            //revert to the previous valid value
             textField.setText(oldValue);
 
-            // Show alert only if the user enters invalid characters
+            //show alert only if the user enters invalid characters
             if (!newValue.isEmpty()) {
                 showAlert("Invalid Input", "Please enter only numbers.");
             }
@@ -114,7 +113,7 @@ public class MainMenuViewControl {
                 showAlert("Input Required", "Please enter all values");
                 return;
             }
-
+            //save current setting to SettingsController
             saveCurrentSettings();
 
             //load simulation scene
