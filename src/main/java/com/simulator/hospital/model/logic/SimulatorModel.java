@@ -97,25 +97,24 @@ public class SimulatorModel {
                 serviceUnits[0].addQueue(customer);
                 arrivalProcess.generateNextEvent();        // Schedule the next arrival
                 result = new AbstractMap.SimpleEntry<>(customer, serviceUnits[0]);
-                System.out.printf("Customer %d is added to queue Register.\n", customer.getId());
+                Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " is added to queue Register");
                 break;
 
             case DEP1:
                 // Handle departure from service point 1: move customer to the queue of service point 2
                 customer = serviceUnits[0].endService();           // finish service, remove first customer from serving queue
                 currentServicePoint = serviceUnits[0].getSelectedServicePoint(customer);
-                currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
-                System.out.printf("Customer %d finished service at SP: %d.\n", customer.getId(), currentServicePoint.getId());
+                currentServicePoint.setCurrentCustomer(null); // remove customer info from the served service point
+                Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " finished service at service point " + currentServicePoint.getId());
                 if (customer.getCustomerType().equals("general")) {        // add customer to next suitable service unit according to customer type
                     serviceUnits[1].addQueue(customer);
                     result = new AbstractMap.SimpleEntry<>(customer, serviceUnits[1]);
-                    System.out.printf("Customer %d is added to queue General.\n", customer.getId());
+                    Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " is added to queue General.");
                 } else {
                     serviceUnits[2].addQueue(customer);
                     result = new AbstractMap.SimpleEntry<>(customer, serviceUnits[2]);
-                    System.out.printf("Customer %d is added to queue Specialist.\n", customer.getId());
+                    Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " is added to queue Specialist.");
                 }
-
                 break;
 
             case DEP2:
@@ -123,6 +122,7 @@ public class SimulatorModel {
                 customer = serviceUnits[1].endService();           // finish service, remove first customer from serving queue
                 currentServicePoint = serviceUnits[1].getSelectedServicePoint(customer);
                 currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
+                Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " finished service at service point " + currentServicePoint.getId());
                 customer.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
                 customer.reportResults();
                 result = new AbstractMap.SimpleEntry<>(customer, null);       // customer is removed from system, return new position = null
@@ -132,7 +132,8 @@ public class SimulatorModel {
                 // Handle departure from service unit 3: remove customer from the system
                 customer = serviceUnits[2].endService();           // finish service, remove first customer from serving queue
                 currentServicePoint = serviceUnits[2].getSelectedServicePoint(customer);
-                currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
+                currentServicePoint.setCurrentCustomer(null);
+                Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " finished service at service point " + currentServicePoint.getId());// remove customer info from the served service point
                 customer.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
                 customer.reportResults();
                 result = new AbstractMap.SimpleEntry<>(customer, null);   // customer is removed from system, return new position = null
@@ -157,7 +158,7 @@ public class SimulatorModel {
                 ServicePoint servicePoint = serviceUnit.beginService();         // Start servicing a customer if conditions are met
                 Customer customer = servicePoint.getCurrentCustomer();
                 results.put(customer, servicePoint);
-                System.out.printf("Customer %d is being served at service point %d\n", customer.getId(), servicePoint.getId());
+
             }
         }
         return results;
@@ -165,16 +166,17 @@ public class SimulatorModel {
 
     // Outputs the results of the simulation
     public void results() {
-        System.out.println("Simulation ended at " + Clock.getInstance().getClock());
-        System.out.println("Average waiting time of customers " + Customer.getAvrWaitingTime());
+
+        Trace.out(Trace.Level.INFO, "Simulation ended at " + Clock.getInstance().getClock());
+        Trace.out(Trace.Level.INFO, "Average waiting time of customers " + Customer.getAvrWaitingTime());
         avgWaitingTime = Customer.getAvrWaitingTime();
         for (ServiceUnit serviceUnit : serviceUnits) {
             for (ServicePoint servicePoint : serviceUnit.getServicePoints()) {
                 double serviceTime = servicePoint.getTotalServiceTime();
                 int totalCustomer = servicePoint.getTotalCustomer();
                 servicePoint.setUtilization((Math.round(serviceTime / simulationTime * 10.0)) / 10.0);
-                System.out.printf("Service Point %d:\n", servicePoint.getId());
-                System.out.printf("Total service time: %.1f, mean service time: %.1f, total customer: %d, utilization: %.2f\n", serviceTime, servicePoint.getMeanServiceTime(), totalCustomer, servicePoint.getUtilization());
+                Trace.out(Trace.Level.INFO, "Service Point :" + servicePoint.getId());
+                Trace.out(Trace.Level.INFO, "Total service time: " + serviceTime +", mean service time: " + servicePoint.getMeanServiceTime() +", total customer: " + totalCustomer + ", utilization: " + servicePoint.getUtilization());
                 customerCount.add(totalCustomer);
                 utilization.add(servicePoint.getUtilization());
             }

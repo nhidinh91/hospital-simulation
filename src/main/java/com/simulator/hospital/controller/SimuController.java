@@ -10,6 +10,7 @@ import com.simulator.hospital.view.MainMenuViewControl;
 import com.simulator.hospital.view.ResultViewControl;
 import com.simulator.hospital.view.SimuViewControl;
 import javafx.application.Platform;
+
 import java.util.AbstractMap;
 import java.util.List;
 
@@ -21,10 +22,10 @@ public class SimuController implements Runnable {
     private long delayTime;
     private final Clock clock;
     private int numberRegister;
-    private int numberGeneral ;
-    private int numberSpecialist ;
+    private int numberGeneral;
+    private int numberSpecialist;
     private double avgRegisterTime;
-    private double avgGeneralTime ;
+    private double avgGeneralTime;
     private double avgSpecialistTime;
 
     public SimuController(MainMenuViewControl menuView, SimuViewControl simuView, ResultViewControl resultView) {
@@ -58,7 +59,7 @@ public class SimuController implements Runnable {
         return delayTime;
     }
 
-    public SimulatorModel getSimuModel(){
+    public SimulatorModel getSimuModel() {
         return this.simuModel;
     }
 
@@ -66,17 +67,18 @@ public class SimuController implements Runnable {
     public void run() {
         Trace.setTraceLevel(Trace.Level.INFO);
         if (simuModel == null) {
-            System.err.println("SimulatorModel is not initialized. Please set up the parameters first.");
+            Trace.out(Trace.Level.ERR, "SimulatorModel is not initialized. Please set up the parameters first.");
             return;
         }
         simuModel.initialize();
 
         while (simuModel.simulate()) {
 
-                // set clock
-                clock.setClock(simuModel.currentTime());
-                // display clock
-                Platform.runLater(() -> simuView.displayClock(clock.getClock()));
+            // set clock
+            clock.setClock(simuModel.currentTime());
+            // display clock
+            Trace.out(Trace.Level.INFO, "Clock is at " + clock.getClock());
+            Platform.runLater(() -> simuView.displayClock(clock.getClock()));
 
             // Processes all B-events scheduled for the current time
             while (simuModel.currentTime() == clock.getClock()) {
@@ -89,20 +91,18 @@ public class SimuController implements Runnable {
                 Customer customer = result.getKey();
                 ServiceUnit serviceUnit = result.getValue(); // might return null
 
-
                 // call display method from view
                 Platform.runLater(() -> {
-
                     simuView.displayBEvent(customer, serviceUnit);
                 });
             }
 
             // add some delay so here there is delay between 2 phase, wait for animation to complete in phase B in UI
             try {
-                Thread.sleep(delayTime/2);
+                Thread.sleep(delayTime / 2);
             } catch (InterruptedException e) {
 //                System.err.println(e);
-                System.err.println("Simulation thread interrupted.");
+                Trace.out(Trace.Level.ERR, "Simulation thread interrupted.");
                 Thread.currentThread().interrupt(); // Reset the interrupted status
                 break; // Exit the loop
             }
@@ -115,23 +115,21 @@ public class SimuController implements Runnable {
                     ServicePoint servicePoint = serviceUnit.beginService();
                     Customer customer = servicePoint.getCurrentCustomer();
                     // get necessary value from result and display in view
+                    Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " is being served at service point " + servicePoint.getId());
                     Platform.runLater(() -> {
                         simuView.displayCEvent(customer, servicePoint);
-
                     });
                 }
             }
             // add some delay so here there is delay between 2 phase, wait for animation to complete in phase B in UI
             try {
-                Thread.sleep(delayTime/2);
+                Thread.sleep(delayTime / 2);
             } catch (InterruptedException e) {
 //                System.err.println(e);
-                System.err.println("Simulation thread interrupted.");
+                Trace.out(Trace.Level.ERR, "Simulation thread interrupted.");
                 Thread.currentThread().interrupt(); // Reset the interrupted status
                 break; // Exit the loop
             }
-
-
         }
         // Ensure results are printed only if the simulation time is completed
         if (isSimulationTimeCompleted()) {

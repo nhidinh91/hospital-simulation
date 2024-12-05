@@ -10,14 +10,14 @@ USE hospital_simulation;
 -- Create the ServicePointTypes table
 CREATE TABLE ServicePointTypes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    type_name VARCHAR(255) NOT NULL,
+    type_name VARCHAR(255) NOT NULL, -- 'Register', 'General', 'Specialist'
     number_of_points INT NOT NULL CHECK (number_of_points >= 0)
 );
 -- Create the Intervals table
 CREATE TABLE Intervals (
     id INT AUTO_INCREMENT PRIMARY KEY,
     type VARCHAR(50) NOT NULL, -- 'arrival' or 'service'
-    category VARCHAR(255) NOT NULL, -- 'Arrival', 'Registration', 'General Health Exam' or 'Specialist'
+    category VARCHAR(255) NOT NULL, -- 'ArrivalTime', 'RegisterTime', 'GeneralTime' or 'SpecialistTime'
     time DOUBLE NOT NULL CHECK (time >= 0)
 );
 -- Create the simulation_time table
