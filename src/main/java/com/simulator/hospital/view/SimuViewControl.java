@@ -332,6 +332,11 @@ public class SimuViewControl {
        Display and Animation
        ======================== */
 
+    /**
+     * Updates the time label with the given time in minutes.
+     *
+     * @param time the time to display in minutes
+     */
     @FXML
     public void displayClock(double time) {
         String timeStr = String.format(Locale.US, "%.2f", time);
@@ -339,6 +344,13 @@ public class SimuViewControl {
         this.timeLabel.setText(timeStr + " min");
     }
 
+    /**
+     * Displays the view of event of a customer moving to a service unit or exiting.
+     * Updates the customer's position and animates the movement.
+     *
+     * @param customer the customer involved in the event
+     * @param su the service unit the customer is moving to, or null if exiting
+     */
     public void displayBEvent(Customer customer, ServiceUnit su) {
         String serviceUnitName;
         double newX, newY;
@@ -368,10 +380,23 @@ public class SimuViewControl {
 
     }
 
+    /**
+     * Checks if a customer with the given ID exists in the customer view list.
+     *
+     * @param customerid the ID of the customer to check
+     * @return true if the customer exists, false otherwise
+     */
     public boolean isCustomerExist(int customerid) {
         return this.customerViewList.containsKey(customerid);
     }
 
+    /**
+     * Retrieves the customer information for the given customer ID.
+     * If the customer does not exist, creates a new customer and adds it to the customer view list.
+     *
+     * @param customerId the ID of the customer
+     * @return the CustomerView object for the given customer ID
+     */
     public CustomerView getCustomerInfo(int cusomterId) {
         CustomerView foundCustomer = null;
         // if no customer found, create this customer and add to customerViewList
@@ -391,6 +416,13 @@ public class SimuViewControl {
 
     }
 
+
+    /**
+     * Returns the name of the service unit based on the given service unit number.
+     *
+     * @param serviceUnitNumber the number of the service unit
+     * @return the name of the service unit, or null if the number is not recognized
+     */
     public static String getSerViceUnitName(int serviceUnitNumber) {
         switch (serviceUnitNumber) {
             case 1:
@@ -402,9 +434,18 @@ public class SimuViewControl {
         }
         return null;
         // change to this because after using back button, all the service unit number is > 3
+        // change to service name in number, corresponding to the sergvice in in the model
         //return ""+serviceUnitNumber;
     }
 
+
+    /**
+     * Displays the view of a event of a customer moving to a service point.
+     * Updates the customer's position and animates the movement.
+     *
+     * @param customer the customer involved in the event
+     * @param sp the service point the customer is moving to
+     */
     public void displayCEvent(Customer curstomer, ServicePoint sp) {
         int customerId = curstomer.getId();
         int servicePointId = sp.getId();
@@ -420,6 +461,14 @@ public class SimuViewControl {
         this.animateCirle(customerView, newX, newY);
     }
 
+    /**
+     * Animates the movement of a customer's circle to a new position.
+     * If the circle does not exist, it creates a new circle and adds it to the root pane.
+     *
+     * @param customerView the view of the customer to animate
+     * @param newX the new X coordinate for the customer's circle
+     * @param newY the new Y coordinate for the customer's circle
+     */
     private void animateCirle(CustomerView customerView, double newX, double newY) {
         Circle movingCircle = customerView.getCircle();
 
