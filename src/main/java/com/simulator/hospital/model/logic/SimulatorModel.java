@@ -8,31 +8,67 @@ import com.simulator.eduni.distributions.Negexp;
 import java.util.*;
 
 /**
- * MyEngine class extends the abstract Engine class to implement a custom simulation.
- * It models a system with three service points that customers must go through sequentially.
+ * Models a hospital simulation where customers are processed through multiple service points sequentially.
+ * The simulation tracks customer arrivals, service times, and departures while providing
+ * detailed metrics like utilization and average waiting times.
  */
-
 public class SimulatorModel {
-    private double simulationTime = 0;	// time when the simulation will be stopped
-    private Clock clock;				// to simplify the code (clock.getClock() instead Clock.getInstance().getClock())
+
+    /**
+     * The total simulation time in seconds.
+     */
+    private double simulationTime = 0;
+
+    /**
+     * The simulation clock to track the current simulation time.
+     */
+    private Clock clock;
+
+    /**
+     * The event list to manage and process simulation events.
+     */
     protected EventList eventList;
+
+    /**
+     * The arrival process to generate customer arrival events.
+     */
     private final ArrivalProcess arrivalProcess;
+
+    /**
+     * Array of service units representing the stages in the simulation.
+     */
     private final ServiceUnit[] serviceUnits;
+
+    /**
+     * The average waiting time of customers in the simulation.
+     */
     private double avgWaitingTime = 0;
+
+    /**
+     * A list storing the total number of customers served by each service point.
+     */
     private List<Integer> customerCount = new ArrayList<>();
+
+    /**
+     * A list storing the utilization percentage of each service point.
+     */
     private List<Double> utilization = new ArrayList<>();
 
-    /*
-     * This is the place where you implement your own simulator
+    /**
+     * Constructs a new simulation model with the specified parameters.
      *
-     * Demo simulation case:
-     * Simulate three service points, customer goes through all three service points to get serviced
-     * 		--> SP1 --> SP2 --> SP3 -->
+     * @param numberRegister   Number of service points in the registration unit.
+     * @param avgServiceTime1  Average service time for the registration unit.
+     * @param numberGeneral    Number of service points in the general unit.
+     * @param avgServiceTime2  Average service time for the general unit.
+     * @param numberSpecialist Number of service points in the specialist unit.
+     * @param avgServiceTime3  Average service time for the specialist unit.
+     * @param avgArrivalTime   Average arrival time for customers.
      */
-    public SimulatorModel(int numberRegister, double avgServiceTime1,  int numberGeneral, double avgServiceTime2, int numberSpecialist, double avgServiceTime3, double avgArrivalTime) {
+    public SimulatorModel(int numberRegister, double avgServiceTime1, int numberGeneral, double avgServiceTime2, int numberSpecialist, double avgServiceTime3, double avgArrivalTime) {
         clock = Clock.getInstance();
 
-        // reset clock, ServiceUnit count, ServicePoint count, Customer count for new SimulatorModel
+        // Reset components for a new simulation run
         clock.reset();
         ServiceUnit.resetCount();
         Customer.resetCount();
@@ -40,52 +76,76 @@ public class SimulatorModel {
 
         eventList = new EventList();
         serviceUnits = new ServiceUnit[3];
-        Random r = new Random();
-        // exponential distribution is used to model customer arrivals times, to get variability between programs runs, give a variable seed
-        ContinuousGenerator arrivalTime = new Negexp(avgArrivalTime, 5);
-        // normal distribution used to model service times
-        ContinuousGenerator serviceTime = new Normal(10, 6, 2);
 
-        // Initialize the service points with the chosen service time distribution
+        // Initialize service units with normal distribution for service times
         serviceUnits[0] = new ServiceUnit(new Normal(avgServiceTime1, 6, 2), eventList, EventType.DEP1, numberRegister);
         serviceUnits[1] = new ServiceUnit(new Normal(avgServiceTime2, 6, 2), eventList, EventType.DEP2, numberGeneral);
         serviceUnits[2] = new ServiceUnit(new Normal(avgServiceTime3, 6, 2), eventList, EventType.DEP3, numberSpecialist);
 
-        // Initialize the arrival process
+        // Initialize arrival process with exponential distribution for arrival times
+        ContinuousGenerator arrivalTime = new Negexp(avgArrivalTime, 5);
         arrivalProcess = new ArrivalProcess(arrivalTime, eventList, EventType.ARR1);
     }
 
-    public void setSimulationTime(double time) {	// define how long we will run the simulation
+    /**
+     * Sets the simulation runtime.
+     *
+     * @param time The total simulation time in seconds.
+     */
+    public void setSimulationTime(double time) {
         simulationTime = time;
     }
 
-    // Initializes the simulation by generating the first arrival event
-    public void initialize() {    // First arrival in the system
+    /**
+     * Initializes the simulation by scheduling the first customer arrival.
+     */
+    public void initialize() {
         arrivalProcess.generateNextEvent();
     }
 
-    // Get the time of the next event in the event list
-    public double currentTime(){
+    /**
+     * Gets the time of the next scheduled event.
+     *
+     * @return The time of the next event in the event list.
+     */
+    public double currentTime() {
         return eventList.getNextEventTime();
     }
 
-    // Checks if the simulation should continue
-    public boolean simulate(){
+    /**
+     * Checks if the simulation should continue running.
+     *
+     * @return {@code true} if the current clock time is less than the simulation time; otherwise {@code false}.
+     */
+    public boolean simulate() {
         return clock.getClock() < simulationTime;
     }
 
-    // process event in event list
+    /**
+     * Processes the next event in the event list.
+     *
+     * @return The event that was processed.
+     */
     public Event processEvent() {
         return eventList.remove();
     }
 
-    // get service unit list
+    /**
+     * Gets the array of service units in the simulation.
+     *
+     * @return An array of service units.
+     */
     public ServiceUnit[] getServiceUnits() {
         return serviceUnits;
     }
 
-    // Processes B-phase events, such as arrivals and departures
-    public AbstractMap.SimpleEntry<Customer, ServiceUnit> runEvent(Event t) {  // B phase events
+    /**
+     * Processes a B-phase event, such as customer arrivals and departures.
+     *
+     * @param t The event to process.
+     * @return A key-value pair where the key is the customer and the value is the service unit.
+     */
+    public AbstractMap.SimpleEntry<Customer, ServiceUnit> runEvent(Event t) {
         Customer customer;
         ServicePoint currentServicePoint = null;
         AbstractMap.SimpleEntry<Customer, ServiceUnit> result = new AbstractMap.SimpleEntry<>(null, null);
@@ -124,6 +184,7 @@ public class SimulatorModel {
                 currentServicePoint.setCurrentCustomer(null);       // remove customer info from the served service point
                 Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " finished service at service point " + currentServicePoint.getId());
                 customer.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
+                Customer.setServedCustomerCount();
                 customer.reportResults();
                 result = new AbstractMap.SimpleEntry<>(customer, null);       // customer is removed from system, return new position = null
                 break;
@@ -135,6 +196,7 @@ public class SimulatorModel {
                 currentServicePoint.setCurrentCustomer(null);
                 Trace.out(Trace.Level.INFO, "Customer " + customer.getId() + " finished service at service point " + currentServicePoint.getId());// remove customer info from the served service point
                 customer.setRemovalTime(Clock.getInstance().getClock());   // set end time for customer
+                Customer.setServedCustomerCount();
                 customer.reportResults();
                 result = new AbstractMap.SimpleEntry<>(customer, null);   // customer is removed from system, return new position = null
                 break;
@@ -142,31 +204,36 @@ public class SimulatorModel {
         return result;
     }
 
-    // Processes all B-events scheduled for the current time
+    /**
+     * Processes all B-phase events scheduled for the current time.
+     */
     public void runBEvents() {
-        while (eventList.getNextEventTime() == clock.getClock()){
+        while (eventList.getNextEventTime() == clock.getClock()) {
             runEvent(eventList.remove());		// Execute and remove the event from the list
         }
     }
 
-    // Processes C-phase events, checking if any service points can begin servicing a customer
+    /**
+     * Processes C-phase events, starting service for customers if conditions are met.
+     *
+     * @return A map where the keys are customers and the values are their service points.
+     */
     public HashMap<Customer, ServicePoint> tryCEvents() {
         HashMap<Customer, ServicePoint> results = new HashMap<>();
         for (ServiceUnit serviceUnit : serviceUnits) {
-            // check in the service unit if any service point is available and customer is on queue
             if (!serviceUnit.isReserved() && serviceUnit.isOnQueue()) {
-                ServicePoint servicePoint = serviceUnit.beginService();         // Start servicing a customer if conditions are met
+                ServicePoint servicePoint = serviceUnit.beginService();
                 Customer customer = servicePoint.getCurrentCustomer();
                 results.put(customer, servicePoint);
-
             }
         }
         return results;
     }
 
-    // Outputs the results of the simulation
+    /**
+     * Outputs the simulation results, including utilization and average waiting times.
+     */
     public void results() {
-
         Trace.out(Trace.Level.INFO, "Simulation ended at " + Clock.getInstance().getClock());
         Trace.out(Trace.Level.INFO, "Average waiting time of customers " + Customer.getAvrWaitingTime());
         avgWaitingTime = Customer.getAvrWaitingTime();
@@ -176,26 +243,45 @@ public class SimulatorModel {
                 int totalCustomer = servicePoint.getTotalCustomer();
                 servicePoint.setUtilization((Math.round(serviceTime / simulationTime * 10.0)) / 10.0);
                 Trace.out(Trace.Level.INFO, "Service Point :" + servicePoint.getId());
-                Trace.out(Trace.Level.INFO, "Total service time: " + serviceTime +", mean service time: " + servicePoint.getMeanServiceTime() +", total customer: " + totalCustomer + ", utilization: " + servicePoint.getUtilization());
+                Trace.out(Trace.Level.INFO, "Total service time: " + serviceTime + ", mean service time: " + servicePoint.getMeanServiceTime() + ", total customer: " + totalCustomer + ", utilization: " + servicePoint.getUtilization());
                 customerCount.add(totalCustomer);
                 utilization.add(servicePoint.getUtilization());
             }
         }
     }
 
+    /**
+     * Gets the average waiting time of customers in the simulation.
+     *
+     * @return The average waiting time.
+     */
     public double getAvgWaitingTime() {
         return avgWaitingTime;
     }
 
+    /**
+     * Gets the total number of customers served by each service point.
+     *
+     * @return A list of customer counts for each service point.
+     */
     public List<Integer> getCustomerCount() {
         return customerCount;
     }
 
+    /**
+     * Gets the utilization percentages of each service point.
+     *
+     * @return A list of utilization percentages for each service point.
+     */
     public List<Double> getUtilization() {
         return utilization;
     }
 
-    // get clock instance
+    /**
+     * Gets the clock instance used in the simulation.
+     *
+     * @return The clock instance.
+     */
     public Clock getClock() {
         return clock;
     }
