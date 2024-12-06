@@ -14,6 +14,9 @@ import javafx.application.Platform;
 import java.util.AbstractMap;
 import java.util.List;
 
+/**
+ * Controller class for managing the simulation process.
+ */
 public class SimuController implements Runnable {
     private SimulatorModel simuModel;
     private final MainMenuViewControl menuView;
@@ -28,6 +31,13 @@ public class SimuController implements Runnable {
     private double avgGeneralTime;
     private double avgSpecialistTime;
 
+    /**
+     * Constructs a new SimuController with the specified views.
+     *
+     * @param menuView the main menu view control
+     * @param simuView the simulation view control
+     * @param resultView the result view control
+     */
     public SimuController(MainMenuViewControl menuView, SimuViewControl simuView, ResultViewControl resultView) {
         this.menuView = menuView;
         this.simuView = simuView;
@@ -36,6 +46,9 @@ public class SimuController implements Runnable {
         this.resultView = resultView;
     }
 
+    /**
+     * Initializes the simulation model with parameters from the menu view.
+     */
     public void initializeModel() {
         numberRegister = menuView.getNumberRegister();
         numberGeneral = menuView.getNumberGeneral();
@@ -49,20 +62,36 @@ public class SimuController implements Runnable {
         this.simuModel.setSimulationTime(simulationTime);
     }
 
-    //method to set new delay according to speed adjustment
+    /**
+     * Sets a new delay time for the simulation.
+     *
+     * @param delayTime the new delay time in milliseconds
+     */
     public void setDelayTime(long delayTime) {
         this.delayTime = delayTime;
     }
 
-    //method to get initial delay time and set to Simulator View
+    /**
+     * Gets the initial delay time for the simulation.
+     *
+     * @return the delay time in milliseconds
+     */
     public long getDelayTime() {
         return delayTime;
     }
 
+    /**
+     * Gets the simulation model.
+     *
+     * @return the simulation model
+     */
     public SimulatorModel getSimuModel() {
         return this.simuModel;
     }
 
+    /**
+     * Runs the simulation process.
+     */
     @Override
     public void run() {
         Trace.setTraceLevel(Trace.Level.INFO);
@@ -147,6 +176,11 @@ public class SimuController implements Runnable {
         }
     }
 
+    /**
+     * Checks if the simulation time is completed.
+     *
+     * @return true if the simulation time is completed, false otherwise
+     */
     public boolean isSimulationTimeCompleted() {
         return clock.getClock() >= menuView.getSimulationTime();
     }

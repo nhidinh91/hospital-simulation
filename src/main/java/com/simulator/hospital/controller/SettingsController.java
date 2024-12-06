@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Controller class for managing the settings of the hospital simulation.
+ */
 public class SettingsController {
 
     private final DelayTimeDao delayTimeDao = new DelayTimeDao();
@@ -14,7 +17,11 @@ public class SettingsController {
     private final ServicePointTypesDao spTypesDao = new ServicePointTypesDao();
     private final SimulationTimeDao simuTimeDao = new SimulationTimeDao();
 
-    //method to load saved settings
+    /**
+     * Loads the saved settings from the database.
+     *
+     * @return a map containing the settings with their respective values.
+     */
     public Map<String, Object> loadSettings() {
         Map<String, Object> settings = new HashMap<>();
 
@@ -49,7 +56,11 @@ public class SettingsController {
         return settings;
     }
 
-    //method to save or update settings
+    /**
+     * Saves or updates the settings in the database.
+     *
+     * @param settings a map containing the settings with their respective values.
+     */
     public void saveSettings(Map<String, Object> settings) {
         //save Delay Time
         long delayTime = (long) settings.get("DelayTime") * 1000; //convert secound seconds to ms
