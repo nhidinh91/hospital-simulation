@@ -76,7 +76,7 @@
          <TextField fx:id="simulationTimeField" prefHeight="39.0" prefWidth="130.0" promptText="Enter time" />
       </HBox>
       <HBox alignment="CENTER">
-         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Delay (s):" wrappingWidth="157.8251953125">
+         <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="h1-text" text="Delay (ms):" wrappingWidth="200">
          </Text>
          <ChoiceBox fx:id="delayField" prefHeight="43.0" prefWidth="150.0" />
       </HBox>

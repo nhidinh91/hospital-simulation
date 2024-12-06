@@ -28,7 +28,7 @@ public class SettingsController {
         //load Delay Time
         List<DelayTime> delayTimes = delayTimeDao.getDelayTime();
         if (!delayTimes.isEmpty()) {
-            settings.put("DelayTime", delayTimes.get(0).getTime() / 1000); //convert ms to second
+            settings.put("DelayTime", delayTimes.get(0).getTime());
         }
 
         //load Intervals
@@ -63,7 +63,7 @@ public class SettingsController {
      */
     public void saveSettings(Map<String, Object> settings) {
         //save Delay Time
-        long delayTime = (long) settings.get("DelayTime") * 1000; //convert secound seconds to ms
+        long delayTime = (long) settings.get("DelayTime");
         delayTimeDao.persistOrUpdate(new DelayTime(delayTime));
 
         //save Intervals

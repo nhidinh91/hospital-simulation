@@ -44,12 +44,12 @@ public class MainMenuViewControl {
         registerChoice.getItems().addAll("1", "2");
         generalChoice.getItems().addAll("1", "2");
         specialistChoice.getItems().addAll("1", "2");
-        delayField.getItems().addAll("1", "2", "3", "4", "5", "6", "7", "8", "9", "10");
+        delayField.getItems().addAll("200", "400", "600", "800", "1000", "1200","1400", "1600", "1800", "2000");
 
         registerChoice.setValue("1");
         generalChoice.setValue("1");
         specialistChoice.setValue("1");
-        delayField.setValue("1");
+        delayField.setValue("1000");
     }
 
     /**
@@ -245,6 +245,6 @@ public class MainMenuViewControl {
      * @return the delay time in milliseconds
      */
     public long getDelayTime() {
-        return Long.parseLong(delayField.getValue())*1000;
+        return Long.parseLong(delayField.getValue());
     }
 }

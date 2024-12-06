@@ -105,7 +105,7 @@ public class SimuViewControl {
         speedMonitorThread = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) { // Check for thread interruptions
                 if (activated && controller != null) {
-                    long delay = (long) speedSlider.getValue() * 1000 ; //fetch speed from UI (may need to be converted to delay time)
+                    long delay = (long) speedSlider.getValue() ; //fetch speed from UI (may need to be converted to delay time)
                     controller.setDelayTime(delay);
                     try {
                         Thread.sleep(100); // Polling interval for speed adjustments
@@ -141,7 +141,7 @@ public class SimuViewControl {
     public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView, ResultViewControl resultView) {
         this.customerViewList = new HashMap<>();
         controller = new SimuController(menuView, this, resultView);
-        speedSlider.setValue(((double)controller.getDelayTime() / 1000));
+        speedSlider.setValue(menuView.getDelayTime());
         controller.initializeModel();
         simulatorThread = new Thread(controller);
 
