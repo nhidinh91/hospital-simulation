@@ -8,8 +8,17 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * The main view class for the hospital simulation application.
+ * This class is responsible for launching the main menu view.
+ */
 public class SimuView extends Application {
 
+    /**
+     * Starts the JavaFX application by loading the main menu view.
+     *
+     * @param primaryStage the primary stage for this application
+     */
     @Override
     public void start(Stage primaryStage) {
         try {
