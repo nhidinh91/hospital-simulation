@@ -26,6 +26,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Controller class for managing the simulation view of the hospital simulation application.
+ */
 public class SimuViewControl {
 
     // FXML Components
@@ -52,6 +55,12 @@ public class SimuViewControl {
     /* ========================
           FXML Event Handlers
           ======================== */
+    /**
+     * Handles the action for the back button.
+     * Stops all threads, resets values, and loads the main menu.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void backButtonAction(MouseEvent mouseEvent) {
         try {
@@ -86,6 +95,10 @@ public class SimuViewControl {
         }
     }
 
+    /**
+     * Initializes the simulation view control.
+     * Starts the speed monitor thread.
+     */
     @FXML
     private void initialize() {
         //start speed monitor thread
@@ -116,7 +129,15 @@ public class SimuViewControl {
     /* ========================
            Initialization Methods
            ======================== */
-
+    /**
+     * Initializes the simulation with the specified parameters.
+     *
+     * @param registerCount the number of register service points
+     * @param generalCount the number of general service points
+     * @param specialistCount the number of specialist service points
+     * @param menuView the main menu view control
+     * @param resultView the result view control
+     */
     public void initializeSimulation(int registerCount, int generalCount, int specialistCount, MainMenuViewControl menuView, ResultViewControl resultView) {
         this.customerViewList = new HashMap<>();
         controller = new SimuController(menuView, this, resultView);
@@ -136,6 +157,13 @@ public class SimuViewControl {
 
     }
 
+    /**
+     * Sets up the simulation scene with the specified number of service points.
+     *
+     * @param registerCount the number of register service points
+     * @param generalCount the number of general service points
+     * @param specialistCount the number of specialist service points
+     */
     private void setupScene(int registerCount, int generalCount, int specialistCount) {
         setServiceUnitVisibility(registerLine, registerLabel1, registerLabel2, registerLabel3, registerCount);
         setServiceUnitVisibility(generalLine, generalLabel1, generalLabel2, generalLabel3, generalCount);
@@ -143,6 +171,13 @@ public class SimuViewControl {
         updateSpecialistLabelsBasedOnGeneralCount(generalCount);
     }
 
+    /**
+     * Sets the coordinates for the service points and queues.
+     *
+     * @param registerCount the number of register service points
+     * @param generalCount the number of general service points
+     * @param specialistCount the number of specialist service points
+     */
     private void setCoordinates(int registerCount, int generalCount, int specialistCount) {
         //wait for the rootPane's layout to complete
         SimulatorModel simulatorModel = this.controller.getSimuModel();
@@ -209,6 +244,15 @@ public class SimuViewControl {
        Utility Methods
        ======================== */
 
+    /**
+     * Sets the visibility of the service units based on the count.
+     *
+     * @param line the line splitting the service units
+     * @param label1 the first label
+     * @param label2 the second label
+     * @param label3 the third label
+     * @param count the number of service points
+     */
     private void setServiceUnitVisibility(Line line, Label label1, Label label2, Label label3, int count) {
         line.setVisible(count == 2);
         label1.setVisible(count == 1);
@@ -216,6 +260,11 @@ public class SimuViewControl {
         label3.setVisible(count == 2);
     }
 
+    /**
+     * Updates the specialist labels based on the general count.
+     *
+     * @param generalCount the number of general service points
+     */
     private void updateSpecialistLabelsBasedOnGeneralCount(int generalCount) {
         String label1Text = (generalCount == 1) ? "2" : "3";
         String label2Text = (generalCount == 1) ? "2" : "3";
@@ -226,12 +275,24 @@ public class SimuViewControl {
         specialistLabel3.setText(label3Text);
     }
 
+    /**
+     * Registers the coordinates of a service unit.
+     *
+     * @param serviceUnit the service unit
+     * @param serviceUnitCoor the coordinates of the service unit
+     */
     private void registerServiceUnitCoordinate(ServiceUnit serviceUnit, double[] serviceUnitCoor) {
         serviceUnit.setX((int) serviceUnitCoor[0]);
         serviceUnit.setY((int) serviceUnitCoor[1]);
 
     }
 
+    /**
+     * Registers the coordinates of service points.
+     *
+     * @param spList the list of service points
+     * @param spCoors the coordinates of the service points
+     */
     private void registerServicePointsCoordinate(ArrayList<ServicePoint> spList, double[] spCoors) {
         for (int i = 0; i < spList.size(); i++) {
             ServicePoint currenSP = spList.get(i);
@@ -241,6 +302,11 @@ public class SimuViewControl {
         }
     }
 
+    /**
+     * Sets the close event listener for the stage.
+     *
+     * @param stage the stage
+     */
     public void setCloseEventListener(Stage stage) {
         this.stage = stage;
         stage.setOnCloseRequest(event -> {
@@ -251,6 +317,15 @@ public class SimuViewControl {
                 speedMonitorThread.interrupt();
             }
         });
+    }
+
+    /**
+     * Gets the current stage of the simulation view.
+     *
+     * @return the current stage
+     */
+    public Stage getStage() {
+        return stage;
     }
 
     /* ========================
@@ -382,9 +457,5 @@ public class SimuViewControl {
             customerView.setY(newY);
         });
         pathTransition.play();
-    }
-
-    public Stage getStage() {
-        return stage;
     }
 }

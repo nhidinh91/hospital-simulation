@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Controller class for managing the main menu view of the hospital simulation application.
+ */
 public class MainMenuViewControl {
     @FXML
     public TextField registerTime, generalTime, specialistTime, arrivalTime, simulationTimeField;
@@ -22,7 +25,10 @@ public class MainMenuViewControl {
 
     private final SettingsController settingsController = new SettingsController();
 
-    //INIT METHOD
+    /**
+     * Initializes the main menu view control.
+     * Sets up choice boxes, numeric validation, loads saved settings, and sets the start button action.
+     */
     @FXML
     private void initialize() {
         setupChoiceBoxes(); //add values and default value for REGISTER,GENERAL,SPECIALIST and DELAY
@@ -31,7 +37,9 @@ public class MainMenuViewControl {
         startButton.setOnAction(event -> {startButtonAction();}); //start simulation
     }
 
-    //PRIVATE METHODS
+    /**
+     * Sets up the choice boxes with values and default selections.
+     */
     private void setupChoiceBoxes() {
         registerChoice.getItems().addAll("1", "2");
         generalChoice.getItems().addAll("1", "2");
@@ -44,6 +52,9 @@ public class MainMenuViewControl {
         delayField.setValue("1");
     }
 
+    /**
+     * Sets up numeric validation for the text fields.
+     */
     private void setupNumericValidation() {
         addNumericValidation(simulationTimeField);
         addNumericValidation(registerTime);
@@ -52,6 +63,11 @@ public class MainMenuViewControl {
         addNumericValidation(arrivalTime);
     }
 
+    /**
+     * Adds numeric validation to a text field.
+     *
+     * @param textField the text field to add validation to
+     */
     private void addNumericValidation(TextField textField) {
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             //allow empty input or valid numbers with decimals
@@ -68,6 +84,12 @@ public class MainMenuViewControl {
         });
     }
 
+    /**
+     * Shows an alert with the specified title and message.
+     *
+     * @param title the title of the alert
+     * @param message the message of the alert
+     */
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(title);
@@ -76,7 +98,9 @@ public class MainMenuViewControl {
         alert.showAndWait();
     }
 
-    //fetch data from database if available
+    /**
+     * Loads saved settings from the database and sets the values in the view.
+     */
     private void loadSavedSettings() {
         Map<String, Object> settings = settingsController.loadSettings();
         if (settings.containsKey("DelayTime")) delayField.setValue(String.valueOf(settings.get("DelayTime")));
@@ -90,7 +114,9 @@ public class MainMenuViewControl {
         if (settings.containsKey("Specialist")) specialistChoice.setValue(String.valueOf(settings.get("Specialist")));
     }
 
-    //save current settings to database
+    /**
+     * Saves the current settings to the database.
+     */
     private void saveCurrentSettings() {
         Map<String, Object> settings = new HashMap<>();
         settings.put("DelayTime", Long.parseLong(delayField.getValue()));
@@ -106,6 +132,10 @@ public class MainMenuViewControl {
         settingsController.saveSettings(settings);
     }
 
+    /**
+     * Handles the action for the start button.
+     * Saves the current settings and loads the simulation scene.
+     */
     private void startButtonAction() {
         try {
             //check if text fields have values and alert if needed
@@ -139,37 +169,81 @@ public class MainMenuViewControl {
         }
     }
 
-    //PUBLIC GETTER METHODS
+    /**
+     * Gets the number of register service points.
+     *
+     * @return the number of register service points
+     */
     public int getNumberRegister() {return Integer.parseInt(registerChoice.getValue());}
 
+    /**
+     * Gets the number of general service points.
+     *
+     * @return the number of general service points
+     */
     public int getNumberGeneral() {
         return Integer.parseInt(generalChoice.getValue());
     }
 
+    /**
+     * Gets the number of specialist service points.
+     *
+     * @return the number of specialist service points
+     */
     public int getNumberSpecialist() {
         return Integer.parseInt(specialistChoice.getValue());
     }
 
+    /**
+     * Gets the average register time.
+     *
+     * @return the average register time
+     */
     public double getRegisterTime() {
         return Double.parseDouble(this.registerTime.getText());
     }
 
+    /**
+     * Gets the average general time.
+     *
+     * @return the average general time
+     */
     public double getGeneralTime() {
         return Double.parseDouble(this.generalTime.getText());
     }
 
+    /**
+     * Gets the average specialist time.
+     *
+     * @return the average specialist time
+     */
     public double getSpecialistTime() {
         return Double.parseDouble(this.specialistTime.getText());
     }
 
+    /**
+     * Gets the average arrival time.
+     *
+     * @return the average arrival time
+     */
     public double getArrivalTime() {
         return Double.parseDouble(this.arrivalTime.getText());
     }
 
+    /**
+     * Gets the simulation time.
+     *
+     * @return the simulation time
+     */
     public double getSimulationTime() {
         return Double.parseDouble(simulationTimeField.getText());
     }
 
+    /**
+     * Gets the delay time in milliseconds.
+     *
+     * @return the delay time in milliseconds
+     */
     public long getDelayTime() {
         return Long.parseLong(delayField.getValue())*1000;
     }
