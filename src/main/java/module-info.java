@@ -4,6 +4,9 @@ module com.simulator.hospital {
     requires java.desktop;
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
+    requires java.sql;
+    requires org.junit.jupiter.api;
+
 
     opens com.simulator.hospital;
     opens com.simulator.hospital.controller;

@@ -394,7 +394,7 @@ public class SimuViewControl {
      * Retrieves the customer information for the given customer ID.
      * If the customer does not exist, creates a new customer and adds it to the customer view list.
      *
-     * @param customerId the ID of the customer
+     * @param cusomterId the ID of the customer
      * @return the CustomerView object for the given customer ID
      */
     public CustomerView getCustomerInfo(int cusomterId) {
@@ -443,7 +443,7 @@ public class SimuViewControl {
      * Displays the view of a event of a customer moving to a service point.
      * Updates the customer's position and animates the movement.
      *
-     * @param customer the customer involved in the event
+     * @param curstomer the customer involved in the event
      * @param sp the service point the customer is moving to
      */
     public void displayCEvent(Customer curstomer, ServicePoint sp) {

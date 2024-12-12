@@ -81,7 +81,7 @@ public class SimuController implements Runnable {
     }
 
     /**
-     * Gets the simulation model.
+     * Gets the simulation model. -
      *
      * @return the simulation model
      */
