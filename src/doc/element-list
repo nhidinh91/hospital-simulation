@@ -1,0 +1,10 @@
+module:com.simulator.hospital
+com.simulator.eduni.distributions
+com.simulator.hospital
+com.simulator.hospital.controller
+com.simulator.hospital.framework
+com.simulator.hospital.model.dao
+com.simulator.hospital.model.datasource
+com.simulator.hospital.model.entity
+com.simulator.hospital.model.logic
+com.simulator.hospital.view
